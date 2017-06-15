@@ -398,12 +398,12 @@ public class JsonSourceMapper extends SourceMapper {
             for (Attribute attribute : streamAttributes) {
                 String attributeName = attribute.getName();
                 Attribute.Type type = attribute.getType();
-                Object attributeValue = eventObj.get(attributeName);
+                String attributeValue = eventObj.get(attributeName).getAsString();
                 if (attributeValue == null) {
                     data[position++] = null;
                 } else {
                     data[position++] = attributeConverter.getPropertyValue(
-                            eventObj.get(attributeName).toString(), type);
+                            attributeValue, type);
                 }
             }
             events[index++] = event;
