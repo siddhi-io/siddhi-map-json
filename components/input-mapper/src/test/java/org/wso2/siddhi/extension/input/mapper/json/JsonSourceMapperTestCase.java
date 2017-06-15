@@ -624,6 +624,95 @@ public class JsonSourceMapperTestCase {
                             Assert.assertEquals(52.6f, event.getData(1));
                             break;
                         case 2:
+                            Assert.assertEquals("WSO2", event.getData(0));
+                            break;
+                        case 3:
+                            Assert.assertEquals(80L, event.getData(2));
+                            break;
+                        case 4:
+                            Assert.assertEquals(55.6f, event.getData(1));
+                            break;
+                        case 5:
+                            Assert.assertEquals(57.6f, event.getData(1));
+                            break;
+                        case 6:
+                            Assert.assertEquals(58.6f, event.getData(1));
+                            break;
+                        case 7:
+                            Assert.assertEquals(60.6f, event.getData(1));
+                            break;
+                        default:
+                            Assert.fail();
+                    }
+                }
+            }
+        });
+
+        executionPlanRuntime.start();
+
+        InMemoryBroker.publish("stock", " \n" +
+                "[\n" +
+                "{\"event\":{\"symbol\":\"WSO2\",\"price\":52.6,\"volume\":100}},\n" +
+                "{\"event\":{\"symbol\":\"WSO2\",\"price\":53.6,\"volume\":99}},\n" +
+                "{\"event\":{\"symbol\":\"WSO2\",\"price\":54.6,\"volume\":80}}\n" +
+                "]\n");
+
+        InMemoryBroker.publish("stock", " \n" +
+                "[\n" +
+                "{\"event\":{\"symbol\":\"WSO2\",\"price\":55.6,\"volume\":100}},\n" +
+                "{\"testEvent\":{\"symbol\":\"WSO2\",\"price\":56.6,\"volume\":99}},\n" +
+                "{\"event\":{\"symbol\":\"WSO2\",\"price\":57.6,\"volume\":80}}\n" +
+                "]\n");
+        InMemoryBroker.publish("stock", "\n" +
+                "[\n" +
+                "{\"event\":{\"symbol\":\"WSO2\",\"price\":58.6,\"volume\":100}},\n" +
+                "{\"Event\":{\"symbol\":\"WSO2\",\"price\":59.6,\"volume\":99}},\n" +
+                "{\"event\":{\"symbol\":\"WSO2\",\"price\":60.6,\"volume\":80}}\n" +
+                "]\n");
+        Thread.sleep(100);
+
+        //assert event count
+        Assert.assertEquals("Number of events", 7, count.get());
+        executionPlanRuntime.shutdown();
+    }
+
+   /*
+   * Test cases for custom input mapping
+   */
+
+    @Test
+    public void jsonSourceMapperTest10() throws InterruptedException {
+        log.info("test JsonSourceMapper 10");
+
+        String streams = "" +
+                "@Plan:name('TestExecutionPlan')" +
+                "@source(type='inMemory', topic='stock', " +
+                "@map(type='json', fail.on.missing.attribute='true', " +
+                "@attributes(symbol = \"event.symbol\", price = \"event.price\", " +
+                "volume = \"event.volume\") " +
+                "))\n" +
+                "define stream FooStream (symbol string, price float, volume long); " +
+                "define stream BarStream (symbol string, price float, volume long); ";
+
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+
+        SiddhiManager siddhiManager = new SiddhiManager();
+        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(streams + query);
+
+        executionPlanRuntime.addCallback("BarStream", new StreamCallback() {
+
+            @Override
+            public void receive(Event[] events) {
+                EventPrinter.print(events);
+                for (Event event : events) {
+                    switch (count.incrementAndGet()) {
+                        case 1:
+                            Assert.assertEquals(52.6f, event.getData(1));
+                            break;
+                        case 2:
                             Assert.assertEquals(53.6f, event.getData(1));
                             break;
                         case 3:
@@ -676,13 +765,10 @@ public class JsonSourceMapperTestCase {
         executionPlanRuntime.shutdown();
     }
 
-    /*
-    * Test cases for custom input mapping
-    */
 
     @Test
-    public void jsonSourceMapperTest10() throws InterruptedException {
-        log.info("test JsonSourceMapper 10");
+    public void jsonSourceMapperTest11() throws InterruptedException {
+        log.info("test JsonSourceMapper 11");
 
         String streams = "" +
                 "@Plan:name('TestExecutionPlan')" +
@@ -745,8 +831,8 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest11() throws InterruptedException {
-        log.info("test JsonSourceMapper 11");
+    public void jsonSourceMapperTest12() throws InterruptedException {
+        log.info("test JsonSourceMapper 12");
 
         String streams = "" +
                 "@Plan:name('TestExecutionPlan')" +
@@ -826,8 +912,8 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest12() throws InterruptedException {
-        log.info("test JsonSourceMapper 12");
+    public void jsonSourceMapperTest13() throws InterruptedException {
+        log.info("test JsonSourceMapper 13");
 
         String streams = "" +
                 "@Plan:name('TestExecutionPlan')" +
