@@ -19,9 +19,9 @@
 package org.wso2.siddhi.extension.output.mapper.json;
 
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.wso2.siddhi.core.SiddhiAppRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.stream.input.InputHandler;
@@ -44,7 +44,7 @@ public class JSONOutputMapperWithSiddhiQueryAPITestCase {
     private AtomicInteger wso2Count = new AtomicInteger(0);
     private AtomicInteger ibmCount = new AtomicInteger(0);
 
-    @Before
+    @BeforeMethod
     public void init() {
         wso2Count.set(0);
         ibmCount.set(0);
@@ -127,8 +127,8 @@ public class JSONOutputMapperWithSiddhiQueryAPITestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
-        Assert.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
+        AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
+        AssertJUnit.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
         siddhiAppRuntime.shutdown();
 
         //unsubscribe from "inMemory" broker per topic
@@ -221,22 +221,22 @@ public class JSONOutputMapperWithSiddhiQueryAPITestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
-        Assert.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
+        AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
+        AssertJUnit.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
         //assert custom json
-        Assert.assertEquals("Mapping incorrect!", "{\n" +
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\n" +
                 "   \"Stock Data\":{\n" +
                 "      \"Symbol\":\"WSO2\",\n" +
                 "      \"Price\":55.6\n" +
                 "   }\n" +
                 "}", onMessageList.get(0).toString());
-        Assert.assertEquals("Mapping incorrect!", "{\n" +
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\n" +
                 "   \"Stock Data\":{\n" +
                 "      \"Symbol\":\"IBM\",\n" +
                 "      \"Price\":75.6\n" +
                 "   }\n" +
                 "}", onMessageList.get(1).toString());
-        Assert.assertEquals("Mapping incorrect!", "{\n" +
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\n" +
                 "   \"Stock Data\":{\n" +
                 "      \"Symbol\":\"WSO2\",\n" +
                 "      \"Price\":57.6\n" +

@@ -59,14 +59,9 @@
                     <version>${log4j.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                    <scope>test</scope>
-                    <version>${junit.version}</version>
-                </dependency>
-                <dependency>
                     <groupId>org.testng</groupId>
                     <artifactId>testng</artifactId>
+                    <scope>test</scope>
                     <version>${testng.version}</version>
                 </dependency>
                 <dependency>
