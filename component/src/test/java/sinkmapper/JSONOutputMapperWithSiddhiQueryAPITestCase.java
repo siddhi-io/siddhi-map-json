@@ -16,17 +16,17 @@
  * under the License.
  */
 
-package org.wso2.siddhi.extension.output.mapper.json;
+package sinkmapper;
 
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.wso2.siddhi.core.ExecutionPlanRuntime;
+import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import org.wso2.siddhi.core.SiddhiAppRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 import org.wso2.siddhi.core.util.transport.InMemoryBroker;
-import org.wso2.siddhi.query.api.ExecutionPlan;
+import org.wso2.siddhi.query.api.SiddhiApp;
 import org.wso2.siddhi.query.api.annotation.Annotation;
 import org.wso2.siddhi.query.api.definition.Attribute;
 import org.wso2.siddhi.query.api.definition.StreamDefinition;
@@ -44,7 +44,7 @@ public class JSONOutputMapperWithSiddhiQueryAPITestCase {
     private AtomicInteger wso2Count = new AtomicInteger(0);
     private AtomicInteger ibmCount = new AtomicInteger(0);
 
-    @Before
+    @BeforeMethod
     public void init() {
         wso2Count.set(0);
         ibmCount.set(0);
@@ -113,23 +113,23 @@ public class JSONOutputMapperWithSiddhiQueryAPITestCase {
 
 
         SiddhiManager siddhiManager = new SiddhiManager();
-        ExecutionPlan executionPlan = new ExecutionPlan("ep1");
-        executionPlan.defineStream(streamDefinition);
-        executionPlan.defineStream(outputDefinition);
-        executionPlan.addQuery(query);
-        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(executionPlan);
-        InputHandler stockStream = executionPlanRuntime.getInputHandler("FooStream");
+        SiddhiApp siddhiApp = new SiddhiApp("ep1");
+        siddhiApp.defineStream(streamDefinition);
+        siddhiApp.defineStream(outputDefinition);
+        siddhiApp.addQuery(query);
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(siddhiApp);
+        InputHandler stockStream = siddhiAppRuntime.getInputHandler("FooStream");
 
-        executionPlanRuntime.start();
+        siddhiAppRuntime.start();
         stockStream.send(new Object[]{"WSO2", 55.6f, 100L});
         stockStream.send(new Object[]{"IBM", 75.6f, 100L});
         stockStream.send(new Object[]{"WSO2", 57.6f, 100L});
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
-        Assert.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
-        executionPlanRuntime.shutdown();
+        AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
+        AssertJUnit.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
+        siddhiAppRuntime.shutdown();
 
         //unsubscribe from "inMemory" broker per topic
         InMemoryBroker.unsubscribe(subscriberWSO2);
@@ -207,42 +207,42 @@ public class JSONOutputMapperWithSiddhiQueryAPITestCase {
         query.insertInto("BarStream");
 
         SiddhiManager siddhiManager = new SiddhiManager();
-        ExecutionPlan executionPlan = new ExecutionPlan("ep1");
-        executionPlan.defineStream(streamDefinition);
-        executionPlan.defineStream(outputDefinition);
-        executionPlan.addQuery(query);
-        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(executionPlan);
-        InputHandler stockStream = executionPlanRuntime.getInputHandler("FooStream");
+        SiddhiApp siddhiApp = new SiddhiApp("ep1");
+        siddhiApp.defineStream(streamDefinition);
+        siddhiApp.defineStream(outputDefinition);
+        siddhiApp.addQuery(query);
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(siddhiApp);
+        InputHandler stockStream = siddhiAppRuntime.getInputHandler("FooStream");
 
-        executionPlanRuntime.start();
+        siddhiAppRuntime.start();
         stockStream.send(new Object[]{"WSO2", 55.6f, 100L});
         stockStream.send(new Object[]{"IBM", 75.6f, 100L});
         stockStream.send(new Object[]{"WSO2", 57.6f, 100L});
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
-        Assert.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
+        AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
+        AssertJUnit.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
         //assert custom json
-        Assert.assertEquals("Mapping incorrect!", "{\n" +
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\n" +
                 "   \"Stock Data\":{\n" +
                 "      \"Symbol\":\"WSO2\",\n" +
                 "      \"Price\":55.6\n" +
                 "   }\n" +
                 "}", onMessageList.get(0).toString());
-        Assert.assertEquals("Mapping incorrect!", "{\n" +
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\n" +
                 "   \"Stock Data\":{\n" +
                 "      \"Symbol\":\"IBM\",\n" +
                 "      \"Price\":75.6\n" +
                 "   }\n" +
                 "}", onMessageList.get(1).toString());
-        Assert.assertEquals("Mapping incorrect!", "{\n" +
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\n" +
                 "   \"Stock Data\":{\n" +
                 "      \"Symbol\":\"WSO2\",\n" +
                 "      \"Price\":57.6\n" +
                 "   }\n" +
                 "}", onMessageList.get(2).toString());
-        executionPlanRuntime.shutdown();
+        siddhiAppRuntime.shutdown();
 
         //unsubscribe from "inMemory" broker per topic
         InMemoryBroker.unsubscribe(subscriberWSO2);
