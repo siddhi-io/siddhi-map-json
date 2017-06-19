@@ -19,8 +19,9 @@
 package org.wso2.siddhi.extension.input.mapper.json;
 
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.wso2.siddhi.core.SiddhiAppRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
@@ -33,6 +34,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class JsonSourceMapperTestCase {
     private static final Logger log = Logger.getLogger(JsonSourceMapperTestCase.class);
     private AtomicInteger count = new AtomicInteger();
+
+    @BeforeMethod
+    public void init() {
+        count.set(0);
+    }
 
     @Test
     public void jsonSourceMapperTest1() throws InterruptedException {
@@ -60,19 +66,19 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         case 2:
-                            Assert.assertEquals(55.678f, event.getData(1));
+                            AssertJUnit.assertEquals(55.678f, event.getData(1));
                             break;
                         case 3:
-                            Assert.assertEquals(55f, event.getData(1));
+                            AssertJUnit.assertEquals(55f, event.getData(1));
                             break;
                         case 4:
-                            Assert.assertEquals("WSO2@#$%^*", event.getData(0));
+                            AssertJUnit.assertEquals("WSO2@#$%^*", event.getData(0));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -111,7 +117,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 4, count.get());
+        AssertJUnit.assertEquals("Number of events", 4, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -142,16 +148,16 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         case 2:
-                            Assert.assertEquals(null, event.getData(1));
+                            AssertJUnit.assertEquals(null, event.getData(1));
                             break;
                         case 3:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -189,7 +195,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 3, count.get());
+        AssertJUnit.assertEquals("Number of events", 3, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -220,22 +226,22 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         case 2:
-                            Assert.assertEquals(null, event.getData(1));
+                            AssertJUnit.assertEquals(null, event.getData(1));
                             break;
                         case 3:
-                            Assert.assertEquals(null, event.getData(0));
+                            AssertJUnit.assertEquals(null, event.getData(0));
                             break;
                         case 4:
-                            Assert.assertEquals(56.0f, event.getData(1));
+                            AssertJUnit.assertEquals(56.0f, event.getData(1));
                             break;
                         case 5:
-                            Assert.assertEquals(57.6f, event.getData(1));
+                            AssertJUnit.assertEquals(57.6f, event.getData(1));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -280,7 +286,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 5, count.get());
+        AssertJUnit.assertEquals("Number of events", 5, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -311,19 +317,19 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         case 2:
-                            Assert.assertEquals(1.0f, event.getData(1));
+                            AssertJUnit.assertEquals(1.0f, event.getData(1));
                             break;
                         case 3:
-                            Assert.assertEquals(56.0f, event.getData(1));
+                            AssertJUnit.assertEquals(56.0f, event.getData(1));
                             break;
                         case 4:
-                            Assert.assertEquals(57.6f, event.getData(1));
+                            AssertJUnit.assertEquals(57.6f, event.getData(1));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -383,7 +389,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 1, count.get());
+        AssertJUnit.assertEquals("Number of events", 1, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -414,10 +420,10 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -451,7 +457,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 1, count.get());
+        AssertJUnit.assertEquals("Number of events", 1, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -482,10 +488,10 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -528,7 +534,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 1, count.get());
+        AssertJUnit.assertEquals("Number of events", 1, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -559,10 +565,10 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -587,7 +593,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 1, count.get());
+        AssertJUnit.assertEquals("Number of events", 1, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -621,28 +627,28 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(52.6f, event.getData(1));
+                            AssertJUnit.assertEquals(52.6f, event.getData(1));
                             break;
                         case 2:
-                            Assert.assertEquals("WSO2", event.getData(0));
+                            AssertJUnit.assertEquals("WSO2", event.getData(0));
                             break;
                         case 3:
-                            Assert.assertEquals(80L, event.getData(2));
+                            AssertJUnit.assertEquals(80L, event.getData(2));
                             break;
                         case 4:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         case 5:
-                            Assert.assertEquals(57.6f, event.getData(1));
+                            AssertJUnit.assertEquals(57.6f, event.getData(1));
                             break;
                         case 6:
-                            Assert.assertEquals(58.6f, event.getData(1));
+                            AssertJUnit.assertEquals(58.6f, event.getData(1));
                             break;
                         case 7:
-                            Assert.assertEquals(60.6f, event.getData(1));
+                            AssertJUnit.assertEquals(60.6f, event.getData(1));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -672,7 +678,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 7, count.get());
+        AssertJUnit.assertEquals("Number of events", 7, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -710,28 +716,28 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(52.6f, event.getData(1));
+                            AssertJUnit.assertEquals(52.6f, event.getData(1));
                             break;
                         case 2:
-                            Assert.assertEquals(53.6f, event.getData(1));
+                            AssertJUnit.assertEquals(53.6f, event.getData(1));
                             break;
                         case 3:
-                            Assert.assertEquals(54.6f, event.getData(1));
+                            AssertJUnit.assertEquals(54.6f, event.getData(1));
                             break;
                         case 4:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         case 5:
-                            Assert.assertEquals(57.6f, event.getData(1));
+                            AssertJUnit.assertEquals(57.6f, event.getData(1));
                             break;
                         case 6:
-                            Assert.assertEquals(58.6f, event.getData(1));
+                            AssertJUnit.assertEquals(58.6f, event.getData(1));
                             break;
                         case 7:
-                            Assert.assertEquals(60.6f, event.getData(1));
+                            AssertJUnit.assertEquals(60.6f, event.getData(1));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -761,7 +767,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 7, count.get());
+        AssertJUnit.assertEquals("Number of events", 7, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -795,16 +801,16 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         case 2:
-                            Assert.assertEquals(56.6f, event.getData(1));
+                            AssertJUnit.assertEquals(56.6f, event.getData(1));
                             break;
                         case 3:
-                            Assert.assertEquals(57.6f, event.getData(1));
+                            AssertJUnit.assertEquals(57.6f, event.getData(1));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -826,7 +832,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 3, count.get());
+        AssertJUnit.assertEquals("Number of events", 3, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -860,22 +866,22 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         case 2:
-                            Assert.assertEquals(56.6f, event.getData(1));
+                            AssertJUnit.assertEquals(56.6f, event.getData(1));
                             break;
                         case 3:
-                            Assert.assertEquals(null, event.getData(1));
+                            AssertJUnit.assertEquals(null, event.getData(1));
                             break;
                         case 4:
-                            Assert.assertEquals(76.6f, event.getData(1));
+                            AssertJUnit.assertEquals(76.6f, event.getData(1));
                             break;
                         case 5:
-                            Assert.assertEquals(77.6f, event.getData(1));
+                            AssertJUnit.assertEquals(77.6f, event.getData(1));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -907,7 +913,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 5, count.get());
+        AssertJUnit.assertEquals("Number of events", 5, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -941,25 +947,25 @@ public class JsonSourceMapperTestCase {
                 for (Event event : events) {
                     switch (count.incrementAndGet()) {
                         case 1:
-                            Assert.assertEquals(55.6f, event.getData(1));
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         case 2:
-                            Assert.assertEquals(56.6f, event.getData(1));
+                            AssertJUnit.assertEquals(56.6f, event.getData(1));
                             break;
                         case 3:
-                            Assert.assertEquals(100L, event.getData(2));
+                            AssertJUnit.assertEquals(100L, event.getData(2));
                             break;
                         case 4:
-                            Assert.assertEquals(200L, event.getData(2));
+                            AssertJUnit.assertEquals(200L, event.getData(2));
                             break;
                         case 5:
-                            Assert.assertEquals("wso2", event.getData(0));
+                            AssertJUnit.assertEquals("wso2", event.getData(0));
                             break;
                         case 6:
-                            Assert.assertEquals(null, event.getData(0));
+                            AssertJUnit.assertEquals(null, event.getData(0));
                             break;
                         default:
-                            Assert.fail();
+                            AssertJUnit.fail();
                     }
                 }
             }
@@ -991,7 +997,7 @@ public class JsonSourceMapperTestCase {
         Thread.sleep(100);
 
         //assert event count
-        Assert.assertEquals("Number of events", 6, count.get());
+        AssertJUnit.assertEquals("Number of events", 6, count.get());
         siddhiAppRuntime.shutdown();
     }
 
