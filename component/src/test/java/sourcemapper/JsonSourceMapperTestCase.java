@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.siddhi.extension.input.mapper.json;
+package sourcemapper;
 
 import org.apache.log4j.Logger;
 import org.testng.AssertJUnit;
