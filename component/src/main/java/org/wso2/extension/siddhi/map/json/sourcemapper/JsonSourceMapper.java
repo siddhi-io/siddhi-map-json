@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package sourcemapper;
+package org.wso2.extension.siddhi.map.json.sourcemapper;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;

@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package sinkmapper;
+package org.wso2.extension.siddhi.map.json.sinkmapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

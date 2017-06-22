@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package sinkmapper;
+package org.wso2.extension.siddhi.map.json.sinkmapper;
 
 import org.apache.log4j.Logger;
 import org.testng.AssertJUnit;
