@@ -33,10 +33,11 @@ import org.wso2.siddhi.annotation.Example;
 import org.wso2.siddhi.annotation.Extension;
 import org.wso2.siddhi.annotation.Parameter;
 import org.wso2.siddhi.annotation.util.DataType;
+import org.wso2.siddhi.core.config.SiddhiAppContext;
 import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.exception.SiddhiAppRuntimeException;
-import org.wso2.siddhi.core.stream.AttributeMapping;
-import org.wso2.siddhi.core.stream.input.InputEventHandler;
+import org.wso2.siddhi.core.stream.input.source.AttributeMapping;
+import org.wso2.siddhi.core.stream.input.source.InputEventHandler;
 import org.wso2.siddhi.core.stream.input.source.SourceMapper;
 import org.wso2.siddhi.core.util.AttributeConverter;
 import org.wso2.siddhi.core.util.config.ConfigReader;
@@ -137,8 +138,9 @@ public class JsonSourceMapper extends SourceMapper {
     private int attributesSize;
 
     @Override
-    public void init(StreamDefinition streamDefinition, OptionHolder optionHolder,
-                     List<AttributeMapping> attributeMappingList, ConfigReader configReader) {
+    public void init(StreamDefinition streamDefinition, OptionHolder optionHolder, List<AttributeMapping> list,
+                     ConfigReader configReader, SiddhiAppContext siddhiAppContext) {
+
         this.streamDefinition = streamDefinition;
         this.streamAttributes = this.streamDefinition.getAttributeList();
         attributesSize = this.streamDefinition.getAttributeList().size();
@@ -146,13 +148,13 @@ public class JsonSourceMapper extends SourceMapper {
         failOnMissingAttribute = Boolean.parseBoolean(optionHolder.
                 validateAndGetStaticValue(FAIL_ON_MISSING_ATTRIBUTE_IDENTIFIER, "true"));
         factory = new JsonFactory();
-        if (attributeMappingList != null && attributeMappingList.size() > 0) {
+        if (list != null && list.size() > 0) {
             isCustomMappingEnabled = true;
             enclosingElement = optionHolder.validateAndGetStaticValue(ENCLOSING_ELEMENT_IDENTIFIER,
                     DEFAULT_ENCLOSING_ELEMENT);
-            for (int i = 0; i < attributeMappingList.size(); i++) {
-                AttributeMapping attributeMapping = attributeMappingList.get(i);
-                String attributeName = attributeMapping.getRename();
+            for (int i = 0; i < list.size(); i++) {
+                AttributeMapping attributeMapping = list.get(i);
+                String attributeName = attributeMapping.getName();
                 int position;
                 if (attributeName != null) {
                     position = this.streamDefinition.getAttributePosition(attributeName);
@@ -458,6 +460,11 @@ public class JsonSourceMapper extends SourceMapper {
         } catch (com.google.gson.JsonSyntaxException ex) {
             return false;
         }
+    }
+
+    @Override
+    public Class[] getSupportedInputEventClasses() {
+        return new Class[]{String.class};
     }
 
     /**
