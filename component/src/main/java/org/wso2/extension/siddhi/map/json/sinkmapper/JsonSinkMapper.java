@@ -16,6 +16,7 @@
  * under the License.
  */
 package org.wso2.extension.siddhi.map.json.sinkmapper;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -25,17 +26,17 @@ import org.wso2.siddhi.annotation.Example;
 import org.wso2.siddhi.annotation.Extension;
 import org.wso2.siddhi.annotation.Parameter;
 import org.wso2.siddhi.annotation.util.DataType;
+import org.wso2.siddhi.core.config.SiddhiAppContext;
 import org.wso2.siddhi.core.event.Event;
-import org.wso2.siddhi.core.exception.ConnectionUnavailableException;
 import org.wso2.siddhi.core.stream.output.sink.SinkListener;
 import org.wso2.siddhi.core.stream.output.sink.SinkMapper;
 import org.wso2.siddhi.core.util.config.ConfigReader;
-import org.wso2.siddhi.core.util.transport.DynamicOptions;
 import org.wso2.siddhi.core.util.transport.OptionHolder;
 import org.wso2.siddhi.core.util.transport.TemplateBuilder;
 import org.wso2.siddhi.query.api.definition.StreamDefinition;
 
 import java.util.Map;
+
 
 /**
  * Mapper class to convert a Siddhi message to a JSON message. User can provide a JSON template or else we will be
@@ -125,16 +126,23 @@ public class JsonSinkMapper extends SinkMapper {
         return new String[0];
     }
 
+
+    @Override
+    public Class[] getOutputEventClasses() {
+        return new Class[] {Event.class, Event[].class};
+    }
+
     /**
      * Initialize the mapper and the mapping configurations.
      *
      * @param streamDefinition       The stream definition
      * @param optionHolder           Option holder containing static and dynamic options
-     * @param payloadTemplateBuilder Unmapped payload for reference
+     * @param templateBuilder Unmapped payload for reference
      */
     @Override
-    public void init(StreamDefinition streamDefinition, OptionHolder optionHolder,
-                     TemplateBuilder payloadTemplateBuilder, ConfigReader mapperConfigReader) {
+    public void init(StreamDefinition streamDefinition, OptionHolder optionHolder, TemplateBuilder templateBuilder,
+                     ConfigReader configReader, SiddhiAppContext siddhiAppContext) {
+
         attributeNameArray = streamDefinition.getAttributeNameArray();
         enclosingElement = optionHolder.validateAndGetStaticValue(ENCLOSING_ELEMENT_IDENTIFIER, null);
         isJsonValidationEnabled = Boolean.parseBoolean(optionHolder
@@ -142,32 +150,32 @@ public class JsonSinkMapper extends SinkMapper {
     }
 
     @Override
-    public void mapAndSend(Event[] events, OptionHolder optionHolder, TemplateBuilder payloadTemplateBuilder,
-                           SinkListener sinkListener, DynamicOptions dynamicOptions)
-            throws ConnectionUnavailableException {
+    public void mapAndSend(Event[] events, OptionHolder optionHolder, TemplateBuilder templateBuilder,
+                           SinkListener sinkListener) {
+
         StringBuilder sb = new StringBuilder();
-        if (payloadTemplateBuilder == null) {
+        if (templateBuilder == null) {
             String jsonString = constructJsonForDefaultMapping(events);
             sb.append(jsonString);
         } else {
-            sb.append(constructJsonForCustomMapping(events, payloadTemplateBuilder));
+            sb.append(constructJsonForCustomMapping(events, templateBuilder));
         }
 
         if (!isJsonValidationEnabled) {
-            sinkListener.publish(sb.toString(), dynamicOptions);
+            sinkListener.publish(sb.toString());
         } else if (isValidJson(sb.toString())) {
-            sinkListener.publish(sb.toString(), dynamicOptions);
+            sinkListener.publish(sb.toString());
         } else {
             log.error("Invalid json string : " + sb.toString() + ". Hence dropping the message.");
         }
     }
 
     @Override
-    public void mapAndSend(Event event, OptionHolder optionHolder, TemplateBuilder payloadTemplateBuilder,
-                           SinkListener sinkListener, DynamicOptions dynamicOptions)
-            throws ConnectionUnavailableException {
+    public void mapAndSend(Event event, OptionHolder optionHolder, TemplateBuilder templateBuilder,
+                           SinkListener sinkListener) {
+
         StringBuilder sb = null;
-        if (payloadTemplateBuilder == null) {
+        if (templateBuilder == null) {
             String jsonString = constructJsonForDefaultMapping(event);
             if (jsonString != null) {
                 sb = new StringBuilder();
@@ -175,14 +183,14 @@ public class JsonSinkMapper extends SinkMapper {
             }
         } else {
             sb = new StringBuilder();
-            sb.append(constructJsonForCustomMapping(event, payloadTemplateBuilder));
+            sb.append(constructJsonForCustomMapping(event, templateBuilder));
         }
 
         if (sb != null) {
             if (!isJsonValidationEnabled) {
-                sinkListener.publish(sb.toString(), dynamicOptions);
+                sinkListener.publish(sb.toString());
             } else if (isValidJson(sb.toString())) {
-                sinkListener.publish(sb.toString(), dynamicOptions);
+                sinkListener.publish(sb.toString());
             } else {
                 log.error("Invalid json string : " + sb.toString() + ". Hence dropping the message.");
             }
