@@ -464,7 +464,7 @@ public class JsonSourceMapper extends SourceMapper {
 
     @Override
     public Class[] getSupportedInputEventClasses() {
-        return new Class[]{String.class};
+        return new Class[]{Event.class, Event[].class};
     }
 
     /**

@@ -129,7 +129,7 @@ public class JsonSinkMapper extends SinkMapper {
 
     @Override
     public Class[] getOutputEventClasses() {
-        return new Class[] {Event.class, Event[].class};
+        return new Class[] {String.class};
     }
 
     /**
