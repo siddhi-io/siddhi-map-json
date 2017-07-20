@@ -10,8 +10,4 @@ pages:
 - Welcome to WSO2 Siddhi MAP JSON: index.md
 - About:
   - License: about/license.md
-- Api:
-  - 4.0.3-SNAPSHOT: api/4.0.3-SNAPSHOT.md
-- API Docs:
-  - 4.0.3-SNAPSHOT: api/4.0.3-SNAPSHOT.md
 theme: material
