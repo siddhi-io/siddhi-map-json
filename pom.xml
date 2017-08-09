@@ -88,6 +88,12 @@
                     <artifactId>json-smart</artifactId>
                     <version>${net.minidev.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>org.jacoco.agent</artifactId>
+                    <classifier>runtime</classifier>
+                    <version>${jacoco.version}</version>
+                </dependency>
             </dependencies>
     </dependencyManagement>
 
@@ -150,7 +156,7 @@
         <testng.version>6.8</testng.version>
         <tapestry.json.orbit.version>5.4.1.wso2v1</tapestry.json.orbit.version>
         <net.minidev.version>2.1.0</net.minidev.version>
-
+        <jacoco.version>0.7.9</jacoco.version>
 
         <mavan.findbugsplugin.exclude.file>findbugs-exclude.xml</mavan.findbugsplugin.exclude.file>
         <mavan.checkstyle.suppression.file>checkstyle-suppressions.xml</mavan.checkstyle.suppression.file>
