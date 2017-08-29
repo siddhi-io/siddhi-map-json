@@ -9,6 +9,9 @@ extra:
   palette:
     primary: teal
     accent: teal
+google_analytics:
+- UA-103065-28
+- auto
 pages:
 - Welcome to WSO2 Siddhi MAP JSON: index.md
 - About:
