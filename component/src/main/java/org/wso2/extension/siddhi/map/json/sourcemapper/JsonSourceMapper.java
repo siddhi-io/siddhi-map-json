@@ -67,23 +67,23 @@ import java.util.List;
                 @Parameter(name = "enclosing.element",
                         description =
                                 "Used to specify the enclosing element in case of sending multiple events in same "
-                                        + "JSON message. WSO2 DAS will treat the child element of given enclosing "
+                                        + "JSON message. \nWSO2 DAS will treat the child element of given enclosing "
                                         + "element as events"
-                                        + " and execute json path expressions on child elements. If enclosing.element "
+                                        + " and execute json path expressions on child elements. \nIf enclosing" +
+                                        ".element "
                                         + "is not provided "
                                         + "multiple event scenario is disregarded and json path will be evaluated "
-                                        + "with respect to "
-                                        + "root element.",
+                                        + "with respect to root element.",
                         type = {DataType.STRING}),
                 @Parameter(name = "fail.on.missing.attribute",
-                        description = "This can either have value true or false. By default it will be true. This "
-                                + "attribute allows user to handle unknown attributes. By default if an json "
+                        description = "This can either have value true or false. By default it will be true. \nThis "
+                                + "attribute allows user to handle unknown attributes.\n By default if an json "
                                 + "execution "
-                                + "fails or returns null DAS will drop that message. However setting this property"
+                                + "fails or returns null DAS will drop that message. \nHowever setting this property"
                                 + " to "
                                 + "false will prompt DAS to send and event with null value to Siddhi where user "
                                 + "can handle"
-                                + " it accordingly(ie. Assign a default value)",
+                                + " it accordingly.\n(ie. Assign a default value)",
                         type = {DataType.BOOL})
         },
         examples = {
@@ -91,7 +91,7 @@ import java.util.List;
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json'))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
                         description =  "Above configuration will do a default JSON input mapping. Expected "
-                                + "input will look like below."
+                                + "input will look like below.\n"
                                 + "{\n"
                                 + "    \"event\":{\n"
                                 + "        \"symbol\":\"WSO2\",\n"
@@ -104,7 +104,7 @@ import java.util.List;
                                 + "enclosing.element=\"$.portfolio\", "
                                 + "@attributes(symbol = \"company.symbol\", price = \"price\", volume = \"volume\")))",
                         description =  "Above configuration will perform a custom JSON mapping. Expected input will "
-                                + "look like below."
+                                + "look like below\n."
                                 + "{"
                                 + " \"portfolio\":{\n"
                                 + "     \"stock\":{"
