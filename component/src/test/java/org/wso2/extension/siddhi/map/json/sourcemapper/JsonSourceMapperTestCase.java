@@ -27,12 +27,15 @@ import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.stream.output.StreamCallback;
 import org.wso2.siddhi.core.util.EventPrinter;
+import org.wso2.siddhi.core.util.SiddhiTestHelper;
 import org.wso2.siddhi.core.util.transport.InMemoryBroker;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class JsonSourceMapperTestCase {
     private static final Logger log = Logger.getLogger(JsonSourceMapperTestCase.class);
+    private final int waitTime = 2000;
+    private final int timeout = 30000;
     private AtomicInteger count = new AtomicInteger();
 
     @BeforeMethod
@@ -114,7 +117,7 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\":100\n" +
                 "      }\n" +
                 " }");
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 4, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 4, count.get());
@@ -192,7 +195,7 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\":100\n" +
                 "      }\n" +
                 " }");
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 3, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 3, count.get());
@@ -283,7 +286,7 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\":100\n" +
                 "      }\n" +
                 " }");
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 5, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 5, count.get());
@@ -386,7 +389,7 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\": 100.20\n" +
                 "      }\n" +
                 " }");
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 1, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 1, count.get());
@@ -454,7 +457,7 @@ public class JsonSourceMapperTestCase {
                 "      }\n" +
                 " }");
 
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 1, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 1, count.get());
@@ -531,7 +534,7 @@ public class JsonSourceMapperTestCase {
                 "      }\n" +
                 " }");
 
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 1, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 1, count.get());
@@ -590,7 +593,7 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\": 100\n" +
                 "      }\n" +
                 " }");
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 1, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 1, count.get());
@@ -675,7 +678,7 @@ public class JsonSourceMapperTestCase {
                 "{\"Event\":{\"symbol\":\"WSO2\",\"price\":59.6,\"volume\":99}},\n" +
                 "{\"event\":{\"symbol\":\"WSO2\",\"price\":60.6,\"volume\":80}}\n" +
                 "]\n");
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 7, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 7, count.get());
@@ -764,7 +767,7 @@ public class JsonSourceMapperTestCase {
                 "{\"Event\":{\"symbol\":\"WSO2\",\"price\":59.6,\"volume\":99}},\n" +
                 "{\"event\":{\"symbol\":\"WSO2\",\"price\":60.6,\"volume\":80}}\n" +
                 "]\n");
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 7, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 7, count.get());
@@ -829,7 +832,7 @@ public class JsonSourceMapperTestCase {
                 "       {\"stock\":{\"volume\":200,\"company\":{\"symbol\":\"wso2\"},\"price\":57.6}}" +
                 "   ]\n" +
                 "}\n");
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 3, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 3, count.get());
@@ -910,7 +913,7 @@ public class JsonSourceMapperTestCase {
                 "       {\"stock\":{\"volume\":200,\"company\":{\"symbol\":null},\"price\":77.6}}" +
                 "   ]\n" +
                 "}\n");
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 5, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 5, count.get());
@@ -994,7 +997,7 @@ public class JsonSourceMapperTestCase {
                 "       {\"stock\":{\"volume\":200,\"company\":{\"symbol\":null},\"price\":77.6}}" +
                 "   ]\n" +
                 "}\n");
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 6, count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Number of events", 6, count.get());

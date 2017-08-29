@@ -27,6 +27,7 @@ import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.exception.NoSuchAttributeException;
 import org.wso2.siddhi.core.stream.input.InputHandler;
+import org.wso2.siddhi.core.util.SiddhiTestHelper;
 import org.wso2.siddhi.core.util.transport.InMemoryBroker;
 
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class JsonSinkMapperTestCase {
     private static final Logger log = Logger.getLogger(JSONOutputMapperWithSiddhiQueryAPITestCase.class);
+    private final int waitTime = 2000;
+    private final int timeout = 30000;
     private AtomicInteger wso2Count = new AtomicInteger(0);
     private AtomicInteger ibmCount = new AtomicInteger(0);
 
@@ -118,7 +121,7 @@ public class JsonSinkMapperTestCase {
         stockStream.send(new Object[]{"WSO2", 50f, 100L});
         stockStream.send(new Object[]{"WSO2#$%", 50f, 100L});
         stockStream.send(new Event[]{wso2Event, ibmEvent});
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 5, wso2Count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals(5, wso2Count.get());
@@ -182,7 +185,7 @@ public class JsonSinkMapperTestCase {
         stockStream.send(new Object[]{"WSO2", 55.6f, null});
         stockStream.send(new Object[]{"WSO2", null, 100L});
         stockStream.send(new Object[]{null, 55.6f, 100L});
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 3, wso2Count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals(3, wso2Count.get());
@@ -250,7 +253,7 @@ public class JsonSinkMapperTestCase {
         stockStream.send(new Object[]{"WSO2", 55.6f, 100L});
         stockStream.send(new Object[]{"WSO2", 56.6f, 200L});
         stockStream.send(new Object[]{"WSO2", 57.6f, 300L});
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 3, wso2Count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals(3, wso2Count.get());
@@ -331,7 +334,8 @@ public class JsonSinkMapperTestCase {
         stockStream.send(new Object[]{"WSO2", 55.6f, 100L});
         stockStream.send(new Object[]{"WSO2", 56.6f, 101L});
         stockStream.send(new Object[]{"IBM", 75.6f, 200L});
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 2, wso2Count, timeout);
+        SiddhiTestHelper.waitForEvents(waitTime, 1, ibmCount, timeout);
 
         //assert event count
         AssertJUnit.assertEquals(2, wso2Count.get());
@@ -410,7 +414,8 @@ public class JsonSinkMapperTestCase {
         stockStream.send(new Object[]{"WSO2", 55.6f, 100L});
         stockStream.send(new Object[]{"IBM", 75.6f, 100L});
         stockStream.send(new Object[]{"WSO2", 57.6f, 100L});
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 2, wso2Count, timeout);
+        SiddhiTestHelper.waitForEvents(waitTime, 1, ibmCount, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
@@ -568,7 +573,8 @@ public class JsonSinkMapperTestCase {
         stockStream.send(new Object[]{"WSO2", 55.6f, 100L});
         stockStream.send(new Object[]{"IBM", 75.6f, 100L});
         stockStream.send(new Object[]{"WSO2", 57.6f, 100L});
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 2, wso2Count, timeout);
+        SiddhiTestHelper.waitForEvents(waitTime, 1, ibmCount, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
@@ -715,7 +721,8 @@ public class JsonSinkMapperTestCase {
         stockStream.send(new Object[]{"WSO2", 55.6f, 100L, "SL"});
         stockStream.send(new Object[]{"IBM", 75.6f, 100L, "USA"});
         stockStream.send(new Object[]{"WSO2", 57.6f, 100L, "SL"});
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 2, wso2Count, timeout);
+        SiddhiTestHelper.waitForEvents(waitTime, 1, wso2Count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
@@ -809,7 +816,8 @@ public class JsonSinkMapperTestCase {
         stockStream.send(new Object[]{"WSO2", 55.6f, null, "WSO2"});
         stockStream.send(new Object[]{"IBM", null, 500L, "IBM"});
         stockStream.send(new Object[]{null, 57.6f, 200L, "WSO2"});
-        Thread.sleep(100);
+        SiddhiTestHelper.waitForEvents(waitTime, 2, wso2Count, timeout);
+        SiddhiTestHelper.waitForEvents(waitTime, 1, wso2Count, timeout);
 
         //assert event count
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
