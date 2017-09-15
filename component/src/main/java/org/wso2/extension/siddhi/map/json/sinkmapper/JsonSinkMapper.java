@@ -28,6 +28,7 @@ import org.wso2.siddhi.annotation.Parameter;
 import org.wso2.siddhi.annotation.util.DataType;
 import org.wso2.siddhi.core.config.SiddhiAppContext;
 import org.wso2.siddhi.core.event.Event;
+import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
 import org.wso2.siddhi.core.stream.output.sink.SinkListener;
 import org.wso2.siddhi.core.stream.output.sink.SinkMapper;
 import org.wso2.siddhi.core.util.config.ConfigReader;
@@ -130,36 +131,49 @@ public class JsonSinkMapper extends SinkMapper {
 
     @Override
     public Class[] getOutputEventClasses() {
-        return new Class[] {String.class};
+        return new Class[]{String.class};
     }
 
     /**
      * Initialize the mapper and the mapping configurations.
      *
-     * @param streamDefinition       The stream definition
-     * @param optionHolder           Option holder containing static and dynamic options
-     * @param templateBuilder Unmapped payload for reference
+     * @param streamDefinition          The stream definition
+     * @param optionHolder              Option holder containing static and dynamic options
+     * @param payloadTemplateBuilderMap Unmapped list of payloads for reference
      */
     @Override
-    public void init(StreamDefinition streamDefinition, OptionHolder optionHolder, TemplateBuilder templateBuilder,
-                     ConfigReader configReader, SiddhiAppContext siddhiAppContext) {
+    public void init(StreamDefinition streamDefinition, OptionHolder optionHolder,
+                     Map<String, TemplateBuilder> payloadTemplateBuilderMap, ConfigReader mapperConfigReader,
+                     SiddhiAppContext siddhiAppContext) {
 
         attributeNameArray = streamDefinition.getAttributeNameArray();
         enclosingElement = optionHolder.validateAndGetStaticValue(ENCLOSING_ELEMENT_IDENTIFIER, null);
         isJsonValidationEnabled = Boolean.parseBoolean(optionHolder
                 .validateAndGetStaticValue(JSON_VALIDATION_IDENTIFIER, "false"));
+
+        //if @payload() is added there must be at least 1 element in it, otherwise a SiddhiParserException raised
+        if (payloadTemplateBuilderMap != null && payloadTemplateBuilderMap.size() != 1) {
+            throw new SiddhiAppCreationException("Json sink-mapper does not support multiple @payload mappings, " +
+                    "error at the mapper of '" + streamDefinition.getId() + "'");
+        }
+        if (payloadTemplateBuilderMap != null &&
+                payloadTemplateBuilderMap.get(payloadTemplateBuilderMap.keySet().iterator().next()).isObjectMessage()) {
+            throw new SiddhiAppCreationException("Json sink-mapper does not support object @payload mappings, " +
+                    "error at the mapper of '" + streamDefinition.getId() + "'");
+        }
     }
 
     @Override
-    public void mapAndSend(Event[] events, OptionHolder optionHolder, TemplateBuilder templateBuilder,
-                           SinkListener sinkListener) {
+    public void mapAndSend(Event[] events, OptionHolder optionHolder,
+                           Map<String,TemplateBuilder> payloadTemplateBuilderMap, SinkListener sinkListener) {
 
         StringBuilder sb = new StringBuilder();
-        if (templateBuilder == null) {
+        if (payloadTemplateBuilderMap == null) {
             String jsonString = constructJsonForDefaultMapping(events);
             sb.append(jsonString);
         } else {
-            sb.append(constructJsonForCustomMapping(events, templateBuilder));
+            sb.append(constructJsonForCustomMapping(events,
+                    payloadTemplateBuilderMap.get(payloadTemplateBuilderMap.keySet().iterator().next())));
         }
 
         if (!isJsonValidationEnabled) {
@@ -172,11 +186,11 @@ public class JsonSinkMapper extends SinkMapper {
     }
 
     @Override
-    public void mapAndSend(Event event, OptionHolder optionHolder, TemplateBuilder templateBuilder,
-                           SinkListener sinkListener) {
+    public void mapAndSend(Event event, OptionHolder optionHolder,
+                           Map<String, TemplateBuilder> payloadTemplateBuilderMap, SinkListener sinkListener) {
 
         StringBuilder sb = null;
-        if (templateBuilder == null) {
+        if (payloadTemplateBuilderMap == null) {
             String jsonString = constructJsonForDefaultMapping(event);
             if (jsonString != null) {
                 sb = new StringBuilder();
@@ -184,7 +198,8 @@ public class JsonSinkMapper extends SinkMapper {
             }
         } else {
             sb = new StringBuilder();
-            sb.append(constructJsonForCustomMapping(event, templateBuilder));
+            sb.append(constructJsonForCustomMapping(event,
+                    payloadTemplateBuilderMap.get(payloadTemplateBuilderMap.keySet().iterator().next())));
         }
 
         if (sb != null) {
@@ -275,7 +290,7 @@ public class JsonSinkMapper extends SinkMapper {
                 String jsonEvent;
                 sb.append(JSON_ARRAY_START_SYMBOL);
                 for (Event e : (Event[]) eventObj) {
-                    jsonEvent = payloadTemplateBuilder.build(doPartialProcessing(e));
+                    jsonEvent = (String) payloadTemplateBuilder.build(doPartialProcessing(e));
                     if (jsonEvent != null) {
                         sb.append(jsonEvent).append(JSON_EVENT_SEPERATOR).append("\n");
                     }
@@ -293,12 +308,12 @@ public class JsonSinkMapper extends SinkMapper {
             return sb.toString();
         } else {
             if (eventObj.getClass() == Event.class) {
-                return payloadTemplateBuilder.build(doPartialProcessing((Event) eventObj));
+                return (String) payloadTemplateBuilder.build(doPartialProcessing((Event) eventObj));
             } else if (eventObj.getClass() == Event[].class) {
                 String jsonEvent;
                 sb.append(JSON_ARRAY_START_SYMBOL);
                 for (Event event : (Event[]) eventObj) {
-                    jsonEvent = payloadTemplateBuilder.build(doPartialProcessing(event));
+                    jsonEvent = (String) payloadTemplateBuilder.build(doPartialProcessing(event));
                     if (jsonEvent != null) {
                         sb.append(jsonEvent).append(JSON_EVENT_SEPERATOR).append("\n");
                     }
