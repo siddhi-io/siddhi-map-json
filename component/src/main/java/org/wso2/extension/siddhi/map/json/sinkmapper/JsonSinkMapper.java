@@ -165,7 +165,7 @@ public class JsonSinkMapper extends SinkMapper {
 
     @Override
     public void mapAndSend(Event[] events, OptionHolder optionHolder,
-                           Map<String,TemplateBuilder> payloadTemplateBuilderMap, SinkListener sinkListener) {
+                           Map<String, TemplateBuilder> payloadTemplateBuilderMap, SinkListener sinkListener) {
 
         StringBuilder sb = new StringBuilder();
         if (payloadTemplateBuilderMap == null) {
