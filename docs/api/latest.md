@@ -1,0 +1,111 @@
+# API Docs - v4.0.5-SNAPSHOT
+
+## Sourcemapper
+
+### json *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#source-mapper">(Source Mapper)</a>*
+
+<p style="word-wrap: break-word">JSON to Event input mapper. Transports which accepts JSON messages can utilize this extensionto convert the incoming JSON message to Siddhi event. Users can either send a pre-defined JSON format where event conversion will happen without any configs or can use json path to map from a custom JSON message.</p>
+
+<span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span>
+```
+@source(..., @map(type="json", enclosing.element="<STRING>", fail.on.missing.attribute="<BOOL>")
+```
+
+<span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
+<table>
+    <tr>
+        <th>Name</th>
+        <th style="min-width: 20em">Description</th>
+        <th>Default Value</th>
+        <th>Possible Data Types</th>
+        <th>Optional</th>
+        <th>Dynamic</th>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">enclosing.element</td>
+        <td style="vertical-align: top; word-wrap: break-word">Used to specify the enclosing element in case of sending multiple events in same JSON message. <br>WSO2 DAS will treat the child element of given enclosing element as events and execute json path expressions on child elements. <br>If enclosing.element is not provided multiple event scenario is disregarded and json path will be evaluated with respect to root element.</td>
+        <td style="vertical-align: top"></td>
+        <td style="vertical-align: top">STRING</td>
+        <td style="vertical-align: top">No</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">fail.on.missing.attribute</td>
+        <td style="vertical-align: top; word-wrap: break-word">This can either have value true or false. By default it will be true. <br>This attribute allows user to handle unknown attributes.<br>&nbsp;By default if an json execution fails or returns null DAS will drop that message. <br>However setting this property to false will prompt DAS to send and event with null value to Siddhi where user can handle it accordingly.<br>(ie. Assign a default value)</td>
+        <td style="vertical-align: top"></td>
+        <td style="vertical-align: top">BOOL</td>
+        <td style="vertical-align: top">No</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+</table>
+
+<span id="examples" class="md-typeset" style="display: block; font-weight: bold;">Examples</span>
+<span id="example-1" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 1</span>
+```
+@source(type='inMemory', topic='stock', @map(type='json'))
+define stream FooStream (symbol string, price float, volume long);
+
+```
+<p style="word-wrap: break-word">Above configuration will do a default JSON input mapping. Expected input will look like below.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
+
+<span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span>
+```
+@source(type='inMemory', topic='stock', @map(type='json', enclosing.element="$.portfolio", @attributes(symbol = "company.symbol", price = "price", volume = "volume")))
+```
+<p style="word-wrap: break-word">Above configuration will perform a custom JSON mapping. Expected input will look like below<br>.{ "portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"stock":{        "volume":100,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}</p>
+
+## Sinkmapper
+
+### json *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#sink-mapper">(Sink Mapper)</a>*
+
+<p style="word-wrap: break-word">Event to JSON output mapper. <br>Transports which publish  messages can utilize this extensionto convert the Siddhi event to JSON message. <br>Users can either send a pre-defined JSON format or a custom JSON message.<br></p>
+
+<span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span>
+```
+@sink(..., @map(type="json", validate.json="<BOOL>", enclosing.element="<STRING>")
+```
+
+<span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
+<table>
+    <tr>
+        <th>Name</th>
+        <th style="min-width: 20em">Description</th>
+        <th>Default Value</th>
+        <th>Possible Data Types</th>
+        <th>Optional</th>
+        <th>Dynamic</th>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">validate.json</td>
+        <td style="vertical-align: top; word-wrap: break-word">This property will enable JSON validation for generated JSON message. <br>By default value of the property will be false. <br>When enabled, DAS will validate the generated JSON message and drop the message if it does not adhere to proper JSON standards.<br></td>
+        <td style="vertical-align: top"></td>
+        <td style="vertical-align: top">BOOL</td>
+        <td style="vertical-align: top">No</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">enclosing.element</td>
+        <td style="vertical-align: top; word-wrap: break-word">Used to specify the enclosing element in case of sending multiple events in same JSON message. <br>WSO2 DAS will treat the child element of given enclosing element as events and execute json expressions on child elements. <br>If enclosing.element is not provided multiple event scenario is disregarded and json path will be evaluated with respect to root element.</td>
+        <td style="vertical-align: top"></td>
+        <td style="vertical-align: top">STRING</td>
+        <td style="vertical-align: top">No</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+</table>
+
+<span id="examples" class="md-typeset" style="display: block; font-weight: bold;">Examples</span>
+<span id="example-1" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 1</span>
+```
+@sink(type='inMemory', topic='stock', @map(type='json'))
+define stream FooStream (symbol string, price float, volume long);
+
+```
+<p style="word-wrap: break-word">Above configuration will do a default JSON input mapping which will generate below output.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
+
+<span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span>
+```
+@sink(type='inMemory', topic='{{symbol}}', @map(type='json', enclosing.element='$.portfolio', validate.json='true', @payload( "{"StockData":{"Symbol":"{{symbol}}","Price":{{price}}}")))
+define stream BarStream (symbol string, price float, volume long);
+```
+<p style="word-wrap: break-word">Above configuration will perform a custom JSON mapping which will produce below output JSON message<br>{"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;"StockData":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}<br>}</p>
+
