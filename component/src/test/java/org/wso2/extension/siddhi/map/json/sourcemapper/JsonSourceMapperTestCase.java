@@ -915,4 +915,269 @@ public class JsonSourceMapperTestCase {
         siddhiAppRuntime.shutdown();
     }
 
+    @Test
+    public void jsonSourceMapperTest14() throws InterruptedException {
+        log.info("test JsonSourceMapper with test multiple event");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', @map(type='json')) " +
+                "define stream FooStream (symbol string, price float, volume long); " +
+                "define stream BarStream (symbol string, price float, volume long); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+        siddhiAppRuntime.addCallback("BarStream", new StreamCallback() {
+
+            @Override
+            public void receive(Event[] events) {
+                EventPrinter.print(events);
+                for (Event event : events) {
+                    switch (count.incrementAndGet()) {
+                    case 1:
+                        AssertJUnit.assertEquals(55.6f, event.getData(1));
+                        break;
+                    case 2:
+                        AssertJUnit.assertEquals(32.6f, event.getData(1));
+                        break;
+                    default:
+                        AssertJUnit.fail();
+                    }
+                }
+            }
+        });
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", "[{\n"
+                + "  \"event\":{\n"
+                + "      \"symbol\":\"WSO2\",\n"
+                + "      \"price\":55.6,\n"
+                + "      \"volume\":100}},"
+                + "{\n"
+                +   "\"event\":{\n"
+                +       "\"symbol\":\"IBM\",\n"
+                +       "\"price\":32.6,\n"
+                +       "\"volume\":160\n"
+                +   "}\n"
+                + "}]");
+
+        SiddhiTestHelper.waitForEvents(waitTime, 2, count, timeout);
+        //assert event count
+        AssertJUnit.assertEquals("Number of events", 2, count.get());
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest15() throws InterruptedException {
+        log.info("test JsonSourceMapper with test json missing attribute");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', @map(type='json')) " +
+                "define stream FooStream (symbol string, price float, volume long); " +
+                "define stream BarStream (symbol string, price float, volume long); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", "12");
+
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest16() throws InterruptedException {
+        log.info("test JsonSourceMapper with test validate event identifier");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', @map(type='json')) " +
+                "define stream FooStream (symbol string, price float, volume long); " +
+                "define stream BarStream (symbol string, price float, volume long); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock",
+                "{\"event1\":{\"symbol\":\"WSO2\",\"price\":52.6,\"volume\":100}}");
+
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest17() throws InterruptedException {
+        log.info("test JsonSourceMapper with value's type");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', @map(type='json')) " +
+                "define stream FooStream (symbol String, price double, volume int); " +
+                "define stream BarStream (symbol String, price double, volume int); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+        siddhiAppRuntime.addCallback("BarStream", new StreamCallback() {
+
+            @Override
+            public void receive(Event[] events) {
+                EventPrinter.print(events);
+                for (Event event : events) {
+                    switch (count.incrementAndGet()) {
+                    case 1:
+                        AssertJUnit.assertEquals(55.6d, event.getData(1));
+                        break;
+                    case 2:
+                        AssertJUnit.assertEquals(55.678d, event.getData(1));
+                        break;
+                    case 3:
+                        AssertJUnit.assertEquals(55d, event.getData(1));
+                        break;
+                    case 4:
+                        AssertJUnit.assertEquals("WSO2", event.getData(0));
+                        break;
+                    default:
+                        AssertJUnit.fail();
+                    }
+                }
+            }
+        });
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":55.6,\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":55.678,\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":55.0,\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":55.0,\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        SiddhiTestHelper.waitForEvents(waitTime, 4, count, timeout);
+        //assert event count
+        AssertJUnit.assertEquals("Number of events", 4, count.get());
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest18() throws InterruptedException {
+        log.info("test JsonSourceMapper with test values type's double");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', @map(type='json')) " +
+                "define stream FooStream (symbol String, price double, volume int); " +
+                "define stream BarStream (symbol String, price double, volume int); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":55,\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest19() throws InterruptedException {
+        log.info("test JsonSourceMapper with test values type's Int");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', @map(type='json')) " +
+                "define stream FooStream (symbol String, price double, volume int); " +
+                "define stream BarStream (symbol String, price double, volume int); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"true\",\n" +
+                "         \"price\":55.0,\n" +
+                "         \"volume\":100.0\n" +
+                "      }\n" +
+                " }");
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapper20() throws InterruptedException {
+        log.info("test JsonSourceMapper with test Test values type boolean");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', @map(type='json')) " +
+                "define stream FooStream (symbol Bool, price double, volume int); " +
+                "define stream BarStream (symbol Bool, price double, volume int); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"true\",\n" +
+                "         \"price\":55,\n" +
+                "         \"volume\":100.0\n" +
+                "      }\n" +
+                " }");
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest() throws InterruptedException {
+        log.info("test JsonSourceMapper with test json object type");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', @map(type='json')) " +
+                "define stream FooStream (symbol Bool, price double, volume int); " +
+                "define stream BarStream (symbol Bool, price double, volume int); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", 12);
+        siddhiAppRuntime.shutdown();
+    }
 }
