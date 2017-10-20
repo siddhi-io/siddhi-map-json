@@ -33,7 +33,7 @@ import org.wso2.siddhi.core.util.transport.InMemoryBroker;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class JsonSourceMapperTestCase {
-    private static final Logger log = Logger.getLogger(JsonSourceMapperTestCase.class);
+    private static Logger log = Logger.getLogger(JsonSourceMapperTestCase.class.getName());
     private final int waitTime = 2000;
     private final int timeout = 30000;
     private AtomicInteger count = new AtomicInteger();
@@ -971,6 +971,9 @@ public class JsonSourceMapperTestCase {
     @Test
     public void jsonSourceMapperTest15() throws InterruptedException {
         log.info("test JsonSourceMapper with test json missing attribute");
+        log = Logger.getLogger(JsonSourceMapper.class);
+        UnitTestAppender appender = new UnitTestAppender();
+        log.addAppender(appender);
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -984,13 +987,16 @@ public class JsonSourceMapperTestCase {
         SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
         siddhiAppRuntime.start();
         InMemoryBroker.publish("stock", "12");
-
+        AssertJUnit.assertTrue(appender.getMessages().contains("Json message 12 contains missing attributes"));
         siddhiAppRuntime.shutdown();
     }
 
     @Test
     public void jsonSourceMapperTest16() throws InterruptedException {
         log.info("test JsonSourceMapper with test validate event identifier");
+        log = Logger.getLogger(JsonSourceMapper.class);
+        UnitTestAppender appender = new UnitTestAppender();
+        log.addAppender(appender);
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -1005,7 +1011,7 @@ public class JsonSourceMapperTestCase {
         siddhiAppRuntime.start();
         InMemoryBroker.publish("stock",
                 "{\"event1\":{\"symbol\":\"WSO2\",\"price\":52.6,\"volume\":100}}");
-
+        AssertJUnit.assertTrue(appender.getMessages().contains(" contains an invalid event identifier"));
         siddhiAppRuntime.shutdown();
     }
 
@@ -1086,6 +1092,9 @@ public class JsonSourceMapperTestCase {
     @Test
     public void jsonSourceMapperTest18() throws InterruptedException {
         log.info("test JsonSourceMapper with test values type's double");
+        log = Logger.getLogger(JsonSourceMapper.class);
+        UnitTestAppender appender = new UnitTestAppender();
+        log.addAppender(appender);
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -1106,12 +1115,16 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\":100\n" +
                 "      }\n" +
                 " }");
+        AssertJUnit.assertTrue(appender.getMessages().contains("contains incompatible attribute types and values"));
         siddhiAppRuntime.shutdown();
     }
 
     @Test
     public void jsonSourceMapperTest19() throws InterruptedException {
         log.info("test JsonSourceMapper with test values type's Int");
+        log = Logger.getLogger(JsonSourceMapper.class);
+        UnitTestAppender appender = new UnitTestAppender();
+        log.addAppender(appender);
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -1132,12 +1145,16 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\":100.0\n" +
                 "      }\n" +
                 " }");
+        AssertJUnit.assertTrue(appender.getMessages().contains("contains incompatible attribute types and values"));
         siddhiAppRuntime.shutdown();
     }
 
     @Test
     public void jsonSourceMapper20() throws InterruptedException {
         log.info("test JsonSourceMapper with test Test values type boolean");
+        log = Logger.getLogger(JsonSourceMapper.class);
+        UnitTestAppender appender = new UnitTestAppender();
+        log.addAppender(appender);
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -1158,12 +1175,16 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\":100.0\n" +
                 "      }\n" +
                 " }");
+        AssertJUnit.assertTrue(appender.getMessages().contains("contains incompatible attribute types and values"));
         siddhiAppRuntime.shutdown();
     }
 
     @Test
-    public void jsonSourceMapperTest() throws InterruptedException {
+    public void jsonSourceMapperTest21() throws InterruptedException {
         log.info("test JsonSourceMapper with test json object type");
+        log = Logger.getLogger(JsonSourceMapper.class);
+        UnitTestAppender appender = new UnitTestAppender();
+        log.addAppender(appender);
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -1178,6 +1199,7 @@ public class JsonSourceMapperTestCase {
 
         siddhiAppRuntime.start();
         InMemoryBroker.publish("stock", 12);
+        AssertJUnit.assertTrue(appender.getMessages().contains("Invalid JSON object received. Expected String"));
         siddhiAppRuntime.shutdown();
     }
 }
