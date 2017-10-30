@@ -198,34 +198,37 @@ public class JsonSourceMapper extends SourceMapper {
      */
     private Object convertToEvent(Object eventObject) {
 
-        if (!(eventObject instanceof String || eventObject instanceof byte[])) {
-            log.error("Invalid JSON object received. Expected String, but found " +
+        Object validEventObject = null;
+
+        if (eventObject instanceof String) {
+            validEventObject = eventObject;
+        } else if (eventObject instanceof byte[]) {
+            try {
+                validEventObject = new String((byte[]) eventObject, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                log.error("Error is encountered while decoding the byte stream. Please note that only UTF-8 "
+                        + "encoding is supported" + e.getMessage(), e);
+                return null;
+            }
+        } else {
+            log.error("Invalid JSON object received. Expected String or byte array, but found " +
                     eventObject.getClass()
                             .getCanonicalName());
             return null;
         }
 
-        if (eventObject instanceof byte[]) {
-            try {
-                eventObject = new String((byte[]) eventObject, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                log.error("Error is encountered while decoding the byte stream. Please note that only UTF-8 "
-                        + "encoding is supported" + e.getMessage(), e);
-            }
-        }
-
-        if (!isJsonValid(eventObject.toString())) {
-            log.error("Invalid Json String :" + eventObject.toString());
+        if (!isJsonValid(validEventObject.toString())) {
+            log.error("Invalid Json String :" + validEventObject.toString());
             return null;
         }
 
         Object jsonObj;
-        ReadContext readContext = JsonPath.parse(eventObject.toString());
+        ReadContext readContext = JsonPath.parse(validEventObject.toString());
         if (isCustomMappingEnabled) {
             jsonObj = readContext.read(enclosingElement);
             if (jsonObj == null) {
                 log.error("Enclosing element " + enclosingElement + " cannot be found in the json string " +
-                        eventObject.toString() + ".");
+                        validEventObject.toString() + ".");
                 return null;
             }
             if (jsonObj instanceof JSONArray) {
@@ -251,12 +254,12 @@ public class JsonSourceMapper extends SourceMapper {
         } else {
             jsonObj = readContext.read(DEFAULT_ENCLOSING_ELEMENT);
             if (jsonObj instanceof JSONArray) {
-                return convertToEventArrayForDefaultMapping(eventObject);
+                return convertToEventArrayForDefaultMapping(validEventObject);
             } else {
                 try {
-                    return convertToSingleEventForDefaultMapping(eventObject);
+                    return convertToSingleEventForDefaultMapping(validEventObject);
                 } catch (IOException e) {
-                    log.error("Json string " + eventObject + " cannot be parsed to json object.");
+                    log.error("Json string " + validEventObject + " cannot be parsed to json object.");
                     return null;
                 }
             }
