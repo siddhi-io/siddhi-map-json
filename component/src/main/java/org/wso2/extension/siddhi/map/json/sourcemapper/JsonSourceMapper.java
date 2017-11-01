@@ -90,8 +90,8 @@ import java.util.List;
                 @Example(
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json'))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
-                        description =  "Above configuration will do a default JSON input mapping. Expected "
-                                + "input will look like below.\n"
+                        description =  "Above configuration will do a default JSON input mapping\n. "
+                                + "For a single event, expected input will look like below.\n"
                                 + "{\n"
                                 + "    \"event\":{\n"
                                 + "        \"symbol\":\"WSO2\",\n"
@@ -99,13 +99,25 @@ import java.util.List;
                                 + "        \"volume\":100\n"
                                 + "    }\n"
                                 + "}\n"),
+
+                @Example(
+                        syntax = "@source(type='inMemory', topic='stock', @map(type='json'))\n"
+                                + "define stream FooStream (symbol string, price float, volume long);\n",
+                        description =  "Above configuration will do a default JSON input mapping. \n"
+                                + "For multiple events, expected input will look like below.\n"
+                                + "[\n"
+                                + "{\"event\":{\"symbol\":\"WSO2\",\"price\":55.6,\"volume\":100}},\n"
+                                + "{\"testEvent\":{\"symbol\":\"WSO2\",\"price\":56.6,\"volume\":99}},\n"
+                                + "{\"event\":{\"symbol\":\"WSO2\",\"price\":57.6,\"volume\":80}}\n"
+                                + "]\n"),
+
                 @Example(
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json', "
                                 + "enclosing.element=\"$.portfolio\", "
                                 + "@attributes(symbol = \"company.symbol\", price = \"price\", volume = \"volume\")))",
-                        description =  "Above configuration will perform a custom JSON mapping. Expected input will "
-                                + "look like below\n."
-                                + "{"
+                        description =  "Above configuration will perform a custom JSON mapping.\n"
+                                + "For a single event, expected input will look like below\n."
+                                + "{\n"
                                 + " \"portfolio\":{\n"
                                 + "     \"stock\":{"
                                 + "        \"volume\":100,\n"
@@ -114,7 +126,23 @@ import java.util.List;
                                 + "       },\n"
                                 + "        \"price\":55.6\n"
                                 + "    }\n"
-                                + "}")
+                                + "}\n"),
+
+                @Example(
+                        syntax = "@source(type='inMemory', topic='stock', @map(type='json', "
+                                + "enclosing.element=\"$.portfolio\", "
+                                + "@attributes(symbol = \"stock.company.symbol\", price = \"stock.price\", "
+                                + "volume = \"stock.volume\")))\n"
+                                + "define stream FooStream (symbol string, price float, volume long);\n",
+
+                        description =  "Above configuration will perform a custom JSON mapping.\n"
+                                + "For multiple events, expected input will look like below\n."
+                                + "{\"portfolio\":\n"
+                                + "   ["
+                                + "     {\"stock\":{\"volume\":100,\"company\":{\"symbol\":\"wso2\"},\"price\":56.6}},"
+                                + "     {\"stock\":{\"volume\":200,\"company\":{\"symbol\":\"wso2\"},\"price\":57.6}}"
+                                + "   ]\n"
+                                + "}\n")
         }
 )
 
