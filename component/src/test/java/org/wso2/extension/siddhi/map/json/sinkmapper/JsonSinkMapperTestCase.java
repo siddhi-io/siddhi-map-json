@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 import org.wso2.siddhi.core.SiddhiAppRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
-import org.wso2.siddhi.core.exception.NoSuchAttributeException;
+import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
 import org.wso2.siddhi.core.stream.input.InputHandler;
 import org.wso2.siddhi.core.util.SiddhiTestHelper;
 import org.wso2.siddhi.core.util.transport.InMemoryBroker;
@@ -567,7 +567,7 @@ public class JsonSinkMapperTestCase {
         try {
             siddhiManager.createSiddhiAppRuntime(streams + query);
         } catch (Exception e) {
-            AssertJUnit.assertEquals(NoSuchAttributeException.class, e.getClass());
+            AssertJUnit.assertEquals(SiddhiAppCreationException.class, e.getClass());
         }
         //unsubscribe from "inMemory" broker per topic
         InMemoryBroker.unsubscribe(subscriberWSO2);
