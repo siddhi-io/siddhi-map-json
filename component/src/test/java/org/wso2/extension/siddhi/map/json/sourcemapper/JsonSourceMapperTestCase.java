@@ -30,6 +30,7 @@ import org.wso2.siddhi.core.util.EventPrinter;
 import org.wso2.siddhi.core.util.SiddhiTestHelper;
 import org.wso2.siddhi.core.util.transport.InMemoryBroker;
 
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class JsonSourceMapperTestCase {
@@ -1200,6 +1201,83 @@ public class JsonSourceMapperTestCase {
         siddhiAppRuntime.start();
         InMemoryBroker.publish("stock", 12);
         AssertJUnit.assertTrue(appender.getMessages().contains("Invalid JSON object received. Expected String"));
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest22() throws InterruptedException {
+        log.info("test JsonSourceMapper 14");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', " +
+                "@map(type='json', enclosing.element=\"portfolio\", " +
+                "fail.on.missing.attribute=\"false\", " +
+                "@attributes(symbol = \"stock.company.symbol\", price = \"stock.price\", " +
+                "volume = \"stock.volume\"))) " +
+                "define stream FooStream (symbol string, price float, volume long); " +
+                "define stream BarStream (symbol string, price float, volume long); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+        siddhiAppRuntime.addCallback("BarStream", new StreamCallback() {
+
+            @Override
+            public void receive(Event[] events) {
+                EventPrinter.print(events);
+                for (Event event : events) {
+                    switch (count.incrementAndGet()) {
+                    case 1:
+                        AssertJUnit.assertEquals(55.6f, event.getData(1));
+                        break;
+                    case 2:
+                        AssertJUnit.assertEquals(56.6f, event.getData(1));
+                        break;
+                    case 3:
+                        AssertJUnit.assertEquals(100L, event.getData(2));
+                        break;
+                    case 4:
+                        AssertJUnit.assertEquals(200L, event.getData(2));
+                        break;
+                    case 5:
+                        AssertJUnit.assertEquals("wso2", event.getData(0));
+                        break;
+                    case 6:
+                        AssertJUnit.assertEquals(null, event.getData(0));
+                        break;
+                    default:
+                        AssertJUnit.fail();
+                    }
+                }
+            }
+        });
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", ("\n" +
+                "{\"portfolio\":\n" +
+                "   [" +
+                "       {\"stock\":{\"volume\":100,\"company\":{\"symbol\":\"wso2\"},\"price\":55.6}}," +
+                "       {\"stock\":{\"volume\":null,\"company\":{\"symbol\":\"IBM\"},\"price\":56.6}}" +
+                "   ]\n" +
+                "}\n").getBytes(StandardCharsets.UTF_8));
+        InMemoryBroker.publish("stock", ("\n" +
+                "{\"portfolio\":\n" +
+                "   [" +
+                "       {\"stock\":{\"volume\":100,\"company\":{\"symbol\":\"wso2\"},\"price\":66.6}}," +
+                "       {\"stock\":{\"volume\":200,\"company\":{\"symbol\":\"IBM\"},\"price\":null}}" +
+                "   ]\n" +
+                "}\n").getBytes(StandardCharsets.UTF_8));
+        InMemoryBroker.publish("stock", ("\n" +
+                "{\"portfolio\":\n" +
+                "   [" +
+                "       {\"stock\":{\"volume\":100,\"company\":{\"symbol\":\"wso2\"},\"price\":76.6}}," +
+                "       {\"stock\":{\"volume\":200,\"company\":{\"symbol\":null},\"price\":77.6}}" +
+                "   ]\n" +
+                "}\n").getBytes(StandardCharsets.UTF_8));
+        SiddhiTestHelper.waitForEvents(waitTime, 6, count, timeout);
+        //assert event count
+        AssertJUnit.assertEquals("Number of events", 6, count.get());
         siddhiAppRuntime.shutdown();
     }
 }
