@@ -133,7 +133,7 @@
         </pluginManagement>
     </build>
     <properties>
-        <siddhi.version>4.0.0-beta</siddhi.version>
+        <siddhi.version>4.0.0-beta15</siddhi.version>
         <log4j.version>1.2.17.wso2v1</log4j.version>
         <carbon.feature.plugin.version>3.0.0</carbon.feature.plugin.version>
         <jackson.version>2.7.4</jackson.version>
