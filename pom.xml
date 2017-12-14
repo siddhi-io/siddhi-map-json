@@ -28,7 +28,7 @@
 
     <groupId>org.wso2.extension.siddhi.map.json</groupId>
     <artifactId>siddhi-map-json-parent</artifactId>
-    <version>4.0.14-SNAPSHOT</version>
+    <version>4.0.14</version>
     <name>Siddhi JSON Map Extensions</name>
 
     <modules>
@@ -152,7 +152,7 @@
         <url>https://github.com/wso2-extensions/siddhi-map-json.git</url>
         <developerConnection>scm:git:https://github.com/wso2-extensions/siddhi-map-json.git</developerConnection>
         <connection>scm:git:https://github.com/wso2-extensions/siddhi-map-json.git</connection>
-        <tag>HEAD</tag>
+        <tag>v4.0.14</tag>
     </scm>
 
 </project>
