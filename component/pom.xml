@@ -75,7 +75,7 @@
                             <execution>
                                 <phase>compile</phase>
                                 <goals>
-                                    <goal>generate-md-docs</goal>
+                                    <goal>deploy-mkdocs-github-pages</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -171,6 +171,7 @@
                 <version>${siddhi.version}</version>
                 <executions>
                     <execution>
+                        <phase>compile</phase>
                         <goals>
                             <goal>generate-md-docs</goal>
                         </goals>
