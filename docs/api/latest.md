@@ -1,4 +1,4 @@
-# API Docs - v4.0.8-SNAPSHOT
+# API Docs - v4.0.17
 
 ## Sinkmapper
 
@@ -101,11 +101,27 @@ define stream BarStream (symbol string, price float, volume long);
 define stream FooStream (symbol string, price float, volume long);
 
 ```
-<p style="word-wrap: break-word">Above configuration will do a default JSON input mapping. Expected input will look like below.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
+<p style="word-wrap: break-word">Above configuration will do a default JSON input mapping<br>. For a single event, expected input will look like below.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
 
 <span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span>
 ```
+@source(type='inMemory', topic='stock', @map(type='json'))
+define stream FooStream (symbol string, price float, volume long);
+
+```
+<p style="word-wrap: break-word">Above configuration will do a default JSON input mapping. <br>For multiple events, expected input will look like below.<br>[<br>{"event":{"symbol":"WSO2","price":55.6,"volume":100}},<br>{"testEvent":{"symbol":"WSO2","price":56.6,"volume":99}},<br>{"event":{"symbol":"WSO2","price":57.6,"volume":80}}<br>]<br></p>
+
+<span id="example-3" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 3</span>
+```
 @source(type='inMemory', topic='stock', @map(type='json', enclosing.element="$.portfolio", @attributes(symbol = "company.symbol", price = "price", volume = "volume")))
 ```
-<p style="word-wrap: break-word">Above configuration will perform a custom JSON mapping. Expected input will look like below<br>.{ "portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"stock":{        "volume":100,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}</p>
+<p style="word-wrap: break-word">Above configuration will perform a custom JSON mapping.<br>For a single event, expected input will look like below<br>.{<br>&nbsp;"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"stock":{        "volume":100,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
+
+<span id="example-4" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 4</span>
+```
+@source(type='inMemory', topic='stock', @map(type='json', enclosing.element="$.portfolio", @attributes(symbol = "stock.company.symbol", price = "stock.price", volume = "stock.volume")))
+define stream FooStream (symbol string, price float, volume long);
+
+```
+<p style="word-wrap: break-word">Above configuration will perform a custom JSON mapping.<br>For multiple events, expected input will look like below<br>.{"portfolio":<br>&nbsp;&nbsp;&nbsp;[     {"stock":{"volume":100,"company":{"symbol":"wso2"},"price":56.6}},     {"stock":{"volume":200,"company":{"symbol":"wso2"},"price":57.6}}   ]<br>}<br></p>
 
