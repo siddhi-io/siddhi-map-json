@@ -174,7 +174,7 @@ public class JsonSourceMapper extends SourceMapper {
         this.streamAttributes = this.streamDefinition.getAttributeList();
         attributesSize = this.streamDefinition.getAttributeList().size();
         this.mappingPositions = new MappingPositionData[attributesSize];
-        failOnMissingAttribute = Boolean.parseBoolean(optionHolder.
+        this.failOnMissingAttribute = Boolean.parseBoolean(optionHolder.
                 validateAndGetStaticValue(FAIL_ON_MISSING_ATTRIBUTE_IDENTIFIER, "true"));
         factory = new JsonFactory();
         if (list != null && list.size() > 0) {
