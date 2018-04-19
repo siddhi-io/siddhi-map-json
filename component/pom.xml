@@ -115,6 +115,7 @@
                             org.apache.tapestry5.json.*,
                             com.jayway.jsonpath.*,
                             net.minidev.*,
+                            org.objectweb.asm.*,
                             com.google.gson.*
                         </Private-Package>
                         <Export-Package>
