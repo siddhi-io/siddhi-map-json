@@ -467,23 +467,25 @@ public class JsonSourceMapper extends SourceMapper {
         Object childObject = readContext.read(DEFAULT_ENCLOSING_ELEMENT);
         readContext = JsonPath.using(conf).parse(childObject);
         for (MappingPositionData mappingPositionData : this.mappingPositions) {
-            int position = mappingPositionData.getPosition();
-            Object mappedValue;
-            try {
-                mappedValue = readContext.read(mappingPositionData.getMapping());
-                if (mappedValue == null) {
+            if (mappingPositionData != null) {
+                int position = mappingPositionData.getPosition();
+                Object mappedValue;
+                try {
+                    mappedValue = readContext.read(mappingPositionData.getMapping());
+                    if (mappedValue == null) {
+                        data[position] = null;
+                    } else {
+                        data[position] = attributeConverter.getPropertyValue(mappedValue.toString(),
+                                streamAttributes.get(position).getType());
+                    }
+                } catch (PathNotFoundException e) {
+                    if (failOnMissingAttribute) {
+                        log.error("Json message " + childObject.toString() +
+                                " contains missing attributes. Hence dropping the message.");
+                        return null;
+                    }
                     data[position] = null;
-                } else {
-                    data[position] = attributeConverter.getPropertyValue(mappedValue.toString(),
-                            streamAttributes.get(position).getType());
                 }
-            } catch (PathNotFoundException e) {
-                if (failOnMissingAttribute) {
-                    log.error("Json message " + childObject.toString() +
-                            " contains missing attributes. Hence dropping the message.");
-                    return null;
-                }
-                data[position] = null;
             }
         }
         return event;
