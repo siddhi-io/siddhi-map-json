@@ -91,7 +91,7 @@ import java.util.List;
                 @Example(
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json'))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
-                        description =  "Above configuration will do a default JSON input mapping\n. "
+                        description = "Above configuration will do a default JSON input mapping\n. "
                                 + "For a single event, expected input will look like below.\n"
                                 + "{\n"
                                 + "    \"event\":{\n"
@@ -104,7 +104,7 @@ import java.util.List;
                 @Example(
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json'))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
-                        description =  "Above configuration will do a default JSON input mapping. \n"
+                        description = "Above configuration will do a default JSON input mapping. \n"
                                 + "For multiple events, expected input will look like below.\n"
                                 + "[\n"
                                 + "{\"event\":{\"symbol\":\"WSO2\",\"price\":55.6,\"volume\":100}},\n"
@@ -116,7 +116,7 @@ import java.util.List;
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json', "
                                 + "enclosing.element=\"$.portfolio\", "
                                 + "@attributes(symbol = \"company.symbol\", price = \"price\", volume = \"volume\")))",
-                        description =  "Above configuration will perform a custom JSON mapping.\n"
+                        description = "Above configuration will perform a custom JSON mapping.\n"
                                 + "For a single event, expected input will look like below\n."
                                 + "{\n"
                                 + " \"portfolio\":{\n"
@@ -136,7 +136,7 @@ import java.util.List;
                                 + "volume = \"stock.volume\")))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
 
-                        description =  "Above configuration will perform a custom JSON mapping.\n"
+                        description = "Above configuration will perform a custom JSON mapping.\n"
                                 + "For multiple events, expected input will look like below\n."
                                 + "{\"portfolio\":\n"
                                 + "   ["
@@ -164,36 +164,33 @@ public class JsonSourceMapper extends SourceMapper {
     private String enclosingElement = null;
     private AttributeConverter attributeConverter = new AttributeConverter();
     private JsonFactory factory;
-    private int attributesSize;
+    private int streamAttributesSize;
 
     @Override
-    public void init(StreamDefinition streamDefinition, OptionHolder optionHolder, List<AttributeMapping> list,
-                     ConfigReader configReader, SiddhiAppContext siddhiAppContext) {
+    public void init(StreamDefinition streamDefinition, OptionHolder optionHolder,
+                     List<AttributeMapping> attributeMappingList, ConfigReader configReader,
+                     SiddhiAppContext siddhiAppContext) {
 
         this.streamDefinition = streamDefinition;
         this.streamAttributes = this.streamDefinition.getAttributeList();
-        attributesSize = this.streamDefinition.getAttributeList().size();
-        this.mappingPositions = new MappingPositionData[attributesSize];
+        this.streamAttributesSize = this.streamDefinition.getAttributeList().size();
         this.failOnMissingAttribute = Boolean.parseBoolean(optionHolder.
                 validateAndGetStaticValue(FAIL_ON_MISSING_ATTRIBUTE_IDENTIFIER, "true"));
         factory = new JsonFactory();
-        if (list != null && list.size() > 0) {
+        if (attributeMappingList != null && attributeMappingList.size() > 0) {
+            this.mappingPositions = new MappingPositionData[attributeMappingList.size()];
             isCustomMappingEnabled = true;
             enclosingElement = optionHolder.validateAndGetStaticValue(ENCLOSING_ELEMENT_IDENTIFIER,
                     DEFAULT_ENCLOSING_ELEMENT);
-            for (int i = 0; i < list.size(); i++) {
-                AttributeMapping attributeMapping = list.get(i);
+            for (int i = 0; i < attributeMappingList.size(); i++) {
+                AttributeMapping attributeMapping = attributeMappingList.get(i);
                 String attributeName = attributeMapping.getName();
-                int position;
-                if (attributeName != null) {
-                    position = this.streamDefinition.getAttributePosition(attributeName);
-                } else {
-                    position = i;
-                }
+                int position = this.streamDefinition.getAttributePosition(attributeName);
                 this.mappingPositions[i] = new MappingPositionData(position, attributeMapping.getMapping());
             }
         } else {
-            for (int i = 0; i < attributesSize; i++) {
+            this.mappingPositions = new MappingPositionData[streamAttributesSize];
+            for (int i = 0; i < streamAttributesSize; i++) {
                 this.mappingPositions[i] = new MappingPositionData(i, DEFAULT_JSON_MAPPING_PREFIX + this
                         .streamDefinition.getAttributeList().get(i).getName());
             }
@@ -295,7 +292,7 @@ public class JsonSourceMapper extends SourceMapper {
     }
 
     private Event convertToSingleEventForDefaultMapping(Object eventObject) throws IOException {
-        Event event = new Event(attributesSize);
+        Event event = new Event(streamAttributesSize);
         Object[] data = event.getData();
         JsonParser parser;
         int numberOfProvidedAttributes = 0;
@@ -411,7 +408,7 @@ public class JsonSourceMapper extends SourceMapper {
             }
         }
 
-        if (failOnMissingAttribute && (numberOfProvidedAttributes != attributesSize)) {
+        if (failOnMissingAttribute && (numberOfProvidedAttributes != streamAttributesSize)) {
             log.error("Json message " + eventObject.toString() +
                     " contains missing attributes. Hence dropping the message.");
             return null;
@@ -462,30 +459,28 @@ public class JsonSourceMapper extends SourceMapper {
 
     private Event processCustomEvent(ReadContext readContext) {
         Configuration conf = Configuration.defaultConfiguration();
-        Event event = new Event(attributesSize);
+        Event event = new Event(streamAttributesSize);
         Object[] data = event.getData();
         Object childObject = readContext.read(DEFAULT_ENCLOSING_ELEMENT);
         readContext = JsonPath.using(conf).parse(childObject);
         for (MappingPositionData mappingPositionData : this.mappingPositions) {
-            if (mappingPositionData != null) {
-                int position = mappingPositionData.getPosition();
-                Object mappedValue;
-                try {
-                    mappedValue = readContext.read(mappingPositionData.getMapping());
-                    if (mappedValue == null) {
-                        data[position] = null;
-                    } else {
-                        data[position] = attributeConverter.getPropertyValue(mappedValue.toString(),
-                                streamAttributes.get(position).getType());
-                    }
-                } catch (PathNotFoundException e) {
-                    if (failOnMissingAttribute) {
-                        log.error("Json message " + childObject.toString() +
-                                " contains missing attributes. Hence dropping the message.");
-                        return null;
-                    }
+            int position = mappingPositionData.getPosition();
+            Object mappedValue;
+            try {
+                mappedValue = readContext.read(mappingPositionData.getMapping());
+                if (mappedValue == null) {
                     data[position] = null;
+                } else {
+                    data[position] = attributeConverter.getPropertyValue(mappedValue.toString(),
+                            streamAttributes.get(position).getType());
                 }
+            } catch (PathNotFoundException e) {
+                if (failOnMissingAttribute) {
+                    log.error("Json message " + childObject.toString() +
+                            " contains missing attributes. Hence dropping the message.");
+                    return null;
+                }
+                data[position] = null;
             }
         }
         return event;
