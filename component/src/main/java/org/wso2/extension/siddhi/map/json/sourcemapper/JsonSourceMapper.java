@@ -432,10 +432,8 @@ public class JsonSourceMapper extends SourceMapper {
         JsonObject[] eventObjects = gson.fromJson(eventObject.toString(), JsonObject[].class);
         Event[] events = new Event[eventObjects.length];
         int index = 0;
-        boolean isFailedEvent;
         JsonObject eventObj;
         for (JsonObject jsonEvent : eventObjects) {
-            isFailedEvent = false;
             if (jsonEvent.has(DEFAULT_JSON_EVENT_IDENTIFIER)) {
                 eventObj = jsonEvent.get(DEFAULT_JSON_EVENT_IDENTIFIER).getAsJsonObject();
                 if (failOnMissingAttribute && eventObj.size() < streamAttributes.size()) {
@@ -445,6 +443,11 @@ public class JsonSourceMapper extends SourceMapper {
                 }
             } else {
                 eventObj = jsonEvent;
+                if (eventObj.size() < streamAttributes.size()) {
+                    log.error("Json message " + eventObj.toString() + " is not in an accepted format for default " +
+                            "mapping. Hence dropping the message.");
+                    continue;
+                }
             }
             Event event = new Event(streamAttributes.size());
             Object[] data = event.getData();
@@ -455,12 +458,6 @@ public class JsonSourceMapper extends SourceMapper {
                 String attributeName = attribute.getName();
                 Attribute.Type type = attribute.getType();
                 JsonElement attributeElement = eventObj.get(attributeName);
-                if (failOnMissingAttribute && attributeElement == null) {
-                    isFailedEvent = true;
-                    log.error("Json message " + eventObj.toString() + " contains missing attributes or json message " +
-                            "is not in a accepted format for default mapping. Hence dropping the message. ");
-                    break;
-                }
                 if (attributeElement == null) {
                     data[position++] = null;
                 } else {
@@ -468,9 +465,7 @@ public class JsonSourceMapper extends SourceMapper {
                             attributeElement.getAsString(), type);
                 }
             }
-            if (!isFailedEvent) {
-                events[index++] = event;
-            }
+            events[index++] = event;
         }
         return Arrays.copyOfRange(events, 0, index);
     }

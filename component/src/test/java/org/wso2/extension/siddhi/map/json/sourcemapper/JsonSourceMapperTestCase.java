@@ -1516,6 +1516,11 @@ public class JsonSourceMapperTestCase {
                 "         \"price\":55,\n" +
                 "         \"volume\":100\n" +
                 "      }");
+        InMemoryBroker.publish("stock", "{\"symbol\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":55,\n" +
+                "         \"volume\":100\n" +
+                "      }}");
         SiddhiTestHelper.waitForEvents(waitTime, 4, count, timeout);
         //assert event count
         AssertJUnit.assertEquals("Number of events", 4, count.get());
@@ -1528,7 +1533,7 @@ public class JsonSourceMapperTestCase {
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', " +
-                "@map(type='json', fail.on.missing.attribute='true'))\n" +
+                "@map(type='json', fail.on.missing.attribute='false'))\n" +
                 "define stream FooStream (symbol string, price float, volume long); " +
                 "define stream BarStream (symbol string, price float, volume long); ";
         String query = "" +
