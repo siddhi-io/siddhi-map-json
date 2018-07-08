@@ -1,72 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-    
     <url>
      <loc>/</loc>
-     <lastmod>2018-06-13</lastmod>
+     <lastmod>2018-07-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
-    
-        
+    <url>
+     <loc>/api/4.0.24/</loc>
+     <lastmod>2018-07-08</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
     <url>
      <loc>/api/4.0.23/</loc>
-     <lastmod>2018-06-13</lastmod>
+     <lastmod>2018-07-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/api/4.0.22/</loc>
-     <lastmod>2018-06-13</lastmod>
+     <lastmod>2018-07-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/api/4.0.21/</loc>
-     <lastmod>2018-06-13</lastmod>
+     <lastmod>2018-07-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/api/4.0.20/</loc>
-     <lastmod>2018-06-13</lastmod>
+     <lastmod>2018-07-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/api/4.0.19/</loc>
-     <lastmod>2018-06-13</lastmod>
+     <lastmod>2018-07-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/api/4.0.18/</loc>
-     <lastmod>2018-06-13</lastmod>
+     <lastmod>2018-07-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/api/4.0.17/</loc>
-     <lastmod>2018-06-13</lastmod>
+     <lastmod>2018-07-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
      <loc>/api/latest/</loc>
-     <lastmod>2018-06-13</lastmod>
+     <lastmod>2018-07-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
-    
-
-    
     <url>
      <loc>/about/license/</loc>
-     <lastmod>2018-06-13</lastmod>
+     <lastmod>2018-07-08</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
 </urlset>
