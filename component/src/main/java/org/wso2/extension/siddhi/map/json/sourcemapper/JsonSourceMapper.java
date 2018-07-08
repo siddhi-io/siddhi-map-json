@@ -65,8 +65,8 @@ import java.util.List;
                 + "to convert the incoming JSON message to Siddhi event. Users can either send a pre-defined JSON "
                 + "format where event conversion will happen without any configs or can use json path to map from a "
                 + "custom JSON message.\n"
-                + "In default mapping either the json string of the event should be enclosed by the key \"event\""
-                + "all the keys in the json string should match to the attributes of source stream.",
+                + "In default mapping, json string of the event could be enclosed by the element \"event\" which is "
+                + "optional.",
         parameters = {
                 @Parameter(name = "enclosing.element",
                         description =
