@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
@@ -63,7 +64,9 @@ import java.util.List;
         description = "JSON to Event input mapper. Transports which accepts JSON messages can utilize this extension"
                 + "to convert the incoming JSON message to Siddhi event. Users can either send a pre-defined JSON "
                 + "format where event conversion will happen without any configs or can use json path to map from a "
-                + "custom JSON message.",
+                + "custom JSON message.\n"
+                + "In default mapping, json string of the event could be enclosed by the element \"event\" which is "
+                + "optional.",
         parameters = {
                 @Parameter(name = "enclosing.element",
                         description =
@@ -91,26 +94,37 @@ import java.util.List;
                 @Example(
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json'))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
-                        description = "Above configuration will do a default JSON input mapping\n. "
-                                + "For a single event, expected input will look like below.\n"
+                        description = "Above configuration will do a default JSON input mapping.\n "
+                                + "For a single event, expected input should be in one of the following formats.\n"
                                 + "{\n"
                                 + "    \"event\":{\n"
                                 + "        \"symbol\":\"WSO2\",\n"
                                 + "        \"price\":55.6,\n"
                                 + "        \"volume\":100\n"
                                 + "    }\n"
+                                + "}\n\n"
+                                + "or \n\n"
+                                + "{\n"
+                                + "    \"symbol\":\"WSO2\",\n"
+                                + "    \"price\":55.6,\n"
+                                + "    \"volume\":100\n"
                                 + "}\n"),
-
                 @Example(
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json'))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
                         description = "Above configuration will do a default JSON input mapping. \n"
-                                + "For multiple events, expected input will look like below.\n"
+                                + "For multiple events, expected input should be in one of the following formats.\n"
                                 + "[\n"
                                 + "{\"event\":{\"symbol\":\"WSO2\",\"price\":55.6,\"volume\":100}},\n"
-                                + "{\"testEvent\":{\"symbol\":\"WSO2\",\"price\":56.6,\"volume\":99}},\n"
+                                + "{\"event\":{\"symbol\":\"WSO2\",\"price\":56.6,\"volume\":99}},\n"
                                 + "{\"event\":{\"symbol\":\"WSO2\",\"price\":57.6,\"volume\":80}}\n"
-                                + "]\n"),
+                                + "]\n\n" +
+                                "or \n\n"
+                                + "[\n"
+                                + "{\"symbol\":\"WSO2\",\"price\":55.6,\"volume\":100},\n"
+                                + "{\"symbol\":\"WSO2\",\"price\":56.6,\"volume\":99},\n"
+                                + "{\"symbol\":\"WSO2\",\"price\":57.6,\"volume\":80}\n"
+                                + "]"),
 
                 @Example(
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json', "
@@ -306,16 +320,12 @@ public class JsonSourceMapper extends SourceMapper {
         while (!parser.isClosed()) {
             JsonToken jsonToken = parser.nextToken();
             if (JsonToken.START_OBJECT.equals(jsonToken)) {
-                parser.nextToken();
+                jsonToken = parser.nextToken();
                 if (DEFAULT_JSON_EVENT_IDENTIFIER.equalsIgnoreCase(parser.getText())) {
-                    parser.nextToken();
-                } else {
-                    log.error("Default json message " + eventObject
-                            + " contains an invalid event identifier. Required \"event\", " +
-                            "but found \"" + parser.getText() + "\". Hence dropping the message.");
-                    return null;
+                    jsonToken = parser.nextToken();
                 }
-            } else if (JsonToken.FIELD_NAME.equals(jsonToken)) {
+            }
+            if (JsonToken.FIELD_NAME.equals(jsonToken)) {
                 String key = parser.getCurrentName();
                 numberOfProvidedAttributes++;
                 position = findDefaultMappingPosition(key);
@@ -323,7 +333,8 @@ public class JsonSourceMapper extends SourceMapper {
                     log.error("Stream \"" + streamDefinition.getId() +
                             "\" does not have an attribute named \"" + key +
                             "\", but the received event " + eventObject.toString() +
-                            " does. Hence dropping the message.");
+                            " does. Hence dropping the message." +
+                            " Check whether the json string is in a correct format for default mapping.");
                     return null;
                 }
                 jsonToken = parser.nextToken();
@@ -421,7 +432,7 @@ public class JsonSourceMapper extends SourceMapper {
         JsonObject[] eventObjects = gson.fromJson(eventObject.toString(), JsonObject[].class);
         Event[] events = new Event[eventObjects.length];
         int index = 0;
-        JsonObject eventObj = null;
+        JsonObject eventObj;
         for (JsonObject jsonEvent : eventObjects) {
             if (jsonEvent.has(DEFAULT_JSON_EVENT_IDENTIFIER)) {
                 eventObj = jsonEvent.get(DEFAULT_JSON_EVENT_IDENTIFIER).getAsJsonObject();
@@ -431,10 +442,12 @@ public class JsonSourceMapper extends SourceMapper {
                     continue;
                 }
             } else {
-                log.error("Default json message " + eventObj.toString()
-                        + " in the array does not have the valid event identifier \"event\". " +
-                        "Hence dropping the message.");
-                continue;
+                eventObj = jsonEvent;
+                if (eventObj.size() < streamAttributes.size()) {
+                    log.error("Json message " + eventObj.toString() + " is not in an accepted format for default " +
+                            "mapping. Hence dropping the message.");
+                    continue;
+                }
             }
             Event event = new Event(streamAttributes.size());
             Object[] data = event.getData();
@@ -444,12 +457,12 @@ public class JsonSourceMapper extends SourceMapper {
             for (Attribute attribute : streamAttributes) {
                 String attributeName = attribute.getName();
                 Attribute.Type type = attribute.getType();
-                String attributeValue = eventObj.get(attributeName).getAsString();
-                if (attributeValue == null) {
+                JsonElement attributeElement = eventObj.get(attributeName);
+                if (attributeElement == null) {
                     data[position++] = null;
                 } else {
                     data[position++] = attributeConverter.getPropertyValue(
-                            attributeValue, type);
+                            attributeElement.getAsString(), type);
                 }
             }
             events[index++] = event;
