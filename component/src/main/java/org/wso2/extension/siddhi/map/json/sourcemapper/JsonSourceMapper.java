@@ -383,9 +383,7 @@ public class JsonSourceMapper extends SourceMapper {
                             }
                             break;
                         case STRING:
-                            if (JsonToken.VALUE_STRING.equals(jsonToken)) {
-                                data[position] = parser.getValueAsString();
-                            } else if (JsonToken.START_ARRAY.equals(jsonToken) || JsonToken.START_OBJECT.equals
+                            if (JsonToken.START_ARRAY.equals(jsonToken) || JsonToken.START_OBJECT.equals
                                     (jsonToken)) {
                                 jsonObjectNode = objectMapper.readTree(eventObject.toString()).findValue(key);
                                 data[position] = jsonObjectNode.toString();
