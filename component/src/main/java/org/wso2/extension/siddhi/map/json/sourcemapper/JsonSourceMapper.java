@@ -20,6 +20,8 @@ package org.wso2.extension.siddhi.map.json.sourcemapper;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -28,7 +30,6 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.ReadContext;
 import net.minidev.json.JSONArray;
-
 import org.apache.log4j.Logger;
 import org.wso2.siddhi.annotation.Example;
 import org.wso2.siddhi.annotation.Extension;
@@ -50,6 +51,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -169,6 +171,7 @@ public class JsonSourceMapper extends SourceMapper {
     private static final String FAIL_ON_MISSING_ATTRIBUTE_IDENTIFIER = "fail.on.missing.attribute";
     private static final String ENCLOSING_ELEMENT_IDENTIFIER = "enclosing.element";
     private static final Logger log = Logger.getLogger(JsonSourceMapper.class);
+    private static final Gson gson = new Gson();
 
     private StreamDefinition streamDefinition;
     private MappingPositionData[] mappingPositions;
@@ -177,6 +180,7 @@ public class JsonSourceMapper extends SourceMapper {
     private boolean failOnMissingAttribute = true;
     private String enclosingElement = null;
     private AttributeConverter attributeConverter = new AttributeConverter();
+    private ObjectMapper objectMapper = new ObjectMapper();
     private JsonFactory factory;
     private int streamAttributesSize;
 
@@ -309,6 +313,7 @@ public class JsonSourceMapper extends SourceMapper {
         Event event = new Event(streamAttributesSize);
         Object[] data = event.getData();
         JsonParser parser;
+        JsonNode jsonObjectNode;
         int numberOfProvidedAttributes = 0;
         try {
             parser = factory.createParser(eventObject.toString());
@@ -380,12 +385,13 @@ public class JsonSourceMapper extends SourceMapper {
                         case STRING:
                             if (JsonToken.VALUE_STRING.equals(jsonToken)) {
                                 data[position] = parser.getValueAsString();
+                            } else if (JsonToken.START_ARRAY.equals(jsonToken) || JsonToken.START_OBJECT.equals
+                                    (jsonToken)) {
+                                jsonObjectNode = objectMapper.readTree(eventObject.toString()).findValue(key);
+                                data[position] = jsonObjectNode.toString();
+                                handleJsonObject(jsonObjectNode, parser);
                             } else {
-                                log.error("Json message " + eventObject.toString() +
-                                        " contains incompatible attribute types and values. Value " +
-                                        parser.getText() + " is not compatible with type STRING. " +
-                                        "Hence dropping the message.");
-                                return null;
+                                data[position] = parser.getValueAsString();
                             }
                             break;
                         case FLOAT:
@@ -410,6 +416,32 @@ public class JsonSourceMapper extends SourceMapper {
                                         parser.getText() + " is not compatible with type LONG. " +
                                         "Hence dropping the message.");
                                 return null;
+                            }
+                            break;
+                        case OBJECT:
+                            switch (jsonToken) {
+                                case START_OBJECT:
+                                case START_ARRAY:
+                                    jsonObjectNode = objectMapper.readTree(eventObject.toString()).findValue(key);
+                                    data[position] = gson.fromJson(jsonObjectNode.toString(), Object.class);
+                                    handleJsonObject(jsonObjectNode, parser);
+                                    break;
+                                case VALUE_STRING:
+                                    data[position] = parser.getValueAsString();
+                                    break;
+                                case VALUE_NUMBER_INT:
+                                    data[position] = parser.getValueAsInt();
+                                    break;
+                                case VALUE_NUMBER_FLOAT:
+                                    data[position] = attributeConverter.getPropertyValue(parser.getValueAsString(),
+                                            Attribute.Type.FLOAT);
+                                    break;
+                                case VALUE_TRUE:
+                                case VALUE_FALSE:
+                                    data[position] = parser.getValueAsBoolean();
+                                    break;
+                                default:
+                                    return null;
                             }
                             break;
                         default:
@@ -558,5 +590,43 @@ public class JsonSourceMapper extends SourceMapper {
         public void setMapping(String mapping) {
             this.mapping = mapping;
         }
+    }
+
+    private void handleJsonObject(JsonNode objectNode, JsonParser parser) throws IOException {
+        Iterator objectFieldIterator = objectNode.fieldNames();
+        parser.nextValue();
+        while (objectFieldIterator.hasNext()) {
+            objectFieldIterator.next();
+            JsonToken jsonToken1 = parser.nextValue();
+            if (jsonToken1.START_OBJECT.equals(jsonToken1)) {
+                traverseJsonObject(parser);
+            } else if (jsonToken1.START_ARRAY.equals(jsonToken1)) {
+                traverseJsonArray(parser);
+            }
+        }
+    }
+
+    private boolean traverseJsonArray(JsonParser parser) throws IOException {
+        JsonToken jsonToken = parser.nextValue();
+        if (jsonToken.START_ARRAY.equals(jsonToken)) {
+            return traverseJsonArray(parser);
+        } else if (jsonToken.END_ARRAY.equals(jsonToken)) {
+            return true;
+        }
+        traverseJsonArray(parser);
+        return false;
+    }
+
+    private boolean traverseJsonObject(JsonParser parser) throws IOException {
+        JsonToken jsonToken = parser.nextValue();
+        if (jsonToken.START_ARRAY.equals(jsonToken)) {
+            return traverseJsonArray(parser);
+        } else if (jsonToken.START_OBJECT.equals(jsonToken)) {
+            return traverseJsonObject(parser);
+        } else if (jsonToken.END_OBJECT.equals(jsonToken)) {
+            return true;
+        }
+        traverseJsonObject(parser);
+        return false;
     }
 }
