@@ -18,6 +18,7 @@
 
 package org.wso2.extension.siddhi.map.json.sourcemapper;
 
+import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
@@ -300,6 +301,7 @@ public class JsonSourceMapperTestCase {
                             AssertJUnit.assertEquals(55.6f, event.getData(1));
                             break;
                         case 2:
+                            AssertJUnit.assertEquals("123", event.getData(0));
                             AssertJUnit.assertEquals(1.0f, event.getData(1));
                             break;
                         case 3:
@@ -364,9 +366,9 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\": 100.20\n" +
                 "      }\n" +
                 " }");
-        SiddhiTestHelper.waitForEvents(waitTime, 1, count, timeout);
+        SiddhiTestHelper.waitForEvents(waitTime, 2, count, timeout);
         //assert event count
-        AssertJUnit.assertEquals("Number of events", 1, count.get());
+        AssertJUnit.assertEquals("Number of events", 2, count.get());
         siddhiAppRuntime.shutdown();
     }
 
@@ -1601,6 +1603,232 @@ public class JsonSourceMapperTestCase {
         SiddhiTestHelper.waitForEvents(waitTime, 8, count, timeout);
         //assert event count
         AssertJUnit.assertEquals("Number of events", 8, count.get());
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest28() throws InterruptedException {
+        log.info("test JsonSourceMapper 28");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', @map(type='json')) " +
+                "define stream FooStream (symbol string, price object, volume long); " +
+                "define stream BarStream (symbol string, price object, volume long); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+        Gson gson = new Gson();
+        Object jsonObject1 = gson.fromJson("[25,25]", Object.class);
+        Object jsonObject2 = gson.fromJson("{\"lkr\":55.678}", Object.class);
+        Object jsonObject3 = gson.fromJson("{\"prices\":25, \"priceArray\":[25,25]}", Object.class);
+        Object jsonObject4 = gson.fromJson("{\"price\":25, \"priceArray\":[25,25,25], " +
+                "\"priceObject\":{\"price\":25,\"amount\":5,\"items\":[1,2,3]}}", Object.class);
+        Object jsonObject5 = new Gson().fromJson("{\"price\":25, \"priceArray\":[25,25,25], " +
+                "\"priceObject\":{\"price\":25,\"amount\":5,\"items\":[{\"id\":1},{\"id\":2},{\"id\":3}]}}", Object
+                .class);
+        Object jsonObject6 = new Gson().fromJson("{\"price\":25, \"priceArray\":[{\"lkr\":25},{\"lkr\":25}," +
+                "{\"lkr\":25}], " +
+                "\"priceObject\":{\"price\":25,\"amount\":5,\"items\":[{\"id\":1},{\"id\":2},{\"id\":3}]}}", Object
+                .class);
+        siddhiAppRuntime.addCallback("BarStream", new StreamCallback() {
+            @Override
+            public void receive(Event[] events) {
+                EventPrinter.print(events);
+                for (Event event : events) {
+                    switch (count.incrementAndGet()) {
+                        case 1:
+                            AssertJUnit.assertEquals(jsonObject1, event.getData(1));
+                            break;
+                        case 2:
+                            AssertJUnit.assertEquals(jsonObject2, event.getData(1));
+                            break;
+                        case 3:
+                            AssertJUnit.assertEquals(jsonObject3, event.getData(1));
+                            break;
+                        case 4:
+                            AssertJUnit.assertEquals(jsonObject4, event.getData(1));
+                            break;
+                        case 5:
+                            AssertJUnit.assertEquals(jsonObject5, event.getData(1));
+                            break;
+                        case 6:
+                            AssertJUnit.assertEquals(jsonObject6, event.getData(1));
+                            break;
+                        default:
+                            AssertJUnit.fail();
+                    }
+                }
+            }
+        });
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":[25,25],\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":{\"lkr\":55.678},\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":{\"prices\":25, \"priceArray\":[25,25]},\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2@#$%^*\",\n" +
+                "         \"price\":{\"price\":25, \"priceArray\":[25,25,25], \"priceObject\":{\"price\":25," +
+                "\"amount\":5,\"items\":[1,2,3]}},\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2@#$%^*\",\n" +
+                "         \"price\":{\"price\":25, \"priceArray\":[25,25,25], \"priceObject\":{\"price\":25," +
+                "\"amount\":5,\"items\":[{\"id\":1},{\"id\":2},{\"id\":3}]}},\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2@#$%^*\",\n" +
+                "         \"price\":{\"price\":25, \"priceArray\":[{\"lkr\":25},{\"lkr\":25},{\"lkr\":25}], " +
+                "\"priceObject\":{\"price\":25," +
+                "\"amount\":5,\"items\":[{\"id\":1},{\"id\":2},{\"id\":3}]}},\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+
+        SiddhiTestHelper.waitForEvents(waitTime, 6, count, timeout);
+        //assert event count
+        AssertJUnit.assertEquals("Number of events", 6, count.get());
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest29() throws InterruptedException {
+        log.info("test JsonSourceMapper 29");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', @map(type='json')) " +
+                "define stream FooStream (symbol object, price string, volume long); " +
+                "define stream BarStream (symbol object, price string, volume long); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+        siddhiAppRuntime.addCallback("BarStream", new StreamCallback() {
+            @Override
+            public void receive(Event[] events) {
+                EventPrinter.print(events);
+                for (Event event : events) {
+                    switch (count.incrementAndGet()) {
+                        case 1:
+                            AssertJUnit.assertEquals("[25,25]", event.getData(1));
+                            break;
+                        case 2:
+                            AssertJUnit.assertEquals("{\"lkr\":55.678}", event.getData(1));
+                            break;
+                        case 3:
+                            AssertJUnit.assertEquals("{\"prices\":25,\"priceArray\":[25,25]}", event.getData(1));
+                            break;
+                        case 4:
+                            AssertJUnit.assertEquals("{\"price\":25,\"priceArray\":[25,25,25],\"priceObject\":" +
+                                    "{\"price\":25,\"amount\":5,\"items\":[1,2,3]}}", event.getData(1));
+                            break;
+                        case 5:
+                            AssertJUnit.assertEquals("{\"price\":25,\"priceArray\":[25,25,25],\"priceObject\":" +
+                                            "{\"price\":25,\"amount\":5,\"items\":[{\"id\":1},{\"id\":2},{\"id\":3}]}}",
+                                    event.getData(1));
+                            break;
+                        case 6:
+                            AssertJUnit.assertEquals("{\"price\":25,\"priceArray\":[{\"lkr\":25},{\"lkr\":25}," +
+                                    "{\"lkr\":25}],\"priceObject\":{\"price\":25,\"amount\":5,\"items\":[{\"id\":1}," +
+                                    "{\"id\":2},{\"id\":3}]}}", event.getData(1));
+                            break;
+//                        case 1:
+//                            AssertJUnit.assertEquals("true", event.getData(0));
+//                            break;
+                        default:
+                            AssertJUnit.fail();
+                    }
+                }
+            }
+        });
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":[25,25],\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":{\"lkr\":55.678},\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":{\"prices\":25, \"priceArray\":[25,25]},\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2@#$%^*\",\n" +
+                "         \"price\":{\"price\":25, \"priceArray\":[25,25,25], \"priceObject\":{\"price\":25," +
+                "\"amount\":5,\"items\":[1,2,3]}},\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2@#$%^*\",\n" +
+                "         \"price\":{\"price\":25, \"priceArray\":[25,25,25], \"priceObject\":{\"price\":25," +
+                "\"amount\":5,\"items\":[{\"id\":1},{\"id\":2},{\"id\":3}]}},\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+        InMemoryBroker.publish("stock", " {\n" +
+                "      \"event\":{\n" +
+                "         \"symbol\":\"WSO2@#$%^*\",\n" +
+                "         \"price\":{\"price\":25,\"priceArray\":[{\"lkr\":25},{\"lkr\":25},{\"lkr\":25}], " +
+                "\"priceObject\":{\"price\":25," +
+                "\"amount\":5,\"items\":[{\"id\":1},{\"id\":2},{\"id\":3}]}},\n" +
+                "         \"volume\":100\n" +
+                "      }\n" +
+                " }");
+//        InMemoryBroker.publish("stock", " {\n" +
+//                "      \"event\":{\n" +
+//                "         \"symbol\":25,\n" +
+//                "         \"price\":{\"price\":25,\"priceArray\":[{\"lkr\":25},{\"lkr\":25},{\"lkr\":25}], " +
+//                "\"priceObject\":{\"price\":25," +
+//                "\"amount\":5,\"items\":[{\"id\":1},{\"id\":2},{\"id\":3}]}},\n" +
+//                "         \"volume\":100\n" +
+//                "      }\n" +
+//                " }");
+
+        SiddhiTestHelper.waitForEvents(waitTime, 6, count, timeout);
+        //assert event count
+        AssertJUnit.assertEquals("Number of events", 6, count.get());
         siddhiAppRuntime.shutdown();
     }
 }
