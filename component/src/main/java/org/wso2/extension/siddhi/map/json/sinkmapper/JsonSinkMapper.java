@@ -57,7 +57,7 @@ import java.util.Map;
         parameters = {
                 @Parameter(name = "validate.json",
                         description = "" +
-                                "If this property is set to 'true', it enables JSON validation for the JSON messages" +
+                                "If this property is set to `true`, it enables JSON validation for the JSON messages" +
                                 " generated. \n" +
                                 "When validation is carried out, messages that do not adhere to proper JSON standards" +
                                 " are dropped. This property is set to 'false' by default. \n",
@@ -66,8 +66,8 @@ import java.util.Map;
                         description =
                                 "This specifies the enclosing element to be used if multiple events are sent in the" +
                                         " same JSON message. \n" +
-                                        "WSO2 SP treats the child elements of the given enclosing element as events"
-                                        + " and executes JSON expressions on them. \nIf an enclosing.element "
+                                        "Siddhi treats the child elements of the given enclosing element as events"
+                                        + " and executes JSON expressions on them. \nIf an `enclosing.element` "
                                         + "is not provided, the multiple event scenario is disregarded and JSON " +
                                         "path is evaluated based on the root element.",
                         type = {DataType.STRING})
