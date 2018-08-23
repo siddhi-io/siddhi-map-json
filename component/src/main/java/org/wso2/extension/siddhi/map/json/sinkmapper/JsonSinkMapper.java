@@ -49,36 +49,35 @@ import java.util.Map;
         name = "json",
         namespace = "sinkMapper",
         description = "" +
-                "Event to JSON output mapper. \n" +
-                "Transports which publish  messages can utilize this extension" +
-                "to convert the Siddhi event to " +
-                "JSON message. \n" +
-                "Users can either send a pre-defined JSON format or a custom JSON message.\n",
+                "This extension is an Event to JSON output mapper. \n" +
+                "Transports that publish  messages can utilize this extension" +
+                "to convert Siddhi events to " +
+                "JSON messages. \n" +
+                "You can either send a pre-defined JSON format or a custom JSON message.\n",
         parameters = {
                 @Parameter(name = "validate.json",
                         description = "" +
-                                "This property will enable JSON validation for generated JSON message. \n" +
-                                "By default value of the property will be false. \n" +
-                                "When enabled, DAS will validate the generated JSON message and drop the message " +
-                                "if it does not adhere to proper JSON standards.\n",
+                                "If this property is set to 'true', it enables JSON validation for the JSON messages" +
+                                " generated. \n" +
+                                "When validation is carried out, messages that do not adhere to proper JSON standards" +
+                                " are dropped. This property is set to 'false' by default. \n",
                         type = {DataType.BOOL}),
                 @Parameter(name = "enclosing.element",
                         description =
-                                "Used to specify the enclosing element in case of sending multiple events in same "
-                                        + "JSON message. \nWSO2 DAS will treat the child element of given enclosing "
-                                        + "element as events"
-                                        + " and execute json expressions on child elements. \nIf enclosing.element "
-                                        + "is not provided "
-                                        + "multiple event scenario is disregarded and json path will be evaluated "
-                                        + "with respect to root element.",
+                                "This specifies the enclosing element to be used if multiple events are sent in the" +
+                                        " same JSON message. \n" +
+                                        "WSO2 SP treats the child elements of the given enclosing element as events"
+                                        + " and executes JSON expressions on them. \nIf an enclosing.element "
+                                        + "is not provided, the multiple event scenario is disregarded and JSON " +
+                                        "path is evaluated based on the root element.",
                         type = {DataType.STRING})
         },
         examples = {
                 @Example(
                         syntax = "@sink(type='inMemory', topic='stock', @map(type='json'))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
-                        description = "Above configuration will do a default JSON input mapping which will "
-                                + "generate below output.\n"
+                        description = "Above configuration does a default JSON input mapping that "
+                                + "generates the output given below.\n"
                                 + "{\n"
                                 + "    \"event\":{\n"
                                 + "        \"symbol\":WSO2,\n"
@@ -91,8 +90,8 @@ import java.util.Map;
                                 + ".element='$.portfolio', validate.json='true', @payload( "
                                 + "\"\"\"{\"StockData\":{\"Symbol\":\"{{symbol}}\",\"Price\":{{price}}}\"\"\")))\n"
                                 + "define stream BarStream (symbol string, price float, volume long);",
-                        description = "Above configuration will perform a custom JSON mapping which will "
-                                + "produce below output JSON message\n"
+                        description = "The above configuration performs a custom JSON mapping that "
+                                + "generates the following JSON message as the output.\n"
                                 + "{"
                                 + "\"portfolio\":{\n"
                                 + "    \"StockData\":{\n"
