@@ -1,10 +1,10 @@
-# API Docs - v4.0.28
+# API Docs - v4.0.29-SNAPSHOT
 
 ## Sinkmapper
 
 ### json *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#sink-mapper">(Sink Mapper)</a>*
 
-<p style="word-wrap: break-word">Event to JSON output mapper. <br>Transports which publish  messages can utilize this extensionto convert the Siddhi event to JSON message. <br>Users can either send a pre-defined JSON format or a custom JSON message.<br></p>
+<p style="word-wrap: break-word">This extension is an Event to JSON output mapper. <br>Transports that publish  messages can utilize this extensionto convert Siddhi events to JSON messages. <br>You can either send a pre-defined JSON format or a custom JSON message.<br></p>
 
 <span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span>
 ```
@@ -23,7 +23,7 @@
     </tr>
     <tr>
         <td style="vertical-align: top">validate.json</td>
-        <td style="vertical-align: top; word-wrap: break-word">This property will enable JSON validation for generated JSON message. <br>By default value of the property will be false. <br>When enabled, DAS will validate the generated JSON message and drop the message if it does not adhere to proper JSON standards.<br></td>
+        <td style="vertical-align: top; word-wrap: break-word">If this property is set to 'true', it enables JSON validation for the JSON messages generated. <br>When validation is carried out, messages that do not adhere to proper JSON standards are dropped. This property is set to 'false' by default. <br></td>
         <td style="vertical-align: top"></td>
         <td style="vertical-align: top">BOOL</td>
         <td style="vertical-align: top">No</td>
@@ -31,7 +31,7 @@
     </tr>
     <tr>
         <td style="vertical-align: top">enclosing.element</td>
-        <td style="vertical-align: top; word-wrap: break-word">Used to specify the enclosing element in case of sending multiple events in same JSON message. <br>WSO2 DAS will treat the child element of given enclosing element as events and execute json expressions on child elements. <br>If enclosing.element is not provided multiple event scenario is disregarded and json path will be evaluated with respect to root element.</td>
+        <td style="vertical-align: top; word-wrap: break-word">This specifies the enclosing element to be used if multiple events are sent in the same JSON message. <br>WSO2 SP treats the child elements of the given enclosing element as events and executes JSON expressions on them. <br>If an enclosing.element is not provided, the multiple event scenario is disregarded and JSON path is evaluated based on the root element.</td>
         <td style="vertical-align: top"></td>
         <td style="vertical-align: top">STRING</td>
         <td style="vertical-align: top">No</td>
@@ -46,20 +46,20 @@
 define stream FooStream (symbol string, price float, volume long);
 
 ```
-<p style="word-wrap: break-word">Above configuration will do a default JSON input mapping which will generate below output.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
+<p style="word-wrap: break-word">Above configuration does a default JSON input mapping that generates the output given below.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
 
 <span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span>
 ```
 @sink(type='inMemory', topic='{{symbol}}', @map(type='json', enclosing.element='$.portfolio', validate.json='true', @payload( """{"StockData":{"Symbol":"{{symbol}}","Price":{{price}}}""")))
 define stream BarStream (symbol string, price float, volume long);
 ```
-<p style="word-wrap: break-word">Above configuration will perform a custom JSON mapping which will produce below output JSON message<br>{"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;"StockData":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}<br>}</p>
+<p style="word-wrap: break-word">The above configuration performs a custom JSON mapping that generates the following JSON message as the output.<br>{"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;"StockData":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}<br>}</p>
 
 ## Sourcemapper
 
 ### json *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#source-mapper">(Source Mapper)</a>*
 
-<p style="word-wrap: break-word">JSON to Event input mapper. Transports which accepts JSON messages can utilize this extensionto convert the incoming JSON message to Siddhi event. Users can either send a pre-defined JSON format where event conversion will happen without any configs or can use json path to map from a custom JSON message.<br>In default mapping, json string of the event could be enclosed by the element "event" which is optional.</p>
+<p style="word-wrap: break-word">This extension is a JSON to Event input mapper. Transports that accept JSON messages canutilize this extension to convert the incoming JSON messages to Siddhi events. You can either senda pre-defined JSON format where the event conversion is carried out without any configurations,or use a JSON path to map from a custom JSON message.<br>In default mapping, the JSON string of the event can be optionally enclosed by the "event" element.</p>
 
 <span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span>
 ```
@@ -78,7 +78,7 @@ define stream BarStream (symbol string, price float, volume long);
     </tr>
     <tr>
         <td style="vertical-align: top">enclosing.element</td>
-        <td style="vertical-align: top; word-wrap: break-word">Used to specify the enclosing element in case of sending multiple events in same JSON message. <br>WSO2 DAS will treat the child element of given enclosing element as events and execute json path expressions on child elements. <br>If enclosing.element is not provided multiple event scenario is disregarded and json path will be evaluated with respect to root element.</td>
+        <td style="vertical-align: top; word-wrap: break-word">This specifies the enclosing element to use if multiple events are received in the same JSON message. <br>WSO2 SP considers the child elements of the given enclosing element as events and executes JSON path expressions on them. <br>If an enclosing element is not provided, the multiple event scenario is disregarded and the JSON path is evaluated based on the root element.</td>
         <td style="vertical-align: top"></td>
         <td style="vertical-align: top">STRING</td>
         <td style="vertical-align: top">No</td>
@@ -86,7 +86,7 @@ define stream BarStream (symbol string, price float, volume long);
     </tr>
     <tr>
         <td style="vertical-align: top">fail.on.missing.attribute</td>
-        <td style="vertical-align: top; word-wrap: break-word">This can either have value true or false. By default it will be true. <br>This attribute allows user to handle unknown attributes.<br>&nbsp;By default if an json execution fails or returns null DAS will drop that message. <br>However setting this property to false will prompt DAS to send and event with null value to Siddhi where user can handle it accordingly.<br>(ie. Assign a default value)</td>
+        <td style="vertical-align: top; word-wrap: break-word">If this value is set to 'true', events are dropped when a JSON execution fails or returns a 'null' value. If this property is set to 'false', events with 'null' values are sent to Siddhi where you can handle it as required (e.g., by assigning a default value).<br></td>
         <td style="vertical-align: top"></td>
         <td style="vertical-align: top">BOOL</td>
         <td style="vertical-align: top">No</td>
@@ -101,7 +101,7 @@ define stream BarStream (symbol string, price float, volume long);
 define stream FooStream (symbol string, price float, volume long);
 
 ```
-<p style="word-wrap: break-word">Above configuration will do a default JSON input mapping.<br>&nbsp;For a single event, expected input should be in one of the following formats.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br><br>or <br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>}<br></p>
+<p style="word-wrap: break-word">The above configuration performs a default JSON input mapping.<br>&nbsp;For a single event, the expected input should be in one of the following formats.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br><br>or <br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>}<br></p>
 
 <span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span>
 ```
@@ -109,13 +109,13 @@ define stream FooStream (symbol string, price float, volume long);
 define stream FooStream (symbol string, price float, volume long);
 
 ```
-<p style="word-wrap: break-word">Above configuration will do a default JSON input mapping. <br>For multiple events, expected input should be in one of the following formats.<br>[<br>{"event":{"symbol":"WSO2","price":55.6,"volume":100}},<br>{"event":{"symbol":"WSO2","price":56.6,"volume":99}},<br>{"event":{"symbol":"WSO2","price":57.6,"volume":80}}<br>]<br><br>or <br><br>[<br>{"symbol":"WSO2","price":55.6,"volume":100},<br>{"symbol":"WSO2","price":56.6,"volume":99},<br>{"symbol":"WSO2","price":57.6,"volume":80}<br>]</p>
+<p style="word-wrap: break-word">The above configuration performs a default JSON input mapping. <br>For multiple events, the expected input should be in one of the following formats.<br>[<br>{"event":{"symbol":"WSO2","price":55.6,"volume":100}},<br>{"event":{"symbol":"WSO2","price":56.6,"volume":99}},<br>{"event":{"symbol":"WSO2","price":57.6,"volume":80}}<br>]<br><br>or <br><br>[<br>{"symbol":"WSO2","price":55.6,"volume":100},<br>{"symbol":"WSO2","price":56.6,"volume":99},<br>{"symbol":"WSO2","price":57.6,"volume":80}<br>]</p>
 
 <span id="example-3" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 3</span>
 ```
 @source(type='inMemory', topic='stock', @map(type='json', enclosing.element="$.portfolio", @attributes(symbol = "company.symbol", price = "price", volume = "volume")))
 ```
-<p style="word-wrap: break-word">Above configuration will perform a custom JSON mapping.<br>For a single event, expected input will look like below<br>.{<br>&nbsp;"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"stock":{        "volume":100,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
+<p style="word-wrap: break-word">The above configuration performs a custom JSON mapping.<br>For a single event, the expected input is as follows.<br>.{<br>&nbsp;"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"stock":{        "volume":100,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
 
 <span id="example-4" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 4</span>
 ```
@@ -123,5 +123,5 @@ define stream FooStream (symbol string, price float, volume long);
 define stream FooStream (symbol string, price float, volume long);
 
 ```
-<p style="word-wrap: break-word">Above configuration will perform a custom JSON mapping.<br>For multiple events, expected input will look like below<br>.{"portfolio":<br>&nbsp;&nbsp;&nbsp;[     {"stock":{"volume":100,"company":{"symbol":"wso2"},"price":56.6}},     {"stock":{"volume":200,"company":{"symbol":"wso2"},"price":57.6}}   ]<br>}<br></p>
+<p style="word-wrap: break-word">The above configuration performs a custom JSON mapping.<br>For multiple events, the expected input is as follows.<br>.{"portfolio":<br>&nbsp;&nbsp;&nbsp;[     {"stock":{"volume":100,"company":{"symbol":"wso2"},"price":56.6}},     {"stock":{"volume":200,"company":{"symbol":"wso2"},"price":57.6}}   ]<br>}<br></p>
 

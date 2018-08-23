@@ -63,41 +63,34 @@ import java.util.List;
 @Extension(
         name = "json",
         namespace = "sourceMapper",
-        description = "JSON to Event input mapper. Transports which accepts JSON messages can utilize this extension"
-                + "to convert the incoming JSON message to Siddhi event. Users can either send a pre-defined JSON "
-                + "format where event conversion will happen without any configs or can use json path to map from a "
-                + "custom JSON message.\n"
-                + "In default mapping, json string of the event could be enclosed by the element \"event\" which is "
-                + "optional.",
+        description = "This extension is a JSON to Event input mapper. Transports that accept JSON messages can" +
+                "utilize this extension to convert the incoming JSON messages to Siddhi events. You can either send" +
+                "a pre-defined JSON format where the event conversion is carried out without any configurations," +
+                "or use a JSON path to map from a custom JSON message.\n" +
+                "In default mapping, the JSON string of the event can be optionally enclosed by the \"event\"" +
+                " element.",
         parameters = {
                 @Parameter(name = "enclosing.element",
                         description =
-                                "Used to specify the enclosing element in case of sending multiple events in same "
-                                        + "JSON message. \nWSO2 DAS will treat the child element of given enclosing "
-                                        + "element as events"
-                                        + " and execute json path expressions on child elements. \nIf enclosing" +
-                                        ".element "
-                                        + "is not provided "
-                                        + "multiple event scenario is disregarded and json path will be evaluated "
-                                        + "with respect to root element.",
+                                "This specifies the enclosing element to use if multiple events are received in the" +
+                                        " same JSON message. \nWSO2 SP considers the child elements of the given" +
+                                        " enclosing element as events and executes JSON path expressions on them. \n" +
+                                        "If an enclosing element is not provided, the multiple event scenario is" +
+                                        " disregarded and the JSON path is evaluated based on the root element.",
                         type = {DataType.STRING}),
                 @Parameter(name = "fail.on.missing.attribute",
-                        description = "This can either have value true or false. By default it will be true. \nThis "
-                                + "attribute allows user to handle unknown attributes.\n By default if an json "
-                                + "execution "
-                                + "fails or returns null DAS will drop that message. \nHowever setting this property"
-                                + " to "
-                                + "false will prompt DAS to send and event with null value to Siddhi where user "
-                                + "can handle"
-                                + " it accordingly.\n(ie. Assign a default value)",
+                        description = "If this value is set to 'true', events are dropped when a JSON execution " +
+                                "fails or returns a 'null' value. If this property is set to 'false', events with " +
+                                "'null' values are sent to Siddhi where you can handle it as required (e.g., by" +
+                                " assigning a default value).\n",
                         type = {DataType.BOOL})
         },
         examples = {
                 @Example(
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json'))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
-                        description = "Above configuration will do a default JSON input mapping.\n "
-                                + "For a single event, expected input should be in one of the following formats.\n"
+                        description = "The above configuration performs a default JSON input mapping.\n "
+                                + "For a single event, the expected input should be in one of the following formats.\n"
                                 + "{\n"
                                 + "    \"event\":{\n"
                                 + "        \"symbol\":\"WSO2\",\n"
@@ -114,8 +107,8 @@ import java.util.List;
                 @Example(
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json'))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
-                        description = "Above configuration will do a default JSON input mapping. \n"
-                                + "For multiple events, expected input should be in one of the following formats.\n"
+                        description = "The above configuration performs a default JSON input mapping. \n"
+                                + "For multiple events, the expected input should be in one of the following formats.\n"
                                 + "[\n"
                                 + "{\"event\":{\"symbol\":\"WSO2\",\"price\":55.6,\"volume\":100}},\n"
                                 + "{\"event\":{\"symbol\":\"WSO2\",\"price\":56.6,\"volume\":99}},\n"
@@ -132,8 +125,8 @@ import java.util.List;
                         syntax = "@source(type='inMemory', topic='stock', @map(type='json', "
                                 + "enclosing.element=\"$.portfolio\", "
                                 + "@attributes(symbol = \"company.symbol\", price = \"price\", volume = \"volume\")))",
-                        description = "Above configuration will perform a custom JSON mapping.\n"
-                                + "For a single event, expected input will look like below\n."
+                        description = "The above configuration performs a custom JSON mapping.\n"
+                                + "For a single event, the expected input is as follows.\n."
                                 + "{\n"
                                 + " \"portfolio\":{\n"
                                 + "     \"stock\":{"
@@ -152,8 +145,8 @@ import java.util.List;
                                 + "volume = \"stock.volume\")))\n"
                                 + "define stream FooStream (symbol string, price float, volume long);\n",
 
-                        description = "Above configuration will perform a custom JSON mapping.\n"
-                                + "For multiple events, expected input will look like below\n."
+                        description = "The above configuration performs a custom JSON mapping.\n"
+                                + "For multiple events, the expected input is as follows.\n."
                                 + "{\"portfolio\":\n"
                                 + "   ["
                                 + "     {\"stock\":{\"volume\":100,\"company\":{\"symbol\":\"wso2\"},\"price\":56.6}},"
