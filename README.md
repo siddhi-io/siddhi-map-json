@@ -12,7 +12,7 @@ Find some useful links below:
 
 ## Latest API Docs 
 
-Latest API Docs is <a target="_blank" href="https://wso2-extensions.github.io/siddhi-map-json/api/4.0.29">4.0.29</a>.
+Latest API Docs is <a target="_blank" href="https://wso2-extensions.github.io/siddhi-map-json/api/4.0.30">4.0.30</a>.
 
 ## How to use 
 
@@ -48,8 +48,8 @@ extension you can replace the component <a target="_blank" href="https://github
 
 ## Features
 
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-map-json/api/4.0.29/#json-sink-mapper">json</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#sink-mapper">(Sink Mapper)</a>*<br><div style="padding-left: 1em;"><p>This extension is an Event to JSON output mapper. <br>Transports that publish  messages can utilize this extensionto convert Siddhi events to JSON messages. <br>You can either send a pre-defined JSON format or a custom JSON message.<br></p></div>
-* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-map-json/api/4.0.29/#json-source-mapper">json</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#source-mapper">(Source Mapper)</a>*<br><div style="padding-left: 1em;"><p>JSON to Event input mapper. Transports which accepts JSON messages can utilize this extensionto convert the incoming JSON message to Siddhi event. Users can either send a pre-defined JSON format where event conversion will happen without any configs or can use json path to map from a custom JSON message.<br>In default mapping, json string of the event could be enclosed by the element "event" which is optional.</p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-map-json/api/4.0.30/#json-sink-mapper">json</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#sink-mapper">(Sink Mapper)</a>*<br><div style="padding-left: 1em;"><p>This extension is an Event to JSON output mapper. <br>Transports that publish  messages can utilize this extensionto convert Siddhi events to JSON messages. <br>You can either send a pre-defined JSON format or a custom JSON message.<br></p></div>
+* <a target="_blank" href="https://wso2-extensions.github.io/siddhi-map-json/api/4.0.30/#json-source-mapper">json</a> *<a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#source-mapper">(Source Mapper)</a>*<br><div style="padding-left: 1em;"><p>JSON to Event input mapper. Transports which accepts JSON messages can utilize this extensionto convert the incoming JSON message to Siddhi event. Users can either send a pre-defined JSON format where event conversion will happen without any configs or can use json path to map from a custom JSON message.<br>In default mapping, json string of the event could be enclosed by the element "event" which is optional.</p></div>
 
 ## How to Contribute
  
