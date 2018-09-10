@@ -145,9 +145,9 @@ public class JsonSinkMapper extends SinkMapper {
                      Map<String, TemplateBuilder> payloadTemplateBuilderMap, ConfigReader mapperConfigReader,
                      SiddhiAppContext siddhiAppContext) {
 
-        attributeNameArray = streamDefinition.getAttributeNameArray();
-        enclosingElement = optionHolder.validateAndGetStaticValue(ENCLOSING_ELEMENT_IDENTIFIER, null);
-        isJsonValidationEnabled = Boolean.parseBoolean(optionHolder
+        this.attributeNameArray = streamDefinition.getAttributeNameArray();
+        this.enclosingElement = optionHolder.validateAndGetStaticValue(ENCLOSING_ELEMENT_IDENTIFIER, null);
+        this.isJsonValidationEnabled = Boolean.parseBoolean(optionHolder
                 .validateAndGetStaticValue(JSON_VALIDATION_IDENTIFIER, "false"));
 
         //if @payload() is added there must be at least 1 element in it, otherwise a SiddhiParserException raised
