@@ -502,6 +502,51 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
+    public void jsonSourceMapperTest7() throws InterruptedException {
+        log.info("test JsonSourceMapper 7");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='inMemory', topic='stock', " +
+                "@map(type='json', fail.on.missing.attribute='true', " +
+                "@attributes(time = '@timestamp' )))\n" +
+                "define stream FooStream (time long); " +
+                "define stream BarStream (time long); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+        siddhiAppRuntime.addCallback("BarStream", new StreamCallback() {
+
+            @Override
+            public void receive(Event[] events) {
+                EventPrinter.print(events);
+                for (Event event : events) {
+                    switch (count.incrementAndGet()) {
+                        case 1:
+                            AssertJUnit.assertEquals(1537258337000L, event.getData(0));
+                            break;
+                        default:
+                            AssertJUnit.fail();
+                    }
+                }
+            }
+        });
+        siddhiAppRuntime.start();
+        InMemoryBroker.publish("stock", " {\n" +
+                "         \"@timestamp\": 1537258337000,\n" +
+                "         \"symbol\":\"WSO2\",\n" +
+                "         \"price\":55.6,\n" +
+                "         \"volume\": 100\n" +
+                " }");
+        SiddhiTestHelper.waitForEvents(waitTime, 1, count, timeout);
+        //assert event count
+        AssertJUnit.assertEquals("Number of events", 1, count.get());
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
     public void jsonSourceMapperTest8() throws InterruptedException {
         log.info("test JsonSourceMapper 8");
         String streams = "" +
