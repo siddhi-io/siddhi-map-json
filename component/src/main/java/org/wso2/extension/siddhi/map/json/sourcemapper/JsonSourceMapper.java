@@ -204,7 +204,8 @@ public class JsonSourceMapper extends SourceMapper {
                 AttributeMapping attributeMapping = attributeMappingList.get(i);
                 String attributeName = attributeMapping.getName();
                 int position = this.streamDefinition.getAttributePosition(attributeName);
-                this.mappingPositions[i] = new MappingPositionData(position, attributeMapping.getMapping());
+                this.mappingPositions[i] = new MappingPositionData(position,
+                        DEFAULT_JSON_MAPPING_PREFIX + attributeMapping.getMapping());
             }
         } else {
             this.mappingPositions = new MappingPositionData[streamAttributesSize];
