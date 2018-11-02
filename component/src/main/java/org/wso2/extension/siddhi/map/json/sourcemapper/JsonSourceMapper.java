@@ -80,7 +80,9 @@ import java.util.List;
                                         + "is not provided "
                                         + "multiple event scenario is disregarded and json path will be evaluated "
                                         + "with respect to root element.",
-                        type = {DataType.STRING}),
+                        type = {DataType.STRING},
+                        optional = true,
+                        defaultValue = "$"),
                 @Parameter(name = "fail.on.missing.attribute",
                         description = "This can either have value true or false. By default it will be true. \nThis "
                                 + "attribute allows user to handle unknown attributes.\n By default if an json "
@@ -90,7 +92,9 @@ import java.util.List;
                                 + "false will prompt DAS to send and event with null value to Siddhi where user "
                                 + "can handle"
                                 + " it accordingly.\n(ie. Assign a default value)",
-                        type = {DataType.BOOL})
+                        type = {DataType.BOOL},
+                        optional = true,
+                        defaultValue = "true")
         },
         examples = {
                 @Example(
