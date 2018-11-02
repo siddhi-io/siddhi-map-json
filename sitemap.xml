@@ -2,102 +2,107 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.34/</loc>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.33/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.32/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.31/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.30/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.29/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.28/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.27/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.26/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.25/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.24/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.23/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.22/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.21/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.20/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.19/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.18/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/4.0.17/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/api/latest/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://wso2-extensions.github.io/siddhi-map-json/about/license/</loc>
-     <lastmod>2018-10-30</lastmod>
+     <lastmod>2018-11-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
