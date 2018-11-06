@@ -61,7 +61,9 @@ import java.util.Map;
                                 " generated. \n" +
                                 "When validation is carried out, messages that do not adhere to proper JSON standards" +
                                 " are dropped. This property is set to 'false' by default. \n",
-                        type = {DataType.BOOL}),
+                        type = {DataType.BOOL},
+                        optional = true,
+                        defaultValue = "false"),
                 @Parameter(name = "enclosing.element",
                         description =
                                 "This specifies the enclosing element to be used if multiple events are sent in the" +
@@ -70,7 +72,9 @@ import java.util.Map;
                                         + " and executes JSON expressions on them. \nIf an `enclosing.element` "
                                         + "is not provided, the multiple event scenario is disregarded and JSON " +
                                         "path is evaluated based on the root element.",
-                        type = {DataType.STRING})
+                        type = {DataType.STRING},
+                        optional = true,
+                        defaultValue = "$")
         },
         examples = {
                 @Example(
