@@ -519,7 +519,7 @@ public class JsonSourceMapper extends SourceMapper {
                 if (mappedValue == null) {
                     data[position] = null;
                 } else {
-                    data[position] = attributeConverter.getPropertyValue(mappedValue.toString(),
+                    data[position] = attributeConverter.getPropertyValue(gson.toJson(mappedValue),
                             streamAttributes.get(position).getType());
                 }
             } catch (PathNotFoundException e) {
