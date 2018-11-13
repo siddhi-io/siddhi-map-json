@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.jayway.jsonpath.Configuration;
@@ -510,6 +511,7 @@ public class JsonSourceMapper extends SourceMapper {
         Object[] data = event.getData();
         Object childObject = readContext.read(DEFAULT_ENCLOSING_ELEMENT);
         readContext = JsonPath.using(conf).parse(childObject);
+        Gson gsonWithNull = new GsonBuilder().serializeNulls().create();
         for (MappingPositionData mappingPositionData : this.mappingPositions) {
             int position = mappingPositionData.getPosition();
             Object mappedValue;
@@ -518,7 +520,7 @@ public class JsonSourceMapper extends SourceMapper {
                 if (mappedValue == null) {
                     data[position] = null;
                 } else {
-                    data[position] = attributeConverter.getPropertyValue(gson.toJson(mappedValue),
+                    data[position] = attributeConverter.getPropertyValue(gsonWithNull.toJson(mappedValue),
                             streamAttributes.get(position).getType());
                 }
             } catch (PathNotFoundException e) {
