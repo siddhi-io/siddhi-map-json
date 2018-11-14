@@ -582,7 +582,7 @@ public class JsonSourceMapperTestCase {
                             AssertJUnit.assertEquals(52.6f, event.getData(1));
                             break;
                         case 2:
-                            AssertJUnit.assertEquals("\"WSO2\"", event.getData(0));
+                            AssertJUnit.assertEquals("WSO2", event.getData(0));
                             break;
                         case 3:
                             AssertJUnit.assertEquals(80L, event.getData(2));
@@ -880,7 +880,7 @@ public class JsonSourceMapperTestCase {
                             AssertJUnit.assertEquals(200L, event.getData(2));
                             break;
                         case 5:
-                            AssertJUnit.assertEquals("\"wso2\"", event.getData(0));
+                            AssertJUnit.assertEquals("wso2", event.getData(0));
                             break;
                         case 6:
                             AssertJUnit.assertEquals(null, event.getData(0));
@@ -1246,7 +1246,7 @@ public class JsonSourceMapperTestCase {
                             AssertJUnit.assertEquals(200L, event.getData(2));
                             break;
                         case 5:
-                            AssertJUnit.assertEquals("\"wso2\"", event.getData(0));
+                            AssertJUnit.assertEquals("wso2", event.getData(0));
                             break;
                         case 6:
                             AssertJUnit.assertEquals(null, event.getData(0));

@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This mapper converts JSON string input to {@link org.wso2.siddhi.core.event.ComplexEventChunk}.
@@ -519,8 +520,11 @@ public class JsonSourceMapper extends SourceMapper {
                 mappedValue = readContext.read(mappingPositionData.getMapping());
                 if (mappedValue == null) {
                     data[position] = null;
-                } else {
+                } else if (mappedValue instanceof Map) {
                     data[position] = attributeConverter.getPropertyValue(gsonWithNull.toJson(mappedValue),
+                            streamAttributes.get(position).getType());
+                } else {
+                    data[position] = attributeConverter.getPropertyValue(mappedValue.toString(),
                             streamAttributes.get(position).getType());
                 }
             } catch (PathNotFoundException e) {
