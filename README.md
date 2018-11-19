@@ -40,7 +40,7 @@ extension you can replace the component <a target="_blank" href="https://github
 
 ---
 
-|  Branch | Build Stat This repository can be independently released from Siddhi.us |
+|  Branch | Build Status |
 | :------ |:------------ | 
 | master  | [![Build Status](https://wso2.org/jenkins/job/siddhi/job/siddhi-map-json/badge/icon)](https://wso2.org/jenkins/job/siddhi/job/siddhi-map-json/) |
 
