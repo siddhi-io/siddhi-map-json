@@ -70,7 +70,7 @@ import java.util.Map;
                 + "to convert an incoming JSON message into a Siddhi event. Users can either send a pre-defined JSON "
                 + "format, where event conversion happens without any configurations, or use the JSON path to map" +
                 " from a custom JSON message.\n"
-                + "In default mapping, the JSON string of the event can be enclosed by the element \"event\" , " +
+                + "In default mapping, the JSON string of the event can be enclosed by the element \"event\", " +
                 "though optional.",
         parameters = {
                 @Parameter(name = "enclosing.element",
@@ -94,7 +94,7 @@ import java.util.Map;
                                 + " to "
                                 + "false prompts mapper to send an event with a null value to Siddhi where users "
                                 + "can handle "
-                                + "it as required,ie., assign a default value)",
+                                + "it as required, ie., assign a default value)",
                         type = {DataType.BOOL},
                         optional = true,
                         defaultValue = "true")
