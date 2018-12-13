@@ -66,11 +66,11 @@ import java.util.Map;
         name = "json",
         namespace = "sourceMapper",
         description = "This extension is a JSON-to-Event input mapper. Transports that accept JSON messages" +
-                " can utilize this extension"
+                " can utilize this extension "
                 + "to convert an incoming JSON message into a Siddhi event. Users can either send a pre-defined JSON "
                 + "format, where event conversion happens without any configurations, or use the JSON path to map" +
                 " from a custom JSON message.\n"
-                + "In default mapping, the JSON string of the event can be enclosed by the element \"event\" , " +
+                + "In default mapping, the JSON string of the event can be enclosed by the element \"event\", " +
                 "though optional.",
         parameters = {
                 @Parameter(name = "enclosing.element",
@@ -78,7 +78,7 @@ import java.util.Map;
                                 "This is used to specify the enclosing element when sending multiple " +
                                         "events in the same "
                                         + "JSON message. \nMapper treats the child elements of a given enclosing "
-                                        + "element as events."
+                                        + "element as events"
                                         + " and executes the JSON path expressions on these child elements." +
                                         " \nIf the enclosing.element is not provided then the multiple-event " +
                                         "scenario is disregarded and the JSON path is evaluated based on " +
@@ -91,10 +91,8 @@ import java.util.Map;
                                 "can either be true or false. By default it is true. \n If a JSON "
                                 + "execution "
                                 + "fails or returns null, mapper drops that message. \nHowever, setting this property"
-                                + " to "
-                                + "false prompts mapper to send an event with a null value to Siddhi where users "
-                                + "can handle"
-                                + "it as required,ie., assign a default value)",
+                                + " to false prompts mapper to send an event with a null value to Siddhi, where users "
+                                + "can handle it as required, ie., assign a default value.)",
                         type = {DataType.BOOL},
                         optional = true,
                         defaultValue = "true")
