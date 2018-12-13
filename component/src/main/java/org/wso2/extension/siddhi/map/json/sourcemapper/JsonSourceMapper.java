@@ -77,7 +77,7 @@ import java.util.Map;
                         description =
                                 "This is used to specify the enclosing element when sending multiple " +
                                         "events in the same "
-                                        + "JSON message. \nWSO2 DAS treats the child elements of a given enclosing "
+                                        + "JSON message. \nMapper treats the child elements of a given enclosing "
                                         + "element as events."
                                         + " and executes the JSON path expressions on these child elements." +
                                         " \nIf the enclosing.element is not provided then the multiple-event " +
@@ -90,9 +90,9 @@ import java.util.Map;
                         description = "\nThis parameter allows users to handle unknown attributes.The value of this " +
                                 "can either be true or false. By default it is true. \n If a JSON "
                                 + "execution "
-                                + "fails or returns null, DAS drops that message. \nHowever, setting this property"
+                                + "fails or returns null, mapper drops that message. \nHowever, setting this property"
                                 + " to "
-                                + "false prompts DAS to send an event with a null value to Siddhi where users "
+                                + "false prompts mapper to send an event with a null value to Siddhi where users "
                                 + "can handle"
                                 + "it as required,ie., assign a default value)",
                         type = {DataType.BOOL},
