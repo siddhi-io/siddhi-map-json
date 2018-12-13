@@ -91,9 +91,8 @@ import java.util.Map;
                                 "can either be true or false. By default it is true. \n If a JSON "
                                 + "execution "
                                 + "fails or returns null, mapper drops that message. \nHowever, setting this property"
-                                + " to "
-                                + "false prompts mapper to send an event with a null value to Siddhi where users "
-                                + "can handle it as required, ie., assign a default value)",
+                                + " to false prompts mapper to send an event with a null value to Siddhi, where users "
+                                + "can handle it as required, ie., assign a default value.)",
                         type = {DataType.BOOL},
                         optional = true,
                         defaultValue = "true")
