@@ -50,7 +50,7 @@ import java.util.Map;
         namespace = "sinkMapper",
         description = "" +
                 "This extension is an Event to JSON output mapper. \n" +
-                "Transports that publish  messages can utilize this extension" +
+                "Transports that publish  messages can utilize this extension " +
                 "to convert Siddhi events to " +
                 "JSON messages. \n" +
                 "You can either send a pre-defined JSON format or a custom JSON message.\n",
