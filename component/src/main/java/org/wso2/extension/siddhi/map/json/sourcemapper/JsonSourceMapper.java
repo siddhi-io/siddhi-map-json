@@ -93,8 +93,7 @@ import java.util.Map;
                                 + "fails or returns null, mapper drops that message. \nHowever, setting this property"
                                 + " to "
                                 + "false prompts mapper to send an event with a null value to Siddhi where users "
-                                + "can handle "
-                                + "it as required, ie., assign a default value)",
+                                + "can handle it as required, ie., assign a default value)",
                         type = {DataType.BOOL},
                         optional = true,
                         defaultValue = "true")
