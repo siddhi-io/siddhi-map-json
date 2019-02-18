@@ -371,24 +371,24 @@ public class JsonSinkMapperTestCase {
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
         //assert custom json
-        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\":{\n" +
-                "   \"Stock Data\":{\n" +
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\": { \n" +
+                "   \"Stock Data\": { \n" +
                 "      \"Symbol\":\"WSO2\",\n" +
                 "      \"Price\":55.6\n" +
-                "   }\n" +
-                "}}}", onMessageList.get(0).toString());
-        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\":{\n" +
-                "   \"Stock Data\":{\n" +
+                "    } \n" +
+                " } }}", onMessageList.get(0).toString());
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\": { \n" +
+                "   \"Stock Data\": { \n" +
                 "      \"Symbol\":\"IBM\",\n" +
                 "      \"Price\":75.6\n" +
-                "   }\n" +
-                "}}}", onMessageList.get(1).toString());
-        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\":{\n" +
-                "   \"Stock Data\":{\n" +
+                "    } \n" +
+                " } }}", onMessageList.get(1).toString());
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\": { \n" +
+                "   \"Stock Data\": { \n" +
                 "      \"Symbol\":\"WSO2\",\n" +
                 "      \"Price\":57.6\n" +
-                "   }\n" +
-                "}}}", onMessageList.get(2).toString());
+                "    } \n" +
+                " } }}", onMessageList.get(2).toString());
         siddhiAppRuntime.shutdown();
 
         //unsubscribe from "inMemory" broker per topic
@@ -506,11 +506,11 @@ public class JsonSinkMapperTestCase {
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
         //assert custom json
-        AssertJUnit.assertEquals("Mapping incorrect!", "{'StockData:{'Symbol:WSO2},Price:{55.6",
+        AssertJUnit.assertEquals("Mapping incorrect!", " { StockData: { Symbol:WSO2 } ,Price: { 55.6",
                 onMessageList.get(0).toString());
-        AssertJUnit.assertEquals("Mapping incorrect!", "{'StockData:{'Symbol:IBM},Price:{75.6",
+        AssertJUnit.assertEquals("Mapping incorrect!", " { StockData: { Symbol:IBM } ,Price: { 75.6",
                 onMessageList.get(1).toString());
-        AssertJUnit.assertEquals("Mapping incorrect!", "{'StockData:{'Symbol:WSO2},Price:{57.6",
+        AssertJUnit.assertEquals("Mapping incorrect!", " { StockData: { Symbol:WSO2 } ,Price: { 57.6",
                 onMessageList.get(2).toString());
         siddhiAppRuntime.shutdown();
         //unsubscribe from "inMemory" broker per topic
@@ -632,24 +632,24 @@ public class JsonSinkMapperTestCase {
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
         //assert custom json
-        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\":{\n" +
-                "   \"Stock Data\":{\n" +
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\": { \n" +
+                "   \"Stock Data\": { \n" +
                 "      \"Symbol\":\"WSO2\",\n" +
                 "      \"Price\":55.6\n" +
-                "   }\n" +
-                "}}}", onMessageList.get(0).toString());
-        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\":{\n" +
-                "   \"Stock Data\":{\n" +
+                "    } \n" +
+                " } }}", onMessageList.get(0).toString());
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\": { \n" +
+                "   \"Stock Data\": { \n" +
                 "      \"Symbol\":\"IBM\",\n" +
                 "      \"Price\":75.6\n" +
-                "   }\n" +
-                "}}}", onMessageList.get(1).toString());
-        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\":{\n" +
-                "   \"Stock Data\":{\n" +
+                "    } \n" +
+                " } }}", onMessageList.get(1).toString());
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\": { \n" +
+                "   \"Stock Data\": { \n" +
                 "      \"Symbol\":\"WSO2\",\n" +
                 "      \"Price\":57.6\n" +
-                "   }\n" +
-                "}}}", onMessageList.get(2).toString());
+                "    } \n" +
+                " } }}", onMessageList.get(2).toString());
         siddhiAppRuntime.shutdown();
         //unsubscribe from "inMemory" broker per topic
         InMemoryBroker.unsubscribe(subscriberWSO2);
@@ -715,27 +715,27 @@ public class JsonSinkMapperTestCase {
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 2, wso2Count.get());
         AssertJUnit.assertEquals("Incorrect number of events consumed!", 1, ibmCount.get());
         //assert custom json
-        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\":{\n" +
-                "   \"Stock Data\":{\n" +
-                "      \"Symbol\":\"WSO2\",\n" +
-                "      \"Price\":55.6,\n" +
-                "      \"Volume\":undefined\n" +
-                "   }\n" +
-                "}}}", onMessageList.get(0).toString());
-        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\":{\n" +
-                "   \"Stock Data\":{\n" +
-                "      \"Symbol\":\"IBM\",\n" +
-                "      \"Price\":undefined,\n" +
-                "      \"Volume\":500\n" +
-                "   }\n" +
-                "}}}", onMessageList.get(1).toString());
-        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\":{\n" +
-                "   \"Stock Data\":{\n" +
-                "      \"Symbol\":\"undefined\",\n" +
-                "      \"Price\":57.6,\n" +
-                "      \"Volume\":200\n" +
-                "   }\n" +
-                "}}}", onMessageList.get(2).toString());
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\": { \n" +
+               "   \"Stock Data\": { \n" +
+               "      \"Symbol\":\"WSO2\",\n" +
+               "      \"Price\":55.6,\n" +
+               "      \"Volume\":undefined\n" +
+               "    } \n" +
+               " } }}", onMessageList.get(0).toString());
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\": { \n" +
+               "   \"Stock Data\": { \n" +
+               "      \"Symbol\":\"IBM\",\n" +
+               "      \"Price\":undefined,\n" +
+               "      \"Volume\":500\n" +
+               "    } \n" +
+               " } }}", onMessageList.get(1).toString());
+        AssertJUnit.assertEquals("Mapping incorrect!", "{\"portfolio\":{\"company\": { \n" +
+               "   \"Stock Data\": { \n" +
+               "      \"Symbol\":\"undefined\",\n" +
+               "      \"Price\":57.6,\n" +
+               "      \"Volume\":200\n" +
+               "    } \n" +
+               " } }}", onMessageList.get(2).toString());
         siddhiAppRuntime.shutdown();
         //unsubscribe from "inMemory" broker per topic
         InMemoryBroker.unsubscribe(subscriberWSO2);
@@ -787,26 +787,57 @@ public class JsonSinkMapperTestCase {
         //assert event count
         AssertJUnit.assertEquals(5, wso2Count.get());
         AssertJUnit.assertEquals("Mapping incorrect!",
-                "{\"portfolio\":{\"company\":{\n" + "   \"Stock Data\":{\n" + "       \"Symbol\":\"WSO2\",\n"
-                        + "       \"Price\":55.6,\n" + "       \"Volume\":100\n" + "   }\n" + "}}}",
+                "{\"portfolio\":{\"company\": { \n" +
+                "   \"Stock Data\": { \n" +
+                "       \"Symbol\":\"WSO2\",\n" +
+                "       \"Price\":55.6,\n" +
+                "       \"Volume\":100\n" +
+                "    } \n" +
+                " } }}",
                 onMessageList.get(0).toString());
         AssertJUnit.assertEquals("Mapping incorrect!",
-                "{\"portfolio\":{\"company\":{\n" + "   \"Stock Data\":{\n" + "       \"Symbol\":\"WSO2\",\n"
-                        + "       \"Price\":57.678,\n" + "       \"Volume\":100\n" + "   }\n" + "}}}",
+                "{\"portfolio\":{\"company\": { \n" +
+                "   \"Stock Data\": { \n" +
+                "       \"Symbol\":\"WSO2\",\n" +
+                "       \"Price\":57.678,\n" +
+                "       \"Volume\":100\n" +
+                "    } \n" +
+                " } }}",
                 onMessageList.get(1).toString());
         AssertJUnit.assertEquals("Mapping incorrect!",
-                "{\"portfolio\":{\"company\":{\n" + "   \"Stock Data\":{\n" + "       \"Symbol\":\"WSO2\",\n"
-                        + "       \"Price\":50,\n" + "       \"Volume\":100\n" + "   }\n" + "}}}",
+                "{\"portfolio\":{\"company\": { \n" +
+                "   \"Stock Data\": { \n" +
+                "       \"Symbol\":\"WSO2\",\n" +
+                "       \"Price\":50,\n" +
+                "       \"Volume\":100\n" +
+                "    } \n" +
+                " } }}",
                 onMessageList.get(2).toString());
         AssertJUnit.assertEquals("Mapping incorrect!",
-                "{\"portfolio\":{\"company\":{\n" + "   \"Stock Data\":{\n" + "       \"Symbol\":\"WSO2#$%\",\n"
-                        + "       \"Price\":50,\n" + "       \"Volume\":100\n" + "   }\n" + "}}}",
+                "{\"portfolio\":{\"company\": { \n" +
+                "   \"Stock Data\": { \n" +
+                "       \"Symbol\":\"WSO2#$%\",\n" +
+                "       \"Price\":50,\n" +
+                "       \"Volume\":100\n" +
+                "    } \n" +
+                " } }}",
                 onMessageList.get(3).toString());
         AssertJUnit.assertEquals("Mapping incorrect!",
-                "{\"portfolio\":{\"company\":[{\n" + "   \"Stock Data\":{\n" + "       \"Symbol\":\"WSO2\",\n "
-                        + "      \"Price\":55.6,\n" + "       \"Volume\":100\n " + "  }\n" + "},\n{\n"
-                        + "   \"Stock Data\":{\n" + "       \"Symbol\":\"IBM\",\n " + "      \"Price\":32.6,\n"
-                        + "       \"Volume\":160\n" + "   }\n" + "}]" + "}}", onMessageList.get(4).toString());
+                "{\"portfolio\":{\"company\":[ { \n" +
+                "   \"Stock Data\": { \n" +
+                "       \"Symbol\":\"WSO2\",\n" +
+                "       \"Price\":55.6,\n" +
+                "       \"Volume\":100\n" +
+                "    } \n" +
+                " } ,\n" +
+                " { \n" +
+                "   \"Stock Data\": { \n" +
+                "       \"Symbol\":\"IBM\",\n" +
+                "       \"Price\":32.6,\n" +
+                "       \"Volume\":160\n" +
+                "    } \n" +
+                " } ]}}",
+                onMessageList.get(4).toString());
         siddhiAppRuntime.shutdown();
 
         siddhiAppRuntime.shutdown();
@@ -859,45 +890,56 @@ public class JsonSinkMapperTestCase {
         //assert event count
         AssertJUnit.assertEquals(5, wso2Count.get());
         AssertJUnit.assertEquals("Mapping incorrect!",
-                "{\n"       +
-                        "   \"Stock Data\":{\n" +
+                " { \n"       +
+                        "   \"Stock Data\": { \n" +
                         "       \"Symbol\":\"WSO2\",\n" +
                         "       \"Price\":55.6,\n" +
                         "       \"Volume\":100\n" +
-                        "   }\n" +
-                        "}",
+                        "    } \n" +
+                        " } ",
                 onMessageList.get(0).toString());
         AssertJUnit.assertEquals("Mapping incorrect!",
-                "{\n"       +
-                        "   \"Stock Data\":{\n" +
+                " { \n"       +
+                        "   \"Stock Data\": { \n" +
                         "       \"Symbol\":\"WSO2\",\n" +
                         "       \"Price\":57.678,\n" +
                         "       \"Volume\":100\n" +
-                        "   }\n" +
-                        "}",
+                        "    } \n" +
+                        " } ",
                 onMessageList.get(1).toString());
         AssertJUnit.assertEquals("Mapping incorrect!",
-                "{\n"       +
-                        "   \"Stock Data\":{\n" +
+                " { \n"       +
+                        "   \"Stock Data\": { \n" +
                         "       \"Symbol\":\"WSO2\",\n" +
                         "       \"Price\":50,\n" +
                         "       \"Volume\":100\n" +
-                        "   }\n" +
-                        "}"
+                        "    } \n" +
+                        " } "
                 , onMessageList.get(2).toString());
         AssertJUnit.assertEquals("Mapping incorrect!",
-                "{\n"       +
-                        "   \"Stock Data\":{\n" +
+                " { \n"       +
+                        "   \"Stock Data\": { \n" +
                         "       \"Symbol\":\"WSO2#$%\",\n" +
                         "       \"Price\":50,\n" +
                         "       \"Volume\":100\n" +
-                        "   }\n" +
-                        "}", onMessageList.get(3).toString());
+                        "    } \n" +
+                        " } ", onMessageList.get(3).toString());
         AssertJUnit.assertEquals("Mapping incorrect!",
-                "[{\n" + "   \"Stock Data\":{\n" + "       \"Symbol\":\"WSO2\",\n "
-                        + "      \"Price\":55.6,\n" + "       \"Volume\":100\n " + "  }\n" + "},\n{\n"
-                        + "   \"Stock Data\":{\n" + "       \"Symbol\":\"IBM\",\n " + "      \"Price\":32.6,\n"
-                        + "       \"Volume\":160\n" + "   }\n" + "}]", onMessageList.get(4).toString());
+                        "[ { \n" +
+                        "   \"Stock Data\": { \n" +
+                        "       \"Symbol\":\"WSO2\",\n" +
+                        "       \"Price\":55.6,\n" +
+                        "       \"Volume\":100\n" +
+                        "    } \n" +
+                        " } ,\n" +
+                        " { \n" +
+                        "   \"Stock Data\": { \n" +
+                        "       \"Symbol\":\"IBM\",\n" +
+                        "       \"Price\":32.6,\n" +
+                        "       \"Volume\":160\n" +
+                        "    } \n" +
+                        " } ]",
+                 onMessageList.get(4).toString());
         siddhiAppRuntime.shutdown();
 
         siddhiAppRuntime.shutdown();
