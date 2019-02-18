@@ -47,7 +47,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest1() throws InterruptedException {
+    public void jsonSourceMapperTest1() throws Exception {
         log.info("test JsonSourceMapper 1");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -121,7 +121,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest2() throws InterruptedException {
+    public void jsonSourceMapperTest2() throws Exception {
         log.info("test JsonSourceMapper 2");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -192,7 +192,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest3() throws InterruptedException {
+    public void jsonSourceMapperTest3() throws Exception {
         log.info("test JsonSourceMapper 3");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -276,7 +276,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest4() throws InterruptedException {
+    public void jsonSourceMapperTest4() throws Exception {
         log.info("test JsonSourceMapper 4");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -373,7 +373,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest5() throws InterruptedException {
+    public void jsonSourceMapperTest5() throws Exception {
         log.info("test JsonSourceMapper 5");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -433,7 +433,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest6() throws InterruptedException {
+    public void jsonSourceMapperTest6() throws Exception {
         log.info("test JsonSourceMapper 6");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -502,7 +502,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest8() throws InterruptedException {
+    public void jsonSourceMapperTest8() throws Exception {
         log.info("test JsonSourceMapper 8");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -554,7 +554,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest9() throws InterruptedException {
+    public void jsonSourceMapperTest9() throws Exception {
         log.info("test JsonSourceMapper 9");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -635,7 +635,7 @@ public class JsonSourceMapperTestCase {
    */
 
     @Test
-    public void jsonSourceMapperTest10() throws InterruptedException {
+    public void jsonSourceMapperTest10() throws Exception {
         log.info("test JsonSourceMapper 10");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -712,7 +712,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest11() throws InterruptedException {
+    public void jsonSourceMapperTest11() throws Exception {
         log.info("test JsonSourceMapper 11");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -769,7 +769,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest12() throws InterruptedException {
+    public void jsonSourceMapperTest12() throws Exception {
         log.info("test JsonSourceMapper 12");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -843,7 +843,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest13() throws InterruptedException {
+    public void jsonSourceMapperTest13() throws Exception {
         log.info("test JsonSourceMapper 13");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -920,7 +920,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest14() throws InterruptedException {
+    public void jsonSourceMapperTest14() throws Exception {
         log.info("test JsonSourceMapper with test multiple event");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -973,7 +973,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest15() throws InterruptedException {
+    public void jsonSourceMapperTest15() throws Exception {
         log.info("test JsonSourceMapper with test json missing attribute");
         log = Logger.getLogger(JsonSourceMapper.class);
         UnitTestAppender appender = new UnitTestAppender();
@@ -996,7 +996,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest16() throws InterruptedException {
+    public void jsonSourceMapperTest16() throws Exception {
         log.info("test JsonSourceMapper with test validate event identifier");
         log = Logger.getLogger(JsonSourceMapper.class);
         UnitTestAppender appender = new UnitTestAppender();
@@ -1021,7 +1021,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest17() throws InterruptedException {
+    public void jsonSourceMapperTest17() throws Exception {
         log.info("test JsonSourceMapper with value's type");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -1095,7 +1095,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest18() throws InterruptedException {
+    public void jsonSourceMapperTest18() throws Exception {
         log.info("test JsonSourceMapper with test values type's double");
         log = Logger.getLogger(JsonSourceMapper.class);
         UnitTestAppender appender = new UnitTestAppender();
@@ -1125,7 +1125,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest19() throws InterruptedException {
+    public void jsonSourceMapperTest19() throws Exception {
         log.info("test JsonSourceMapper with test values type's Int");
         log = Logger.getLogger(JsonSourceMapper.class);
         UnitTestAppender appender = new UnitTestAppender();
@@ -1155,7 +1155,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapper20() throws InterruptedException {
+    public void jsonSourceMapper20() throws Exception {
         log.info("test JsonSourceMapper with test Test values type boolean");
         log = Logger.getLogger(JsonSourceMapper.class);
         UnitTestAppender appender = new UnitTestAppender();
@@ -1185,7 +1185,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest21() throws InterruptedException {
+    public void jsonSourceMapperTest21() throws Exception {
         log.info("test JsonSourceMapper with test json object type");
         log = Logger.getLogger(JsonSourceMapper.class);
         UnitTestAppender appender = new UnitTestAppender();
@@ -1209,7 +1209,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest22() throws InterruptedException {
+    public void jsonSourceMapperTest22() throws Exception {
         log.info("test JsonSourceMapper 22");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -1286,7 +1286,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest23() throws InterruptedException {
+    public void jsonSourceMapperTest23() throws Exception {
         log.info("test JsonSourceMapper 23");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -1343,7 +1343,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest24() throws InterruptedException {
+    public void jsonSourceMapperTest24() throws Exception {
         log.info("test JsonSourceMapper 24");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -1401,7 +1401,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest25() throws InterruptedException {
+    public void jsonSourceMapperTest25() throws Exception {
         log.info("test JsonSourceMapper 25");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -1459,7 +1459,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest26() throws InterruptedException {
+    public void jsonSourceMapperTest26() throws Exception {
         log.info("test JsonSourceMapper 26");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -1530,7 +1530,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest27() throws InterruptedException {
+    public void jsonSourceMapperTest27() throws Exception {
         log.info("test JsonSourceMapper 27");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -1607,7 +1607,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest28() throws InterruptedException {
+    public void jsonSourceMapperTest28() throws Exception {
         log.info("test JsonSourceMapper 28");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
@@ -1718,7 +1718,7 @@ public class JsonSourceMapperTestCase {
     }
 
     @Test
-    public void jsonSourceMapperTest29() throws InterruptedException {
+    public void jsonSourceMapperTest29() throws Exception {
         log.info("test JsonSourceMapper 29");
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
