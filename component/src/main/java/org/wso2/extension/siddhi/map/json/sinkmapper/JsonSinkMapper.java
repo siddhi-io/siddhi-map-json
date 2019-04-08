@@ -20,21 +20,20 @@ package org.wso2.extension.siddhi.map.json.sinkmapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
+import io.siddhi.annotation.Example;
+import io.siddhi.annotation.Extension;
+import io.siddhi.annotation.Parameter;
+import io.siddhi.annotation.util.DataType;
+import io.siddhi.core.config.SiddhiAppContext;
+import io.siddhi.core.event.Event;
+import io.siddhi.core.exception.SiddhiAppCreationException;
+import io.siddhi.core.stream.output.sink.SinkListener;
+import io.siddhi.core.stream.output.sink.SinkMapper;
+import io.siddhi.core.util.config.ConfigReader;
+import io.siddhi.core.util.transport.OptionHolder;
+import io.siddhi.core.util.transport.TemplateBuilder;
+import io.siddhi.query.api.definition.StreamDefinition;
 import org.apache.log4j.Logger;
-import org.wso2.siddhi.annotation.Example;
-import org.wso2.siddhi.annotation.Extension;
-import org.wso2.siddhi.annotation.Parameter;
-import org.wso2.siddhi.annotation.util.DataType;
-import org.wso2.siddhi.core.config.SiddhiAppContext;
-import org.wso2.siddhi.core.event.Event;
-import org.wso2.siddhi.core.exception.SiddhiAppCreationException;
-import org.wso2.siddhi.core.stream.output.sink.SinkListener;
-import org.wso2.siddhi.core.stream.output.sink.SinkMapper;
-import org.wso2.siddhi.core.util.config.ConfigReader;
-import org.wso2.siddhi.core.util.transport.OptionHolder;
-import org.wso2.siddhi.core.util.transport.TemplateBuilder;
-import org.wso2.siddhi.query.api.definition.StreamDefinition;
 
 import java.util.Map;
 
