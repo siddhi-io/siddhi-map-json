@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.extension.siddhi.map.json.sourcemapper;
+package io.siddhi.extension.map.json.sourcemapper;
 
 import com.google.gson.Gson;
 import io.siddhi.core.SiddhiAppRuntime;
