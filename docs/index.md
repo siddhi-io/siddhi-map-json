@@ -30,7 +30,7 @@ extension you can replace the component <a target="_blank" href="https://github
 
 ```
      <dependency>
-        <groupId>org.wso2.extension.siddhi.map.json</groupId>
+        <groupId>io.siddhi.extension.map.json</groupId>
         <artifactId>siddhi-map-json</artifactId>
         <version>x.x.x</version>
      </dependency>

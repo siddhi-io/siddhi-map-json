@@ -22,8 +22,8 @@
 <suite name="Json-Map-Test-Suite">
     <test name="json-map-tests" enabled="true" preserve-order="true">
         <classes>
-            <class name="org.wso2.extension.siddhi.map.json.sinkmapper.JsonSinkMapperTestCase"/>
-            <class name="org.wso2.extension.siddhi.map.json.sourcemapper.JsonSourceMapperTestCase"/>
+            <class name="io.siddhi.extension.map.json.sinkmapper.JsonSinkMapperTestCase"/>
+            <class name="io.siddhi.extension.map.json.sourcemapper.JsonSourceMapperTestCase"/>
         </classes>
     </test>
 </suite>

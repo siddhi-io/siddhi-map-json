@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.wso2.extension.siddhi.map.json</groupId>
+        <groupId>io.siddhi.extension.map.json</groupId>
         <artifactId>siddhi-map-json-parent</artifactId>
         <version>5.0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -119,7 +119,7 @@
                             com.google.gson.*
                         </Private-Package>
                         <Export-Package>
-                            org.wso2.extension.siddhi.map.json.*
+                            io.siddhi.extension.map.json.*
                         </Export-Package>
                         <Import-Package>
                             org.wso2.siddhi.core.*;version="${siddhi.version.range}",

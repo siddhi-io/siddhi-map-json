@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.wso2.extension.siddhi.map.json.sourcemapper;
+package io.siddhi.extension.map.json.sourcemapper;
 
 import io.siddhi.annotation.Example;
 import io.siddhi.annotation.Extension;
@@ -27,6 +27,8 @@ import io.siddhi.core.exception.ConnectionUnavailableException;
 import io.siddhi.core.stream.input.source.InMemorySource;
 import io.siddhi.core.stream.input.source.SourceEventListener;
 import io.siddhi.core.util.config.ConfigReader;
+import io.siddhi.core.util.snapshot.state.State;
+import io.siddhi.core.util.snapshot.state.StateFactory;
 import io.siddhi.core.util.transport.InMemoryBroker;
 import io.siddhi.core.util.transport.OptionHolder;
 
@@ -57,9 +59,9 @@ public class TestTrpInMemorySource extends InMemorySource {
     private String fail;
 
     @Override
-    public void init(SourceEventListener sourceEventListener, OptionHolder optionHolder,
-                     String[] requestedTransportPropertyNames, ConfigReader configReader,
-                     SiddhiAppContext siddhiAppContext) {
+    public StateFactory<State> init(SourceEventListener sourceEventListener, OptionHolder optionHolder,
+                                    String[] requestedTransportPropertyNames, ConfigReader configReader,
+                                    SiddhiAppContext siddhiAppContext) {
         super.init(sourceEventListener, optionHolder, requestedTransportPropertyNames, configReader, siddhiAppContext);
         symbol = optionHolder.validateAndGetStaticValue("prop1");
         price = optionHolder.validateAndGetStaticValue("prop2");
@@ -84,10 +86,11 @@ public class TestTrpInMemorySource extends InMemorySource {
                 return topic;
             }
         };
+        return null;
     }
 
     @Override
-    public void connect(ConnectionCallback connectionCallback) throws ConnectionUnavailableException {
+    public void connect(ConnectionCallback connectionCallback, State state) throws ConnectionUnavailableException {
         InMemoryBroker.subscribe(subscriber);
     }
 }
