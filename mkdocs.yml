@@ -1,68 +1,70 @@
-site_name: Siddhi Map Json
-site_description: Siddhi Map Json Extension
-site_author: WSO2
-site_url: https://wso2-extensions.github.io/siddhi-map-json/
-extra_css:
-- stylesheets/extra.css
-extra_javascript:
-- javascripts/extra.js
-repo_name: Siddhi-Map-Json
-repo_url: https://github.com/wso2-extensions/siddhi-map-json
-copyright: Copyright &copy; 2011 - 2018 WSO2
+site_name: Siddhi Map JSON
+site_description: Siddhi Map JSON Extension
+repo_name: Siddhi Map JSON
+repo_url: https://github.com/siddhi-io/siddhi-map-json/
+edit_uri: https://github.com/siddhi-io/siddhi-map-json/blob/master/
+copyright: Siddhi - Documentation
 theme:
   name: material
-  logo: images/siddhi-logo-w.svg
+  logo: images/siddhi-logo.svg
   favicon: images/favicon.ico
   palette:
     primary: teal
     accent: teal
-google_analytics:
-- UA-103065-28
-- auto
+extra_css:
+  - assets/stylesheets/extra.css
+extra_javascript:
+  - assets/javascripts/extra.js
 extra:
   social:
-  - type: github
-    link: https://github.com/wso2/siddhi
-  - type: linkedin
-    link: https://www.linkedin.com/groups/13553064
+    - type: github
+      link: https://github.com/siddhi-io/siddhi
+    - type: medium
+      link: https://medium.com/siddhi-io
+    - type: twitter
+      link: https://twitter.com/siddhi_io
+    - type: linkedin
+      link: https://www.linkedin.com/groups/13553064
+google_analytics:
+  - UA-103065-28
+  - auto
 markdown_extensions:
-- admonition
-- toc(permalink=true)
-- codehilite(guess_lang=false)
+  - markdown.extensions.admonition
 pages:
-- Welcome: index.md
-- API Docs:
-  - 5.0.3: api/5.0.3.md
-  - 5.0.2: api/5.0.2.md
-  - 5.0.1: api/5.0.1.md
-  - 5.0.0: api/5.0.0.md
-  - 4.1.1: api/4.1.1.md
-  - 4.1.0: api/4.1.0.md
-  - 4.0.42: api/4.0.42.md
-  - 4.0.41: api/4.0.41.md
-  - 4.0.40: api/4.0.40.md
-  - 4.0.39: api/4.0.39.md
-  - 4.0.38: api/4.0.38.md
-  - 4.0.37: api/4.0.37.md
-  - 4.0.36: api/4.0.36.md
-  - 4.0.35: api/4.0.35.md
-  - 4.0.34: api/4.0.34.md
-  - 4.0.33: api/4.0.33.md
-  - 4.0.32: api/4.0.32.md
-  - 4.0.31: api/4.0.31.md
-  - 4.0.30: api/4.0.30.md
-  - 4.0.29: api/4.0.29.md
-  - 4.0.28: api/4.0.28.md
-  - 4.0.27: api/4.0.27.md
-  - 4.0.26: api/4.0.26.md
-  - 4.0.25: api/4.0.25.md
-  - 4.0.24: api/4.0.24.md
-  - 4.0.23: api/4.0.23.md
-  - 4.0.22: api/4.0.22.md
-  - 4.0.21: api/4.0.21.md
-  - 4.0.20: api/4.0.20.md
-  - 4.0.19: api/4.0.19.md
-  - 4.0.18: api/4.0.18.md
-  - 4.0.17: api/4.0.17.md
-  - latest: api/latest.md
-- License: about/license.md
+  - Information: index.md
+  - API Docs:
+      - latest: api/latest.md
+      - 5.0.3: api/5.0.3.md
+      - 5.0.2: api/5.0.2.md
+      - 5.0.1: api/5.0.1.md
+      - 5.0.0: api/5.0.0.md
+      - 4.1.1: api/4.1.1.md
+      - 4.1.0: api/4.1.0.md
+      - 4.0.42: api/4.0.42.md
+      - 4.0.41: api/4.0.41.md
+      - 4.0.40: api/4.0.40.md
+      - 4.0.39: api/4.0.39.md
+      - 4.0.38: api/4.0.38.md
+      - 4.0.37: api/4.0.37.md
+      - 4.0.36: api/4.0.36.md
+      - 4.0.35: api/4.0.35.md
+      - 4.0.34: api/4.0.34.md
+      - 4.0.33: api/4.0.33.md
+      - 4.0.32: api/4.0.32.md
+      - 4.0.31: api/4.0.31.md
+      - 4.0.30: api/4.0.30.md
+      - 4.0.29: api/4.0.29.md
+      - 4.0.28: api/4.0.28.md
+      - 4.0.27: api/4.0.27.md
+      - 4.0.26: api/4.0.26.md
+      - 4.0.25: api/4.0.25.md
+      - 4.0.24: api/4.0.24.md
+      - 4.0.23: api/4.0.23.md
+      - 4.0.22: api/4.0.22.md
+      - 4.0.21: api/4.0.21.md
+      - 4.0.20: api/4.0.20.md
+      - 4.0.19: api/4.0.19.md
+      - 4.0.18: api/4.0.18.md
+      - 4.0.17: api/4.0.17.md
+  - License: license.md
+

@@ -2,7 +2,7 @@
 
 ## Sinkmapper
 
-### json *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#sink-mapper">(Sink Mapper)</a>*
+### json *<a target="_blank" href="https://siddhi.io/en/v5.0/docs/query-guide/#sink-mapper">(Sink Mapper)</a>*
 
 <p style="word-wrap: break-word">This extension is an Event to JSON output mapper. <br>Transports that publish  messages can utilize this extension to convert Siddhi events to JSON messages. <br>You can either send a pre-defined JSON format or a custom JSON message.<br></p>
 
@@ -57,7 +57,7 @@ define stream BarStream (symbol string, price float, volume long);
 
 ## Sourcemapper
 
-### json *<a target="_blank" href="http://siddhi.io/documentation/siddhi-5.x/query-guide-5.x/#source-mapper">(Source Mapper)</a>*
+### json *<a target="_blank" href="https://siddhi.io/en/v5.0/docs/query-guide/#source-mapper">(Source Mapper)</a>*
 
 <p style="word-wrap: break-word">This extension is a JSON-to-Event input mapper. Transports that accept JSON messages can utilize this extension to convert an incoming JSON message into a Siddhi event. Users can either send a pre-defined JSON format, where event conversion happens without any configurations, or use the JSON path to map from a custom JSON message.<br>In default mapping, the JSON string of the event can be enclosed by the element "event", though optional.</p>
 
