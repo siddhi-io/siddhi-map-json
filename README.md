@@ -8,7 +8,7 @@ Siddhi Map JSON
   [![GitHub Last Commit](https://img.shields.io/github/last-commit/siddhi-io/siddhi-map-json.svg)](https://github.com/siddhi-io/siddhi-map-json/commits/master)
   [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-The **siddhi-map-json extension** is an extension to <a target="_blank" href="https://wso2.github.io/siddhi">Siddhi</a> that provides the capability to retrieve, insert, and modify JSON elements..
+The **siddhi-map-json extension** is an extension to <a target="_blank" href="https://wso2.github.io/siddhi">Siddhi</a> that converts JSON messages to/from Siddhi events.
 
 For information on <a target="_blank" href="https://siddhi.io/">Siddhi</a> and it's features refer <a target="_blank" href="https://siddhi.io/redirect/docs.html">Siddhi Documentation</a>. 
 
