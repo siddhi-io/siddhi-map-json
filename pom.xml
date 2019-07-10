@@ -135,7 +135,7 @@
         </plugins>
     </build>
     <properties>
-        <siddhi.version>5.0.0</siddhi.version>
+        <siddhi.version>5.1.0</siddhi.version>
         <siddhi.version.range>[5.0.0,6.0.0)</siddhi.version.range>
         <log4j.version>1.2.17.wso2v1</log4j.version>
         <carbon.feature.plugin.version>3.0.0</carbon.feature.plugin.version>
@@ -152,9 +152,9 @@
     </properties>
 
     <scm>
-        <url>https://github.com/wso2-extensions/siddhi-map-json.git</url>
-        <developerConnection>scm:git:https://github.com/wso2-extensions/siddhi-map-json.git</developerConnection>
-        <connection>scm:git:https://github.com/wso2-extensions/siddhi-map-json.git</connection>
+        <url>https://github.com/siddhi-io/siddhi-map-json.git</url>
+        <developerConnection>scm:git:https://github.com/siddhi-io/siddhi-map-json.git</developerConnection>
+        <connection>scm:git:https://github.com/siddhi-io/siddhi-map-json.git</connection>
         <tag>HEAD</tag>
     </scm>
 
