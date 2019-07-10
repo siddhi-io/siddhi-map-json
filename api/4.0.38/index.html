@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
@@ -10,13 +10,9 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
       
-        <meta name="description" content="Siddhi Map Json Extension">
+        <meta name="description" content="Siddhi Map JSON Extension">
       
       
-        <link rel="canonical" href="https://wso2-extensions.github.io/siddhi-map-json/api/4.0.38/">
-      
-      
-        <meta name="author" content="WSO2">
       
       
         <meta name="lang:clipboard.copy" content="Copy to clipboard">
@@ -38,17 +34,17 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../images/favicon.ico">
-      <meta name="generator" content="mkdocs-0.17.4, mkdocs-material-2.9.2">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
     
     
       
-        <title>4.0.38 - Siddhi Map Json</title>
+        <title>4.0.38 - Siddhi Map JSON</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.ba0fd1a6.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.0284f74d.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.6079476c.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.01803549.css">
       
       
         
@@ -57,18 +53,47 @@
       
     
     
-      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
     
     
-      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
       
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
     <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/extra.css">
+    
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-103065-28", "auto")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
     
     
   </head>
@@ -81,24 +106,7 @@
       <defs>
         
         
-          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
-    viewBox="0 0 416 448" id="__github">
-  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
-        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
-        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
-        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
-        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
-        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
-        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
-        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
-        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
-        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
-        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
-        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
-        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
-        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
-        99.5z" />
-</svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
         
       </defs>
     </svg>
@@ -115,9 +123,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="https://wso2-extensions.github.io/siddhi-map-json/" title="Siddhi Map Json" class="md-header-nav__button md-logo">
+        <a href="../.." title="Siddhi Map JSON" class="md-header-nav__button md-logo">
           
-            <img src="../../images/siddhi-logo-w.svg" width="24" height="24">
+            <img src="../../images/siddhi-logo.svg" width="24" height="24">
           
         </a>
       </div>
@@ -127,22 +135,21 @@
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           
-            
-              <span class="md-header-nav__topic">
-                Siddhi Map Json
-              </span>
-              <span class="md-header-nav__topic">
+            <span class="md-header-nav__topic">
+              Siddhi Map JSON
+            </span>
+            <span class="md-header-nav__topic">
+              
                 4.0.38
-              </span>
-            
+              
+            </span>
           
         </div>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
         
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
           
-            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
-            
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
@@ -165,7 +172,6 @@
     </div>
   </div>
 </div>
-          
         
       </div>
       
@@ -176,20 +182,18 @@
 
   
 
-
-  <a href="https://github.com/wso2-extensions/siddhi-map-json/" title="Go to repository" class="md-source" data-md-source="github">
-    
-      <div class="md-source__icon">
-        <svg viewBox="0 0 24 24" width="24" height="24">
-          <use xlink:href="#__github" width="24" height="24"></use>
-        </svg>
-      </div>
-    
-    <div class="md-source__repository">
-      Siddhi-Map-Json
+<a href="https://github.com/siddhi-io/siddhi-map-json/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
     </div>
-  </a>
-
+  
+  <div class="md-source__repository">
+    Siddhi Map JSON
+  </div>
+</a>
           </div>
         </div>
       
@@ -211,12 +215,12 @@
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <span class="md-nav__button md-logo">
+    <a href="../.." title="Siddhi Map JSON" class="md-nav__button md-logo">
       
-        <img src="../../images/siddhi-logo-w.svg" width="48" height="48">
+        <img src="../../images/siddhi-logo.svg" width="48" height="48">
       
-    </span>
-    Siddhi Map Json
+    </a>
+    Siddhi Map JSON
   </label>
   
     <div class="md-nav__source">
@@ -225,20 +229,18 @@
 
   
 
-
-  <a href="https://github.com/wso2-extensions/siddhi-map-json/" title="Go to repository" class="md-source" data-md-source="github">
-    
-      <div class="md-source__icon">
-        <svg viewBox="0 0 24 24" width="24" height="24">
-          <use xlink:href="#__github" width="24" height="24"></use>
-        </svg>
-      </div>
-    
-    <div class="md-source__repository">
-      Siddhi-Map-Json
+<a href="https://github.com/siddhi-io/siddhi-map-json/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
     </div>
-  </a>
-
+  
+  <div class="md-source__repository">
+    Siddhi Map JSON
+  </div>
+</a>
     </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -249,8 +251,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../.." title="Welcome" class="md-nav__link">
-      Welcome
+    <a href="../.." title="Information" class="md-nav__link">
+      Information
     </a>
   </li>
 
@@ -275,6 +277,30 @@
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../latest/" title="latest" class="md-nav__link">
+      latest
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../5.0.3/" title="5.0.3" class="md-nav__link">
+      5.0.3
+    </a>
+  </li>
+
         
           
           
@@ -719,18 +745,6 @@
   </li>
 
         
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../latest/" title="latest" class="md-nav__link">
-      latest
-    </a>
-  </li>
-
-        
       </ul>
     </nav>
   </li>
@@ -742,7 +756,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../about/license/" title="License" class="md-nav__link">
+    <a href="../../license/" title="License" class="md-nav__link">
       License
     </a>
   </li>
@@ -824,18 +838,17 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/wso2-extensions/siddhi-map-json/edit/master/docs/api/4.0.38.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/siddhi-io/siddhi-map-json/blob/master/api/4.0.38.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="api-docs-v4038">API Docs - v4.0.38<a class="headerlink" href="#api-docs-v4038" title="Permanent link">&para;</a></h1>
-<h2 id="sinkmapper">Sinkmapper<a class="headerlink" href="#sinkmapper" title="Permanent link">&para;</a></h2>
-<h3 id="json-sink-mapper">json <em><a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#sink-mapper">(Sink Mapper)</a></em><a class="headerlink" href="#json-sink-mapper" title="Permanent link">&para;</a></h3>
+                <h1 id="api-docs-v4038">API Docs - v4.0.38</h1>
+<h2 id="sinkmapper">Sinkmapper</h2>
+<h3 id="json-sink-mapper">json <em><a target="_blank" href="https://siddhi.io/en/v4.x/docs/query-guide/#sink-mapper">(Sink Mapper)</a></em></h3>
 <p style="word-wrap: break-word">This extension is an Event to JSON output mapper. <br>Transports that publish  messages can utilize this extensionto convert Siddhi events to JSON messages. <br>You can either send a pre-defined JSON format or a custom JSON message.<br></p>
 
 <p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
-<div class="codehilite"><pre><span></span>@sink(..., @map(type=&quot;json&quot;, validate.json=&quot;&lt;BOOL&gt;&quot;, enclosing.element=&quot;&lt;STRING&gt;&quot;)
-</pre></div>
-
+<pre><code>@sink(..., @map(type=&quot;json&quot;, validate.json=&quot;&lt;BOOL&gt;&quot;, enclosing.element=&quot;&lt;STRING&gt;&quot;)
+</code></pre>
 
 <p><span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
 <table>
@@ -866,29 +879,27 @@
 </table></p>
 <p><span id="examples" class="md-typeset" style="display: block; font-weight: bold;">Examples</span>
 <span id="example-1" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 1</span></p>
-<div class="codehilite"><pre><span></span>@sink(type=&#39;inMemory&#39;, topic=&#39;stock&#39;, @map(type=&#39;json&#39;))
+<pre><code>@sink(type='inMemory', topic='stock', @map(type='json'))
 define stream FooStream (symbol string, price float, volume long);
-</pre></div>
 
+</code></pre>
 
 <p style="word-wrap: break-word">Above configuration does a default JSON input mapping that generates the output given below.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
 
 <p><span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span></p>
-<div class="codehilite"><pre><span></span>@sink(type=&#39;inMemory&#39;, topic=&#39;{{symbol}}&#39;, @map(type=&#39;json&#39;, enclosing.element=&#39;$.portfolio&#39;, validate.json=&#39;true&#39;, @payload( &quot;&quot;&quot;{&quot;StockData&quot;:{&quot;Symbol&quot;:&quot;{{symbol}}&quot;,&quot;Price&quot;:{{price}}}&quot;&quot;&quot;)))
+<pre><code>@sink(type='inMemory', topic='{{symbol}}', @map(type='json', enclosing.element='$.portfolio', validate.json='true', @payload( &quot;&quot;&quot;{&quot;StockData&quot;:{&quot;Symbol&quot;:&quot;{{symbol}}&quot;,&quot;Price&quot;:{{price}}}&quot;&quot;&quot;)))
 define stream BarStream (symbol string, price float, volume long);
-</pre></div>
-
+</code></pre>
 
 <p style="word-wrap: break-word">The above configuration performs a custom JSON mapping that generates the following JSON message as the output.<br>{"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;"StockData":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}<br>}</p>
 
-<h2 id="sourcemapper">Sourcemapper<a class="headerlink" href="#sourcemapper" title="Permanent link">&para;</a></h2>
-<h3 id="json-source-mapper">json <em><a target="_blank" href="https://wso2.github.io/siddhi/documentation/siddhi-4.0/#source-mapper">(Source Mapper)</a></em><a class="headerlink" href="#json-source-mapper" title="Permanent link">&para;</a></h3>
+<h2 id="sourcemapper">Sourcemapper</h2>
+<h3 id="json-source-mapper">json <em><a target="_blank" href="https://siddhi.io/en/v4.x/docs/query-guide/#source-mapper">(Source Mapper)</a></em></h3>
 <p style="word-wrap: break-word">JSON to Event input mapper. Transports which accepts JSON messages can utilize this extensionto convert the incoming JSON message to Siddhi event. Users can either send a pre-defined JSON format where event conversion will happen without any configs or can use json path to map from a custom JSON message.<br>In default mapping, json string of the event could be enclosed by the element "event" which is optional.</p>
 
 <p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
-<div class="codehilite"><pre><span></span>@source(..., @map(type=&quot;json&quot;, enclosing.element=&quot;&lt;STRING&gt;&quot;, fail.on.missing.attribute=&quot;&lt;BOOL&gt;&quot;)
-</pre></div>
-
+<pre><code>@source(..., @map(type=&quot;json&quot;, enclosing.element=&quot;&lt;STRING&gt;&quot;, fail.on.missing.attribute=&quot;&lt;BOOL&gt;&quot;)
+</code></pre>
 
 <p><span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
 <table>
@@ -919,33 +930,32 @@ define stream BarStream (symbol string, price float, volume long);
 </table></p>
 <p><span id="examples" class="md-typeset" style="display: block; font-weight: bold;">Examples</span>
 <span id="example-1" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 1</span></p>
-<div class="codehilite"><pre><span></span>@source(type=&#39;inMemory&#39;, topic=&#39;stock&#39;, @map(type=&#39;json&#39;))
+<pre><code>@source(type='inMemory', topic='stock', @map(type='json'))
 define stream FooStream (symbol string, price float, volume long);
-</pre></div>
 
+</code></pre>
 
 <p style="word-wrap: break-word">Above configuration will do a default JSON input mapping.<br>&nbsp;For a single event, expected input should be in one of the following formats.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br><br>or <br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>}<br></p>
 
 <p><span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span></p>
-<div class="codehilite"><pre><span></span>@source(type=&#39;inMemory&#39;, topic=&#39;stock&#39;, @map(type=&#39;json&#39;))
+<pre><code>@source(type='inMemory', topic='stock', @map(type='json'))
 define stream FooStream (symbol string, price float, volume long);
-</pre></div>
 
+</code></pre>
 
 <p style="word-wrap: break-word">Above configuration will do a default JSON input mapping. <br>For multiple events, expected input should be in one of the following formats.<br>[<br>{"event":{"symbol":"WSO2","price":55.6,"volume":100}},<br>{"event":{"symbol":"WSO2","price":56.6,"volume":99}},<br>{"event":{"symbol":"WSO2","price":57.6,"volume":80}}<br>]<br><br>or <br><br>[<br>{"symbol":"WSO2","price":55.6,"volume":100},<br>{"symbol":"WSO2","price":56.6,"volume":99},<br>{"symbol":"WSO2","price":57.6,"volume":80}<br>]</p>
 
 <p><span id="example-3" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 3</span></p>
-<div class="codehilite"><pre><span></span>@source(type=&#39;inMemory&#39;, topic=&#39;stock&#39;, @map(type=&#39;json&#39;, enclosing.element=&quot;$.portfolio&quot;, @attributes(symbol = &quot;company.symbol&quot;, price = &quot;price&quot;, volume = &quot;volume&quot;)))
-</pre></div>
-
+<pre><code>@source(type='inMemory', topic='stock', @map(type='json', enclosing.element=&quot;$.portfolio&quot;, @attributes(symbol = &quot;company.symbol&quot;, price = &quot;price&quot;, volume = &quot;volume&quot;)))
+</code></pre>
 
 <p style="word-wrap: break-word">Above configuration will perform a custom JSON mapping.<br>For a single event, expected input will look like below<br>.{<br>&nbsp;"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"stock":{        "volume":100,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
 
 <p><span id="example-4" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 4</span></p>
-<div class="codehilite"><pre><span></span>@source(type=&#39;inMemory&#39;, topic=&#39;stock&#39;, @map(type=&#39;json&#39;, enclosing.element=&quot;$.portfolio&quot;, @attributes(symbol = &quot;stock.company.symbol&quot;, price = &quot;stock.price&quot;, volume = &quot;stock.volume&quot;)))
+<pre><code>@source(type='inMemory', topic='stock', @map(type='json', enclosing.element=&quot;$.portfolio&quot;, @attributes(symbol = &quot;stock.company.symbol&quot;, price = &quot;stock.price&quot;, volume = &quot;stock.volume&quot;)))
 define stream FooStream (symbol string, price float, volume long);
-</pre></div>
 
+</code></pre>
 
 <p style="word-wrap: break-word">Above configuration will perform a custom JSON mapping.<br>For multiple events, expected input will look like below<br>.{"portfolio":<br>&nbsp;&nbsp;&nbsp;[     {"stock":{"volume":100,"company":{"symbol":"wso2"},"price":56.6}},     {"stock":{"volume":200,"company":{"symbol":"wso2"},"price":57.6}}   ]<br>}<br></p>
                 
@@ -1005,7 +1015,7 @@ define stream FooStream (symbol string, price float, volume long);
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2011 - 2018 WSO2
+            Siddhi - Documentation
           </div>
         
         powered by
@@ -1015,33 +1025,30 @@ define stream FooStream (symbol string, price float, volume long);
           Material for MkDocs</a>
       </div>
       
-        
   <div class="md-footer-social">
     <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
     
-      <a href="https://github.com/wso2/siddhi" class="md-footer-social__link fa fa-github"></a>
+      <a href="https://github.com/siddhi-io/siddhi" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://medium.com/siddhi-io" class="md-footer-social__link fa fa-medium"></a>
+    
+      <a href="https://twitter.com/siddhi_io" class="md-footer-social__link fa fa-twitter"></a>
     
       <a href="https://www.linkedin.com/groups/13553064" class="md-footer-social__link fa fa-linkedin"></a>
     
   </div>
 
-      
     </div>
   </div>
 </footer>
       
     </div>
     
-      <script src="../../assets/javascripts/application.a59e2a89.js"></script>
+      <script src="../../assets/javascripts/application.245445c6.js"></script>
       
-      <script>app.initialize({version:"0.17.4",url:{base:"../.."}})</script>
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
-        <script src="../../javascripts/extra.js"></script>
-      
-    
-    
-      
-        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","UA-103065-28","auto"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");if(Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})}),document.forms.search){var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}</script>
+        <script src="../../assets/javascripts/extra.js"></script>
       
     
   </body>
