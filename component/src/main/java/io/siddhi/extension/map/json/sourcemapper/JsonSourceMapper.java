@@ -140,7 +140,7 @@ import java.util.Map;
                                 + "enclosing.element=\"$.portfolio\", "
                                 + "@attributes(symbol = \"company.symbol\", price = \"price\", volume = \"volume\")))",
                         description = "This configuration performs a custom JSON mapping.\n"
-                                + "For a single event, the expected input is similar to the one shown below:\n."
+                                + "For a single event, the expected input is similar to the one shown below:\n"
                                 + "{\n"
                                 + " \"portfolio\":{\n"
                                 + "     \"stock\":{"
