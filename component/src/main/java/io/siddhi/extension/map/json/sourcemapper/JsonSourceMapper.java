@@ -147,9 +147,10 @@ import java.util.Map;
                                 + "        \"volume\":100,\n"
                                 + "        \"company\":{\n"
                                 + "           \"symbol\":\"WSO2\"\n"
-                                + "       },\n"
+                                + "          },\n"
                                 + "        \"price\":55.6\n"
-                                + "    }\n"
+                                + "       }\n"
+                                + "   }\n"
                                 + "}\n"),
 
                 @Example(
