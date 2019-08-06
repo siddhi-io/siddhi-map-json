@@ -135,7 +135,7 @@
         </plugins>
     </build>
     <properties>
-        <siddhi.version>5.1.0</siddhi.version>
+        <siddhi.version>5.1.2</siddhi.version>
         <siddhi.version.range>[5.0.0,6.0.0)</siddhi.version.range>
         <log4j.version>1.2.17.wso2v1</log4j.version>
         <carbon.feature.plugin.version>3.0.0</carbon.feature.plugin.version>
@@ -146,6 +146,7 @@
         <tapestry.json.orbit.version>5.4.1.wso2v1</tapestry.json.orbit.version>
         <net.minidev.version>2.2</net.minidev.version>
         <jacoco.version>0.7.9</jacoco.version>
+        <mustache.version>0.9.6</mustache.version>
 
         <mavan.findbugsplugin.exclude.file>findbugs-exclude.xml</mavan.findbugsplugin.exclude.file>
         <mavan.checkstyle.suppression.file>checkstyle-suppressions.xml</mavan.checkstyle.suppression.file>
