@@ -145,7 +145,7 @@
         <testng.version>6.8</testng.version>
         <tapestry.json.orbit.version>5.4.1.wso2v1</tapestry.json.orbit.version>
         <net.minidev.version>2.2</net.minidev.version>
-        <jacoco.version>0.7.9</jacoco.version>d
+        <jacoco.version>0.7.9</jacoco.version>
 
         <mavan.findbugsplugin.exclude.file>findbugs-exclude.xml</mavan.findbugsplugin.exclude.file>
         <mavan.checkstyle.suppression.file>checkstyle-suppressions.xml</mavan.checkstyle.suppression.file>
