@@ -18,6 +18,7 @@
 
 package io.siddhi.extension.map.json.sourcemapper;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import io.siddhi.core.SiddhiAppRuntime;
 import io.siddhi.core.SiddhiManager;
@@ -40,6 +41,7 @@ public class JsonSourceMapperTestCase {
     private final int waitTime = 2000;
     private final int timeout = 30000;
     private AtomicInteger count = new AtomicInteger();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeMethod
     public void init() {
@@ -1621,15 +1623,15 @@ public class JsonSourceMapperTestCase {
         SiddhiManager siddhiManager = new SiddhiManager();
         SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
         Gson gson = new Gson();
-        Object jsonObject1 = gson.fromJson("[25,25]", Object.class);
-        Object jsonObject2 = gson.fromJson("{\"lkr\":55.678}", Object.class);
-        Object jsonObject3 = gson.fromJson("{\"prices\":25, \"priceArray\":[25,25]}", Object.class);
-        Object jsonObject4 = gson.fromJson("{\"price\":25, \"priceArray\":[25,25,25], " +
+        Object jsonObject1 = objectMapper.readValue("[25,25]", Object.class);
+        Object jsonObject2 = objectMapper.readValue("{\"lkr\":55.678}", Object.class);
+        Object jsonObject3 = objectMapper.readValue("{\"prices\":25, \"priceArray\":[25,25]}", Object.class);
+        Object jsonObject4 = objectMapper.readValue("{\"price\":25, \"priceArray\":[25,25,25], " +
                 "\"priceObject\":{\"price\":25,\"amount\":5,\"items\":[1,2,3]}}", Object.class);
-        Object jsonObject5 = new Gson().fromJson("{\"price\":25, \"priceArray\":[25,25,25], " +
+        Object jsonObject5 = objectMapper.readValue("{\"price\":25, \"priceArray\":[25,25,25], " +
                 "\"priceObject\":{\"price\":25,\"amount\":5,\"items\":[{\"id\":1},{\"id\":2},{\"id\":3}]}}", Object
                 .class);
-        Object jsonObject6 = new Gson().fromJson("{\"price\":25, \"priceArray\":[{\"lkr\":25},{\"lkr\":25}," +
+        Object jsonObject6 = objectMapper.readValue("{\"price\":25, \"priceArray\":[{\"lkr\":25},{\"lkr\":25}," +
                 "{\"lkr\":25}], " +
                 "\"priceObject\":{\"price\":25,\"amount\":5,\"items\":[{\"id\":1},{\"id\":2},{\"id\":3}]}}", Object
                 .class);
@@ -1760,9 +1762,6 @@ public class JsonSourceMapperTestCase {
                                     "{\"lkr\":25}],\"priceObject\":{\"price\":25,\"amount\":5,\"items\":[{\"id\":1}," +
                                     "{\"id\":2},{\"id\":3}]}}", event.getData(1));
                             break;
-//                        case 1:
-//                            AssertJUnit.assertEquals("true", event.getData(0));
-//                            break;
                         default:
                             AssertJUnit.fail();
                     }
