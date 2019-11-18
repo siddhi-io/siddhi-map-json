@@ -91,7 +91,7 @@ import java.util.Map;
                 @Example(
                         syntax = "@sink(type='inMemory', topic='{{symbol}}', @map(type='json', enclosing"
                                 + ".element='$.portfolio', validate.json='true', @payload( "
-                                + "\"\"\"{\"StockData\":{\"Symbol\":\"{{symbol}}\",\"Price\":{{price}}}\"\"\")))\n"
+                                + "\"\"\"{\"StockData\":{\"Symbol\":\"{{symbol}}\",\"Price\":{{price}}}}\"\"\")))\n"
                                 + "define stream BarStream (symbol string, price float, volume long);",
                         description = "The above configuration performs a custom JSON mapping that "
                                 + "generates the following JSON message as the output.\n"
