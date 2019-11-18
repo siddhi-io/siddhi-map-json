@@ -429,7 +429,7 @@ public class JsonSourceMapper extends SourceMapper {
                                 case START_OBJECT:
                                 case START_ARRAY:
                                     jsonObjectNode = objectMapper.readTree(eventObject.toString()).findValue(key);
-                                    data[position] = gson.fromJson(jsonObjectNode.toString(), Object.class);
+                                    data[position] = objectMapper.readValue(jsonObjectNode.toString(), Object.class);
                                     handleJsonObject(jsonObjectNode, parser);
                                     break;
                                 case VALUE_STRING:
