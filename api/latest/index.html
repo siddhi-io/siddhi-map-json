@@ -114,7 +114,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#api-docs-v505" tabindex="1" class="md-skip">
+      <a href="#api-docs-v506" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -358,6 +358,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../5.0.6/" title="5.0.6" class="md-nav__link">
+      5.0.6
+    </a>
   </li>
 
         
@@ -865,7 +877,7 @@
                   <a href="https://github.com/siddhi-io/siddhi-map-json/blob/master/api/latest.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="api-docs-v505">API Docs - v5.0.5</h1>
+                <h1 id="api-docs-v506">API Docs - v5.0.6</h1>
 <div class="admonition info">
 <p class="admonition-title">Tested Siddhi Core version: <em><a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/">5.1.2</a></em></p>
 <p>It could also support other Siddhi Core minor versions.</p>
@@ -920,7 +932,7 @@ define stream FooStream (symbol string, price float, volume long);
 <p></p>
 
 <p><span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span></p>
-<pre><code>@sink(type='inMemory', topic='{{symbol}}', @map(type='json', enclosing.element='$.portfolio', validate.json='true', @payload( &quot;&quot;&quot;{&quot;StockData&quot;:{&quot;Symbol&quot;:&quot;{{symbol}}&quot;,&quot;Price&quot;:{{price}}}&quot;&quot;&quot;)))
+<pre><code>@sink(type='inMemory', topic='{{symbol}}', @map(type='json', enclosing.element='$.portfolio', validate.json='true', @payload( &quot;&quot;&quot;{&quot;StockData&quot;:{&quot;Symbol&quot;:&quot;{{symbol}}&quot;,&quot;Price&quot;:{{price}}}}&quot;&quot;&quot;)))
 define stream BarStream (symbol string, price float, volume long);
 </code></pre>
 
@@ -1047,13 +1059,13 @@ define stream FooStream (symbol string, price float, volume long);
           </a>
         
         
-          <a href="../5.0.5/" title="5.0.5" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../5.0.6/" title="5.0.6" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                5.0.5
+                5.0.6
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
