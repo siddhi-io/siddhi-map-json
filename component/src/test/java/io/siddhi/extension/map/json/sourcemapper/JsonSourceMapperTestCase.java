@@ -1353,8 +1353,8 @@ public class JsonSourceMapperTestCase {
                 "@map(type='json', enclosing.element=\"portfolio\", " +
                 "@attributes(\"stock.company.symbol\", \"stock.price\", " +
                 "\"trp:symbol\"))) " +
-                "define stream FooStream (symbol string, price float, volume long); " +
-                "define stream BarStream (symbol string, price float, volume long); ";
+                "define stream FooStream (symbol string, price float, volume string); " +
+                "define stream BarStream (symbol string, price float, volume string); ";
         String query = "" +
                 "from FooStream " +
                 "select * " +
@@ -1411,8 +1411,8 @@ public class JsonSourceMapperTestCase {
                 "@map(type='json', enclosing.element=\"portfolio\", " +
                 "@attributes(symbol=\"stock.company.symbol\", price=\"stock.price\", " +
                 "volume=\"trp:symbol\"))) " +
-                "define stream FooStream (symbol string, price float, volume long); " +
-                "define stream BarStream (symbol string, price float, volume long); ";
+                "define stream FooStream (symbol string, price float, volume string); " +
+                "define stream BarStream (symbol string, price float, volume string); ";
         String query = "" +
                 "from FooStream " +
                 "select * " +
