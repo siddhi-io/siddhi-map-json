@@ -43,6 +43,7 @@ import io.siddhi.core.stream.input.source.InputEventHandler;
 import io.siddhi.core.stream.input.source.SourceMapper;
 import io.siddhi.core.util.AttributeConverter;
 import io.siddhi.core.util.config.ConfigReader;
+import io.siddhi.core.util.restream.model.MappingFailedEvent;
 import io.siddhi.core.util.transport.OptionHolder;
 import io.siddhi.query.api.definition.Attribute;
 import io.siddhi.query.api.definition.StreamDefinition;
@@ -228,8 +229,7 @@ public class JsonSourceMapper extends SourceMapper {
     protected void mapAndProcess(Object eventObject, InputEventHandler inputEventHandler)
             throws MappingFailedException, InterruptedException {
         Object convertedEvent;
-        List<Object> failedEvents = new ArrayList<>(0);
-        // TODO beware: make sure what you collect in failedEvents are valid JSONs when toString()ed.
+        List<MappingFailedEvent> failedEvents = new ArrayList<>(0);
         convertedEvent = convertToEvent(eventObject, failedEvents);
         if (convertedEvent != null) {
             if (convertedEvent instanceof Event[]) {
@@ -254,7 +254,7 @@ public class JsonSourceMapper extends SourceMapper {
      * @param eventObject JSON string or JSON string as a byte array.
      * @return the constructed Event object
      */
-    private Object convertToEvent(Object eventObject, List<Object> failedEvents) {
+    private Object convertToEvent(Object eventObject, List<MappingFailedEvent> failedEvents) {
 
         Object validEventObject = null;
 
@@ -264,22 +264,25 @@ public class JsonSourceMapper extends SourceMapper {
             try {
                 validEventObject = new String((byte[]) eventObject, "UTF-8");
             } catch (UnsupportedEncodingException e) {
+                failedEvents.add(new MappingFailedEvent(eventObject,
+                        "Error is encountered while decoding the byte stream. Please note that only UTF-8 "
+                                + "encoding is supported"));
                 log.error("Error is encountered while decoding the byte stream. Please note that only UTF-8 "
                         + "encoding is supported" + e.getMessage(), e);
-                failedEvents.add(eventObject);
                 return null;
             }
         } else {
+            failedEvents.add(new MappingFailedEvent(eventObject,
+                    "Invalid JSON object received. Expected String or byte array, but found "));
             log.error("Invalid JSON object received. Expected String or byte array, but found " +
                     eventObject.getClass()
                             .getCanonicalName());
-            failedEvents.add(eventObject);
             return null;
         }
 
         if (!isJsonValid(validEventObject.toString())) {
+            failedEvents.add(new MappingFailedEvent(validEventObject, "Invalid Json String :" + validEventObject.toString()));
             log.error("Invalid Json String :" + validEventObject.toString());
-            failedEvents.add(validEventObject);
             return null;
         }
 
@@ -288,9 +291,11 @@ public class JsonSourceMapper extends SourceMapper {
         if (isCustomMappingEnabled) {
             jsonObj = readContext.read(enclosingElement);
             if (jsonObj == null) {
+                failedEvents.add(new MappingFailedEvent(validEventObject,
+                        "Enclosing element " + enclosingElement + " cannot be found in the json string " +
+                                validEventObject.toString() + "."));
                 log.error("Enclosing element " + enclosingElement + " cannot be found in the json string " +
                         validEventObject.toString() + ".");
-                failedEvents.add(validEventObject);
                 return null;
             }
             if (jsonObj instanceof JSONArray) {
@@ -309,7 +314,7 @@ public class JsonSourceMapper extends SourceMapper {
                     Event event = processCustomEvent(JsonPath.parse(jsonObj), failedEvents);
                     return event;
                 } catch (SiddhiAppRuntimeException e) {
-                    failedEvents.add(jsonObj);
+                    failedEvents.add(new MappingFailedEvent(jsonObj, e.getMessage()));
                     log.error(e.getMessage());
                     return null;
                 }
@@ -322,11 +327,12 @@ public class JsonSourceMapper extends SourceMapper {
                 try {
                     return convertToSingleEventForDefaultMapping(validEventObject);
                 } catch (MappingFailedException e) {
-                    failedEvents.add(validEventObject);
+                    failedEvents.add(new MappingFailedEvent(validEventObject, e.getMessage()));
                     return null;
                 } catch (IOException e) {
+                    failedEvents.add(new MappingFailedEvent(validEventObject,
+                            "Json string " + validEventObject + " cannot be parsed to json object."));
                     log.error("Json string " + validEventObject + " cannot be parsed to json object.");
-                    failedEvents.add(validEventObject);
                     return null;
                 }
             }
@@ -501,7 +507,7 @@ public class JsonSourceMapper extends SourceMapper {
         return event;
     }
 
-    private Event[] convertToEventArrayForDefaultMapping(Object eventObject, List<Object> failedEvents) {
+    private Event[] convertToEventArrayForDefaultMapping(Object eventObject, List<MappingFailedEvent> failedEvents) {
         Gson gson = new Gson();
         JsonObject[] eventObjects = gson.fromJson(eventObject.toString(), JsonObject[].class);
         Event[] events = new Event[eventObjects.length];
@@ -511,17 +517,21 @@ public class JsonSourceMapper extends SourceMapper {
             if (jsonEvent.has(DEFAULT_JSON_EVENT_IDENTIFIER)) {
                 eventObj = jsonEvent.get(DEFAULT_JSON_EVENT_IDENTIFIER).getAsJsonObject();
                 if (failOnMissingAttribute && eventObj.size() < streamAttributes.size()) {
+                    failedEvents.add(new MappingFailedEvent(eventObj,
+                            "Json message " + eventObj.toString() + " contains missing attributes. " +
+                                    "Hence dropping the message."));
                     log.error("Json message " + eventObj.toString() + " contains missing attributes. " +
                             "Hence dropping the message.");
-                    failedEvents.add(eventObj);
                     continue;
                 }
             } else {
                 eventObj = jsonEvent;
                 if (eventObj.size() < streamAttributes.size()) {
+                    failedEvents.add(new MappingFailedEvent(eventObj,
+                            "Json message " + eventObj.toString() + " is not in an accepted format for default " +
+                                    "mapping. Hence dropping the message."));
                     log.error("Json message " + eventObj.toString() + " is not in an accepted format for default " +
                             "mapping. Hence dropping the message.");
-                    failedEvents.add(eventObj);
                     continue;
                 }
             }
@@ -546,7 +556,7 @@ public class JsonSourceMapper extends SourceMapper {
         return Arrays.copyOfRange(events, 0, index);
     }
 
-    private Event processCustomEvent(ReadContext readContext, List<Object> failedEvents) {
+    private Event processCustomEvent(ReadContext readContext, List<MappingFailedEvent> failedEvents) {
         Configuration conf = Configuration.defaultConfiguration();
         Event event = new Event(streamAttributesSize);
         Object[] data = event.getData();
@@ -569,10 +579,11 @@ public class JsonSourceMapper extends SourceMapper {
                 }
             } catch (PathNotFoundException e) {
                 if (failOnMissingAttribute) {
+                    failedEvents.add(new MappingFailedEvent(new Gson().toJson(childObject),
+                            "Json message " + childObject.toString() +
+                                    " contains missing attributes. Hence dropping the message."));
                     log.error("Json message " + childObject.toString() +
                             " contains missing attributes. Hence dropping the message.");
-                    // TODO beware: just childObject.toString will store = symbol instead of : . Then we can't replay
-                    failedEvents.add(new Gson().toJson(childObject).toString()); // TODO optimize new Gson() ?
                     return null;
                 }
                 data[position] = null;
