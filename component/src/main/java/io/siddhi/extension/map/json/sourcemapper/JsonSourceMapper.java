@@ -36,12 +36,14 @@ import io.siddhi.annotation.Parameter;
 import io.siddhi.annotation.util.DataType;
 import io.siddhi.core.config.SiddhiAppContext;
 import io.siddhi.core.event.Event;
+import io.siddhi.core.exception.MappingFailedException;
 import io.siddhi.core.exception.SiddhiAppRuntimeException;
 import io.siddhi.core.stream.input.source.AttributeMapping;
 import io.siddhi.core.stream.input.source.InputEventHandler;
 import io.siddhi.core.stream.input.source.SourceMapper;
 import io.siddhi.core.util.AttributeConverter;
 import io.siddhi.core.util.config.ConfigReader;
+import io.siddhi.core.util.error.handler.model.ErroneousEvent;
 import io.siddhi.core.util.transport.OptionHolder;
 import io.siddhi.query.api.definition.Attribute;
 import io.siddhi.query.api.definition.StreamDefinition;
@@ -224,15 +226,20 @@ public class JsonSourceMapper extends SourceMapper {
     }
 
     @Override
-    protected void mapAndProcess(Object eventObject, InputEventHandler inputEventHandler) throws InterruptedException {
+    protected void mapAndProcess(Object eventObject, InputEventHandler inputEventHandler)
+            throws MappingFailedException, InterruptedException {
         Object convertedEvent;
-        convertedEvent = convertToEvent(eventObject);
+        List<ErroneousEvent> failedEvents = new ArrayList<>(0);
+        convertedEvent = convertToEvent(eventObject, failedEvents);
         if (convertedEvent != null) {
             if (convertedEvent instanceof Event[]) {
                 inputEventHandler.sendEvents((Event[]) convertedEvent);
             } else {
                 inputEventHandler.sendEvent((Event) convertedEvent);
             }
+        }
+        if (!failedEvents.isEmpty()) {
+            throw new MappingFailedException(failedEvents);
         }
     }
 
@@ -244,10 +251,11 @@ public class JsonSourceMapper extends SourceMapper {
     /**
      * Convert the given JSON string to {@link Event}.
      *
-     * @param eventObject JSON string or JSON string as a byte array.
+     * @param eventObject  JSON string or JSON string as a byte array.
+     * @param failedEvents Reference to the failed events array.
      * @return the constructed Event object
      */
-    private Object convertToEvent(Object eventObject) {
+    private Object convertToEvent(Object eventObject, List<ErroneousEvent> failedEvents) {
 
         Object validEventObject = null;
 
@@ -257,19 +265,25 @@ public class JsonSourceMapper extends SourceMapper {
             try {
                 validEventObject = new String((byte[]) eventObject, "UTF-8");
             } catch (UnsupportedEncodingException e) {
+                failedEvents.add(new ErroneousEvent(eventObject, e,
+                        "Error is encountered while decoding the byte stream. Please note that only UTF-8 "
+                                + "encoding is supported"));
                 log.error("Error is encountered while decoding the byte stream. Please note that only UTF-8 "
                         + "encoding is supported" + e.getMessage(), e);
                 return null;
             }
         } else {
-            log.error("Invalid JSON object received. Expected String or byte array, but found " +
-                    eventObject.getClass()
-                            .getCanonicalName());
+            String errorMsg = "Invalid JSON object received. Expected String or byte array, but found " +
+                    eventObject.getClass().getCanonicalName();
+            failedEvents.add(new ErroneousEvent(eventObject, errorMsg));
+            log.error(errorMsg);
             return null;
         }
 
         if (!isJsonValid(validEventObject.toString())) {
-            log.error("Invalid Json String :" + validEventObject.toString());
+            String errorMsg = "Invalid Json String :" + validEventObject.toString();
+            failedEvents.add(new ErroneousEvent(validEventObject, errorMsg));
+            log.error(errorMsg);
             return null;
         }
 
@@ -278,15 +292,17 @@ public class JsonSourceMapper extends SourceMapper {
         if (isCustomMappingEnabled) {
             jsonObj = readContext.read(enclosingElement);
             if (jsonObj == null) {
-                log.error("Enclosing element " + enclosingElement + " cannot be found in the json string " +
-                        validEventObject.toString() + ".");
+                String errorMsg = "Enclosing element " + enclosingElement + " cannot be found in the json string " +
+                        validEventObject.toString() + ".";
+                failedEvents.add(new ErroneousEvent(validEventObject, errorMsg));
+                log.error(errorMsg);
                 return null;
             }
             if (jsonObj instanceof JSONArray) {
                 JSONArray jsonArray = (JSONArray) jsonObj;
                 List<Event> eventList = new ArrayList<Event>();
                 for (Object eventObj : jsonArray) {
-                    Event event = processCustomEvent(JsonPath.parse(eventObj));
+                    Event event = processCustomEvent(JsonPath.parse(eventObj), failedEvents);
                     if (event != null) {
                         eventList.add(event);
                     }
@@ -295,9 +311,10 @@ public class JsonSourceMapper extends SourceMapper {
                 return eventArray;
             } else {
                 try {
-                    Event event = processCustomEvent(JsonPath.parse(jsonObj));
+                    Event event = processCustomEvent(JsonPath.parse(jsonObj), failedEvents);
                     return event;
                 } catch (SiddhiAppRuntimeException e) {
+                    failedEvents.add(new ErroneousEvent(jsonObj, e, e.getMessage()));
                     log.error(e.getMessage());
                     return null;
                 }
@@ -305,19 +322,24 @@ public class JsonSourceMapper extends SourceMapper {
         } else {
             jsonObj = readContext.read(DEFAULT_ENCLOSING_ELEMENT);
             if (jsonObj instanceof JSONArray) {
-                return convertToEventArrayForDefaultMapping(validEventObject);
+                return convertToEventArrayForDefaultMapping(validEventObject, failedEvents);
             } else {
                 try {
                     return convertToSingleEventForDefaultMapping(validEventObject);
+                } catch (MappingFailedException e) {
+                    failedEvents.add(new ErroneousEvent(validEventObject, e, e.getMessage()));
+                    return null;
                 } catch (IOException e) {
-                    log.error("Json string " + validEventObject + " cannot be parsed to json object.");
+                    String errorMsg = "Json string " + validEventObject + " cannot be parsed to json object.";
+                    failedEvents.add(new ErroneousEvent(validEventObject, e, errorMsg));
+                    log.error(errorMsg);
                     return null;
                 }
             }
         }
     }
 
-    private Event convertToSingleEventForDefaultMapping(Object eventObject) throws IOException {
+    private Event convertToSingleEventForDefaultMapping(Object eventObject) throws IOException, MappingFailedException {
         Event event = new Event(streamAttributesSize);
         Object[] data = event.getData();
         JsonParser parser;
@@ -326,7 +348,7 @@ public class JsonSourceMapper extends SourceMapper {
         try {
             parser = factory.createParser(eventObject.toString());
         } catch (IOException e) {
-            throw new SiddhiAppRuntimeException("Initializing a parser failed for the event string."
+            throw new MappingFailedException("Initializing a parser failed for the event string."
                     + eventObject.toString());
         }
         int position;
@@ -343,12 +365,13 @@ public class JsonSourceMapper extends SourceMapper {
                 numberOfProvidedAttributes++;
                 position = findDefaultMappingPosition(key);
                 if (position == -1) {
-                    log.error("Stream \"" + streamDefinition.getId() +
+                    String errorMsg = "Stream \"" + streamDefinition.getId() +
                             "\" does not have an attribute named \"" + key +
                             "\", but the received event " + eventObject.toString() +
                             " does. Hence dropping the message." +
-                            " Check whether the json string is in a correct format for default mapping.");
-                    return null;
+                            " Check whether the json string is in a correct format for default mapping.";
+                    log.error(errorMsg);
+                    throw new MappingFailedException(errorMsg);
                 }
                 jsonToken = parser.nextToken();
                 Attribute.Type type = streamAttributes.get(position).getType();
@@ -361,33 +384,36 @@ public class JsonSourceMapper extends SourceMapper {
                             if (JsonToken.VALUE_TRUE.equals(jsonToken) || JsonToken.VALUE_FALSE.equals(jsonToken)) {
                                 data[position] = parser.getValueAsBoolean();
                             } else {
-                                log.error("Json message " + eventObject.toString() +
+                                String errorMsg = "Json message " + eventObject.toString() +
                                         " contains incompatible attribute types and values. Value " +
                                         parser.getText() + " is not compatible with type BOOL. " +
-                                        "Hence dropping the message.");
-                                return null;
+                                        "Hence dropping the message.";
+                                log.error(errorMsg);
+                                throw new MappingFailedException(errorMsg);
                             }
                             break;
                         case INT:
                             if (JsonToken.VALUE_NUMBER_INT.equals(jsonToken)) {
                                 data[position] = parser.getValueAsInt();
                             } else {
-                                log.error("Json message " + eventObject.toString() +
+                                String errorMsg = "Json message " + eventObject.toString() +
                                         " contains incompatible attribute types and values. Value " +
                                         parser.getText() + " is not compatible with type INT. " +
-                                        "Hence dropping the message.");
-                                return null;
+                                        "Hence dropping the message.";
+                                log.error(errorMsg);
+                                throw new MappingFailedException(errorMsg);
                             }
                             break;
                         case DOUBLE:
                             if (JsonToken.VALUE_NUMBER_FLOAT.equals(jsonToken)) {
                                 data[position] = parser.getValueAsDouble();
                             } else {
-                                log.error("Json message " + eventObject.toString() +
+                                String errorMsg = "Json message " + eventObject.toString() +
                                         " contains incompatible attribute types and values. Value " +
                                         parser.getText() + " is not compatible with type DOUBLE. " +
-                                        "Hence dropping the message.");
-                                return null;
+                                        "Hence dropping the message.";
+                                log.error(errorMsg);
+                                throw new MappingFailedException(errorMsg);
                             }
                             break;
                         case STRING:
@@ -406,22 +432,24 @@ public class JsonSourceMapper extends SourceMapper {
                                 data[position] = attributeConverter.getPropertyValue(parser.getValueAsString(),
                                         Attribute.Type.FLOAT);
                             } else {
-                                log.error("Json message " + eventObject.toString() +
+                                String errorMsg = "Json message " + eventObject.toString() +
                                         " contains incompatible attribute types and values. Value " +
                                         parser.getText() + " is not compatible with type FLOAT. " +
-                                        "Hence dropping the message.");
-                                return null;
+                                        "Hence dropping the message.";
+                                log.error(errorMsg);
+                                throw new MappingFailedException(errorMsg);
                             }
                             break;
                         case LONG:
                             if (JsonToken.VALUE_NUMBER_INT.equals(jsonToken)) {
                                 data[position] = parser.getValueAsLong();
                             } else {
-                                log.error("Json message " + eventObject.toString() +
+                                String errorMsg = "Json message " + eventObject.toString() +
                                         " contains incompatible attribute types and values. Value " +
                                         parser.getText() + " is not compatible with type LONG. " +
-                                        "Hence dropping the message.");
-                                return null;
+                                        "Hence dropping the message.";
+                                log.error(errorMsg);
+                                throw new MappingFailedException(errorMsg);
                             }
                             break;
                         case OBJECT:
@@ -458,14 +486,15 @@ public class JsonSourceMapper extends SourceMapper {
         }
 
         if (failOnMissingAttribute && (numberOfProvidedAttributes != streamAttributesSize)) {
-            log.error("Json message " + eventObject.toString() +
-                    " contains missing attributes. Hence dropping the message.");
-            return null;
+            String errorMsg = "Json message " + eventObject.toString() +
+                    " contains missing attributes. Hence dropping the message.";
+            log.error(errorMsg);
+            throw new MappingFailedException(errorMsg);
         }
         return event;
     }
 
-    private Event[] convertToEventArrayForDefaultMapping(Object eventObject) {
+    private Event[] convertToEventArrayForDefaultMapping(Object eventObject, List<ErroneousEvent> failedEvents) {
         Gson gson = new Gson();
         JsonObject[] eventObjects = gson.fromJson(eventObject.toString(), JsonObject[].class);
         Event[] events = new Event[eventObjects.length];
@@ -475,15 +504,19 @@ public class JsonSourceMapper extends SourceMapper {
             if (jsonEvent.has(DEFAULT_JSON_EVENT_IDENTIFIER)) {
                 eventObj = jsonEvent.get(DEFAULT_JSON_EVENT_IDENTIFIER).getAsJsonObject();
                 if (failOnMissingAttribute && eventObj.size() < streamAttributes.size()) {
-                    log.error("Json message " + eventObj.toString() + " contains missing attributes. " +
-                            "Hence dropping the message.");
+                    String errorMsg = "Json message " + eventObj.toString() + " contains missing attributes. " +
+                            "Hence dropping the message.";
+                    failedEvents.add(new ErroneousEvent(eventObj, errorMsg));
+                    log.error(errorMsg);
                     continue;
                 }
             } else {
                 eventObj = jsonEvent;
                 if (eventObj.size() < streamAttributes.size()) {
-                    log.error("Json message " + eventObj.toString() + " is not in an accepted format for default " +
-                            "mapping. Hence dropping the message.");
+                    String errorMsg = "Json message " + eventObj.toString() +
+                            " is not in an accepted format for default mapping. Hence dropping the message.";
+                    failedEvents.add(new ErroneousEvent(eventObj, errorMsg));
+                    log.error(errorMsg);
                     continue;
                 }
             }
@@ -508,7 +541,7 @@ public class JsonSourceMapper extends SourceMapper {
         return Arrays.copyOfRange(events, 0, index);
     }
 
-    private Event processCustomEvent(ReadContext readContext) {
+    private Event processCustomEvent(ReadContext readContext, List<ErroneousEvent> failedEvents) {
         Configuration conf = Configuration.defaultConfiguration();
         Event event = new Event(streamAttributesSize);
         Object[] data = event.getData();
@@ -531,8 +564,10 @@ public class JsonSourceMapper extends SourceMapper {
                 }
             } catch (PathNotFoundException e) {
                 if (failOnMissingAttribute) {
-                    log.error("Json message " + childObject.toString() +
-                            " contains missing attributes. Hence dropping the message.");
+                    String errorMsg = "Json message " + childObject.toString() +
+                            " contains missing attributes. Hence dropping the message.";
+                    failedEvents.add(new ErroneousEvent(new Gson().toJson(childObject), e, errorMsg));
+                    log.error(errorMsg);
                     return null;
                 }
                 data[position] = null;
