@@ -252,8 +252,8 @@ public class JsonSourceMapper extends SourceMapper {
                 if (eventGroupingEnabled) {
                     inputEventHandler.sendEvents(events);
                 } else {
-                    for (int i = 0; i < events.length; i++) {
-                        inputEventHandler.sendEvent(events[i]);
+                    for (Event event : events) {
+                        inputEventHandler.sendEvent(event);
                     }
                 }
             } else {

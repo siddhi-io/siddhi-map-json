@@ -200,8 +200,8 @@ public class JsonSinkMapper extends SinkMapper {
                 log.error("Invalid json string : " + sb.toString() + ". Hence dropping the message.");
             }
         } else {
-            for (int i = 0; i < events.length; i++) {
-                mapAndSend(events[i], optionHolder, payloadTemplateBuilderMap, sinkListener);
+            for (Event event : events) {
+                mapAndSend(event, optionHolder, payloadTemplateBuilderMap, sinkListener);
             }
         }
     }
