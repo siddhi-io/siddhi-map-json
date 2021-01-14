@@ -75,13 +75,8 @@ import java.util.Map;
                         optional = true,
                         defaultValue = "$"),
                 @Parameter(name = "event.grouping.enabled",
-                        description =
-                                "This specifies the enclosing element to be used if multiple events are sent in the" +
-                                        " same JSON message. \n" +
-                                        "Siddhi treats the child elements of the given enclosing element as events"
-                                        + " and executes JSON expressions on them. \nIf an `enclosing.element` "
-                                        + "is not provided, the multiple event scenario is disregarded and JSON " +
-                                        "path is evaluated based on the root element.",
+                        description = "This parameter is used to preserve event chunks when the value is set to " +
+                                "'true' or the value can be set to 'false' to separate events",
                         type = {DataType.BOOL},
                         optional = true,
                         defaultValue = "true")
