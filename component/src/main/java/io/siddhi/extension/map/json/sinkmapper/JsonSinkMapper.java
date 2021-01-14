@@ -73,7 +73,18 @@ import java.util.Map;
                                         "path is evaluated based on the root element.",
                         type = {DataType.STRING},
                         optional = true,
-                        defaultValue = "$")
+                        defaultValue = "$"),
+                @Parameter(name = "event.grouping.enabled",
+                        description =
+                                "This specifies the enclosing element to be used if multiple events are sent in the" +
+                                        " same JSON message. \n" +
+                                        "Siddhi treats the child elements of the given enclosing element as events"
+                                        + " and executes JSON expressions on them. \nIf an `enclosing.element` "
+                                        + "is not provided, the multiple event scenario is disregarded and JSON " +
+                                        "path is evaluated based on the root element.",
+                        type = {DataType.BOOL},
+                        optional = true,
+                        defaultValue = "true")
         },
         examples = {
                 @Example(
@@ -112,6 +123,7 @@ public class JsonSinkMapper extends SinkMapper {
     private static final String ENCLOSING_ELEMENT_IDENTIFIER = "enclosing.element";
     private static final String DEFAULT_ENCLOSING_ELEMENT = "$";
     private static final String JSON_VALIDATION_IDENTIFIER = "validate.json";
+    private static final String EVENT_GROUPING_ENABLED = "event.grouping.enabled";
     private static final String JSON_EVENT_SEPERATOR = ",";
     private static final String JSON_KEYVALUE_SEPERATOR = ":";
     private static final String JSON_ARRAY_START_SYMBOL = "[";
@@ -123,6 +135,7 @@ public class JsonSinkMapper extends SinkMapper {
     private String[] attributeNameArray;
     private String enclosingElement = null;
     private boolean isJsonValidationEnabled = false;
+    private boolean eventGroupingEnabled = true;
 
 
     @Override
@@ -152,6 +165,8 @@ public class JsonSinkMapper extends SinkMapper {
         this.enclosingElement = optionHolder.validateAndGetStaticValue(ENCLOSING_ELEMENT_IDENTIFIER, null);
         this.isJsonValidationEnabled = Boolean.parseBoolean(optionHolder
                 .validateAndGetStaticValue(JSON_VALIDATION_IDENTIFIER, "false"));
+        this.eventGroupingEnabled = Boolean.parseBoolean(optionHolder
+                .validateAndGetStaticValue(EVENT_GROUPING_ENABLED, "true"));
 
         //if @payload() is added there must be at least 1 element in it, otherwise a SiddhiParserException raised
         if (payloadTemplateBuilderMap != null && payloadTemplateBuilderMap.size() != 1) {
@@ -168,29 +183,32 @@ public class JsonSinkMapper extends SinkMapper {
     @Override
     public void mapAndSend(Event[] events, OptionHolder optionHolder,
                            Map<String, TemplateBuilder> payloadTemplateBuilderMap, SinkListener sinkListener) {
-
-        StringBuilder sb = new StringBuilder();
-        if (payloadTemplateBuilderMap == null) {
-            String jsonString = constructJsonForDefaultMapping(events);
-            sb.append(jsonString);
+        if (eventGroupingEnabled) {
+            StringBuilder sb = new StringBuilder();
+            if (payloadTemplateBuilderMap == null) {
+                String jsonString = constructJsonForDefaultMapping(events);
+                sb.append(jsonString);
+            } else {
+                sb.append(constructJsonForCustomMapping(events,
+                        payloadTemplateBuilderMap.get(payloadTemplateBuilderMap.keySet().iterator().next())));
+            }
+            if (!isJsonValidationEnabled) {
+                sinkListener.publish(sb.toString());
+            } else if (isValidJson(sb.toString())) {
+                sinkListener.publish(sb.toString());
+            } else {
+                log.error("Invalid json string : " + sb.toString() + ". Hence dropping the message.");
+            }
         } else {
-            sb.append(constructJsonForCustomMapping(events,
-                    payloadTemplateBuilderMap.get(payloadTemplateBuilderMap.keySet().iterator().next())));
-        }
-
-        if (!isJsonValidationEnabled) {
-            sinkListener.publish(sb.toString());
-        } else if (isValidJson(sb.toString())) {
-            sinkListener.publish(sb.toString());
-        } else {
-            log.error("Invalid json string : " + sb.toString() + ". Hence dropping the message.");
+            for (int i = 0; i < events.length; i++) {
+                mapAndSend(events[i], optionHolder, payloadTemplateBuilderMap, sinkListener);
+            }
         }
     }
 
     @Override
     public void mapAndSend(Event event, OptionHolder optionHolder,
                            Map<String, TemplateBuilder> payloadTemplateBuilderMap, SinkListener sinkListener) {
-
         StringBuilder sb = null;
         if (payloadTemplateBuilderMap == null) {
             String jsonString = constructJsonForDefaultMapping(event);
@@ -203,7 +221,6 @@ public class JsonSinkMapper extends SinkMapper {
             sb.append(constructJsonForCustomMapping(event,
                     payloadTemplateBuilderMap.get(payloadTemplateBuilderMap.keySet().iterator().next())));
         }
-
         if (sb != null) {
             if (!isJsonValidationEnabled) {
                 sinkListener.publish(sb.toString());

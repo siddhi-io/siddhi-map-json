@@ -97,6 +97,17 @@ import java.util.Map;
                                 + "can handle it as required, ie., assign a default value.)",
                         type = {DataType.BOOL},
                         optional = true,
+                        defaultValue = "true"),
+                @Parameter(name = "event.grouping.enabled",
+                        description =
+                                "This specifies the enclosing element to be used if multiple events are sent in the" +
+                                        " same JSON message. \n" +
+                                        "Siddhi treats the child elements of the given enclosing element as events"
+                                        + " and executes JSON expressions on them. \nIf an `enclosing.element` "
+                                        + "is not provided, the multiple event scenario is disregarded and JSON " +
+                                        "path is evaluated based on the root element.",
+                        type = {DataType.BOOL},
+                        optional = true,
                         defaultValue = "true")
         },
         examples = {
@@ -180,6 +191,7 @@ public class JsonSourceMapper extends SourceMapper {
     private static final String DEFAULT_ENCLOSING_ELEMENT = "$";
     private static final String FAIL_ON_MISSING_ATTRIBUTE_IDENTIFIER = "fail.on.missing.attribute";
     private static final String ENCLOSING_ELEMENT_IDENTIFIER = "enclosing.element";
+    private static final String EVENT_GROUPING_ENABLED = "event.grouping.enabled";
     private static final Logger log = Logger.getLogger(JsonSourceMapper.class);
     private static final Gson gson = new Gson();
 
@@ -193,6 +205,7 @@ public class JsonSourceMapper extends SourceMapper {
     private ObjectMapper objectMapper = new ObjectMapper();
     private JsonFactory factory;
     private int streamAttributesSize;
+    private boolean eventGroupingEnabled = true;
 
     @Override
     public void init(StreamDefinition streamDefinition, OptionHolder optionHolder,
@@ -204,6 +217,8 @@ public class JsonSourceMapper extends SourceMapper {
         this.streamAttributesSize = this.streamDefinition.getAttributeList().size();
         this.failOnMissingAttribute = Boolean.parseBoolean(optionHolder.
                 validateAndGetStaticValue(FAIL_ON_MISSING_ATTRIBUTE_IDENTIFIER, "true"));
+        this.eventGroupingEnabled = Boolean.parseBoolean(optionHolder
+                .validateAndGetStaticValue(EVENT_GROUPING_ENABLED, "true"));
         this.factory = new JsonFactory();
         if (attributeMappingList != null && attributeMappingList.size() > 0) {
             this.mappingPositions = new MappingPositionData[attributeMappingList.size()];
@@ -233,7 +248,14 @@ public class JsonSourceMapper extends SourceMapper {
         convertedEvent = convertToEvent(eventObject, failedEvents);
         if (convertedEvent != null) {
             if (convertedEvent instanceof Event[]) {
-                inputEventHandler.sendEvents((Event[]) convertedEvent);
+                Event[] events = (Event[]) convertedEvent;
+                if (eventGroupingEnabled) {
+                    inputEventHandler.sendEvents(events);
+                } else {
+                    for (int i = 0; i < events.length; i++) {
+                        inputEventHandler.sendEvent(events[i]);
+                    }
+                }
             } else {
                 inputEventHandler.sendEvent((Event) convertedEvent);
             }
