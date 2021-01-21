@@ -97,6 +97,12 @@ import java.util.Map;
                                 + "can handle it as required, ie., assign a default value.)",
                         type = {DataType.BOOL},
                         optional = true,
+                        defaultValue = "true"),
+                @Parameter(name = "event.grouping.enabled",
+                        description = "This parameter is used to preserve event chunks when the value is set to " +
+                                "'true' or the value can be set to 'false' to separate events",
+                        type = {DataType.BOOL},
+                        optional = true,
                         defaultValue = "true")
         },
         examples = {
@@ -180,6 +186,7 @@ public class JsonSourceMapper extends SourceMapper {
     private static final String DEFAULT_ENCLOSING_ELEMENT = "$";
     private static final String FAIL_ON_MISSING_ATTRIBUTE_IDENTIFIER = "fail.on.missing.attribute";
     private static final String ENCLOSING_ELEMENT_IDENTIFIER = "enclosing.element";
+    private static final String EVENT_GROUPING_ENABLED = "event.grouping.enabled";
     private static final Logger log = Logger.getLogger(JsonSourceMapper.class);
     private static final Gson gson = new Gson();
 
@@ -193,6 +200,7 @@ public class JsonSourceMapper extends SourceMapper {
     private ObjectMapper objectMapper = new ObjectMapper();
     private JsonFactory factory;
     private int streamAttributesSize;
+    private boolean eventGroupingEnabled = true;
 
     @Override
     public void init(StreamDefinition streamDefinition, OptionHolder optionHolder,
@@ -204,6 +212,8 @@ public class JsonSourceMapper extends SourceMapper {
         this.streamAttributesSize = this.streamDefinition.getAttributeList().size();
         this.failOnMissingAttribute = Boolean.parseBoolean(optionHolder.
                 validateAndGetStaticValue(FAIL_ON_MISSING_ATTRIBUTE_IDENTIFIER, "true"));
+        this.eventGroupingEnabled = Boolean.parseBoolean(optionHolder
+                .validateAndGetStaticValue(EVENT_GROUPING_ENABLED, "true"));
         this.factory = new JsonFactory();
         if (attributeMappingList != null && attributeMappingList.size() > 0) {
             this.mappingPositions = new MappingPositionData[attributeMappingList.size()];
@@ -233,7 +243,14 @@ public class JsonSourceMapper extends SourceMapper {
         convertedEvent = convertToEvent(eventObject, failedEvents);
         if (convertedEvent != null) {
             if (convertedEvent instanceof Event[]) {
-                inputEventHandler.sendEvents((Event[]) convertedEvent);
+                Event[] events = (Event[]) convertedEvent;
+                if (eventGroupingEnabled) {
+                    inputEventHandler.sendEvents(events);
+                } else {
+                    for (Event event : events) {
+                        inputEventHandler.sendEvent(event);
+                    }
+                }
             } else {
                 inputEventHandler.sendEvent((Event) convertedEvent);
             }
