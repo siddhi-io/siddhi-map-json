@@ -27,6 +27,7 @@ import io.siddhi.core.stream.output.StreamCallback;
 import io.siddhi.core.util.EventPrinter;
 import io.siddhi.core.util.SiddhiTestHelper;
 import io.siddhi.core.util.transport.InMemoryBroker;
+import io.siddhi.core.util.transport.SubscriberUnAvailableException;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
@@ -1828,6 +1829,135 @@ public class JsonSourceMapperTestCase {
         SiddhiTestHelper.waitForEvents(waitTime, 6, count, timeout);
         //assert event count
         AssertJUnit.assertEquals("Number of events", 6, count.get());
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest30() {
+        log.info("test JsonSourceMapper 30: event.grouping.enabled=false");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='testTrpInMemory', topic='stock', prop1='test', prop2='bar', " +
+                "@map(type='json', enclosing.element=\"portfolio\", event.grouping.enabled='false', " +
+                "@attributes(symbol=\"stock.company.symbol\", price=\"stock.price\", " +
+                "volume=\"trp:symbol\"))) " +
+                "define stream FooStream (symbol string, price float, volume string); " +
+                "define stream BarStream (symbol string, price float, volume string); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+        siddhiAppRuntime.addCallback("BarStream", new StreamCallback() {
+
+            @Override
+            public void receive(Event[] events) {
+                EventPrinter.print(events);
+                Assert.assertEquals(events.length, 1,
+                        "An array of events received when event.grouping.enabled is false!");
+                for (Event event : events) {
+                    Assert.assertEquals("test", event.getData(2));
+                    switch (count.incrementAndGet()) {
+                        case 1:
+                            AssertJUnit.assertEquals(55.6f, event.getData(1));
+                            break;
+                        case 2:
+                            AssertJUnit.assertEquals(56.6f, event.getData(1));
+                            break;
+                        case 3:
+                            AssertJUnit.assertEquals(57.6f, event.getData(1));
+                            break;
+                        default:
+                            AssertJUnit.fail();
+                    }
+                }
+            }
+        });
+        siddhiAppRuntime.start();
+        try {
+            InMemoryBroker.publish("stock", "\n" +
+                    "{\"portfolio\":\n" +
+                    "   {\"stock\":{\"volume\":100,\"company\":{\"symbol\":\"wso2\"},\"price\":55.6}}" +
+                    "}");
+            InMemoryBroker.publish("stock", "\n" +
+                    "{\"portfolio\":\n" +
+                    "   [" +
+                    "       {\"stock\":{\"volume\":100,\"company\":{\"symbol\":\"wso2\"},\"price\":56.6}}," +
+                    "       {\"stock\":{\"volume\":200,\"company\":{\"symbol\":\"wso2\"},\"price\":57.6}}" +
+                    "   ]\n" +
+                    "}\n");
+        } catch (SubscriberUnAvailableException e) {
+            AssertJUnit.fail("Could not publish message. " + e.getStackTrace());
+        }
+        try {
+            SiddhiTestHelper.waitForEvents(waitTime, 3, count, timeout);
+        } catch (InterruptedException e) {
+            AssertJUnit.fail("Interrupted while waiting for event arrival " + e.getStackTrace());
+        }
+        //assert event count
+        AssertJUnit.assertEquals("Number of events", 3, count.get());
+        siddhiAppRuntime.shutdown();
+    }
+
+    @Test
+    public void jsonSourceMapperTest31() {
+        log.info("test JsonSourceMapper 31: event.grouping.enabled=true");
+        String streams = "" +
+                "@App:name('TestSiddhiApp')" +
+                "@source(type='testTrpInMemory', topic='stock', prop1='test', prop2='bar', " +
+                "@map(type='json', enclosing.element=\"portfolio\", event.grouping.enabled='true', " +
+                "@attributes(symbol=\"stock.company.symbol\", price=\"stock.price\", " +
+                "volume=\"trp:symbol\"))) " +
+                "define stream FooStream (symbol string, price float, volume string); " +
+                "define stream BarStream (symbol string, price float, volume string); ";
+        String query = "" +
+                "from FooStream " +
+                "select * " +
+                "insert into BarStream; ";
+        SiddhiManager siddhiManager = new SiddhiManager();
+        SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
+        siddhiAppRuntime.addCallback("BarStream", new StreamCallback() {
+
+            @Override
+            public void receive(Event[] events) {
+                EventPrinter.print(events);
+                Assert.assertEquals(events.length, 2,
+                        "An array of events is expected when event.grouping.enabled is true!");
+                for (Event event : events) {
+                    Assert.assertEquals("test", event.getData(2));
+                    switch (count.incrementAndGet()) {
+                        case 1:
+                            AssertJUnit.assertEquals(56.6f, event.getData(1));
+                            break;
+                        case 2:
+                            AssertJUnit.assertEquals(57.6f, event.getData(1));
+                            break;
+                        default:
+                            AssertJUnit.fail();
+                    }
+                }
+            }
+        });
+        siddhiAppRuntime.start();
+        try {
+            InMemoryBroker.publish("stock", "\n" +
+                    "{\"portfolio\":\n" +
+                    "   [" +
+                    "       {\"stock\":{\"volume\":100,\"company\":{\"symbol\":\"wso2\"},\"price\":56.6}}," +
+                    "       {\"stock\":{\"volume\":200,\"company\":{\"symbol\":\"wso2\"},\"price\":57.6}}" +
+                    "   ]\n" +
+                    "}\n");
+        } catch (SubscriberUnAvailableException e) {
+            AssertJUnit.fail("Could not publish message. " + e.getStackTrace());
+        }
+        try {
+            SiddhiTestHelper.waitForEvents(waitTime, 2, count, timeout);
+        } catch (InterruptedException e) {
+            AssertJUnit.fail("Interrupted while waiting for event arrival " + e.getStackTrace());
+        }
+        //assert event count
+        AssertJUnit.assertEquals("Number of events", 2, count.get());
         siddhiAppRuntime.shutdown();
     }
 }
