@@ -114,7 +114,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#api-docs-v520" tabindex="1" class="md-skip">
+      <a href="#api-docs-v521" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -358,6 +358,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../5.2.1/" title="5.2.1" class="md-nav__link">
+      5.2.1
+    </a>
   </li>
 
         
@@ -925,7 +937,7 @@
                   <a href="https://github.com/siddhi-io/siddhi-map-json/blob/master/api/latest.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="api-docs-v520">API Docs - v5.2.0</h1>
+                <h1 id="api-docs-v521">API Docs - v5.2.1</h1>
 <div class="admonition info">
 <p class="admonition-title">Tested Siddhi Core version: <em><a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/">5.1.18</a></em></p>
 <p>It could also support other Siddhi Core minor versions.</p>
@@ -936,7 +948,7 @@
 <p style="word-wrap: break-word;margin: 0;">This extension is an Event to JSON output mapper. <br>Transports that publish  messages can utilize this extension to convert Siddhi events to JSON messages. <br>You can either send a pre-defined JSON format or a custom JSON message.<br></p>
 <p></p>
 <span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
-<pre><code>@sink(..., @map(type=&quot;json&quot;, validate.json=&quot;&lt;BOOL&gt;&quot;, enclosing.element=&quot;&lt;STRING&gt;&quot;, event.grouping.enabled=&quot;&lt;BOOL&gt;&quot;)
+<pre><code>@sink(..., @map(type=&quot;json&quot;, validate.json=&quot;&lt;BOOL&gt;&quot;, enclosing.element=&quot;&lt;STRING&gt;&quot;, event.grouping.enabled=&quot;&lt;BOOL&gt;&quot;, enable.null.attribute.value=&quot;&lt;BOOL&gt;&quot;)
 </code></pre>
 
 <p><span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
@@ -969,6 +981,14 @@
         <td style="vertical-align: top">event.grouping.enabled</td>
         <td style="vertical-align: top; word-wrap: break-word"><p style="word-wrap: break-word;margin: 0;">This parameter is used to preserve event chunks when the value is set to 'true' or the value can be set to 'false' to separate events</p></td>
         <td style="vertical-align: top">true</td>
+        <td style="vertical-align: top">BOOL</td>
+        <td style="vertical-align: top">Yes</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">enable.null.attribute.value</td>
+        <td style="vertical-align: top; word-wrap: break-word"><p style="word-wrap: break-word;margin: 0;">If this parameter is true, output parameter values will contain null values if not they will be undefined</p></td>
+        <td style="vertical-align: top">false</td>
         <td style="vertical-align: top">BOOL</td>
         <td style="vertical-align: top">Yes</td>
         <td style="vertical-align: top">No</td>
@@ -1123,13 +1143,13 @@ define stream FooStream (symbol string, price float, volume long);
           </a>
         
         
-          <a href="../5.2.0/" title="5.2.0" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../5.2.1/" title="5.2.1" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                5.2.0
+                5.2.1
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
