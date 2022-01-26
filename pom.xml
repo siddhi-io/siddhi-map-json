@@ -53,9 +53,50 @@
                     <version>${siddhi.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>org.apache.log4j.wso2</groupId>
-                    <artifactId>log4j</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-api</artifactId>
                     <version>${log4j.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>javax.mail</groupId>
+                            <artifactId>mail</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>javax.jms</groupId>
+                            <artifactId>jms</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.sun.jdmk</groupId>
+                            <artifactId>jmxtools</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.sun.jmx</groupId>
+                            <artifactId>jmxri</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-core</artifactId>
+                    <version>${log4j.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>javax.mail</groupId>
+                            <artifactId>mail</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>javax.jms</groupId>
+                            <artifactId>jms</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.sun.jdmk</groupId>
+                            <artifactId>jmxtools</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.sun.jmx</groupId>
+                            <artifactId>jmxri</artifactId>
+                        </exclusion>
+                    </exclusions>
                 </dependency>
                 <dependency>
                     <groupId>org.testng</groupId>
@@ -135,9 +176,9 @@
         </plugins>
     </build>
     <properties>
-        <siddhi.version>5.1.18</siddhi.version>
+        <siddhi.version>5.1.21-SNAPSHOT</siddhi.version>
         <siddhi.version.range>[5.0.0,6.0.0)</siddhi.version.range>
-        <log4j.version>1.2.17.wso2v1</log4j.version>
+        <log4j.version>2.17.1</log4j.version>
         <carbon.feature.plugin.version>3.0.0</carbon.feature.plugin.version>
         <jackson.version>2.9.10.1</jackson.version>
         <jsonpath.version>2.2.0</jsonpath.version>
