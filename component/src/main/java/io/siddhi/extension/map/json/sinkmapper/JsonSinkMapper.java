@@ -34,7 +34,8 @@ import io.siddhi.core.util.config.ConfigReader;
 import io.siddhi.core.util.transport.OptionHolder;
 import io.siddhi.core.util.transport.TemplateBuilder;
 import io.siddhi.query.api.definition.StreamDefinition;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
@@ -120,7 +121,7 @@ import java.util.Map;
 )
 
 public class JsonSinkMapper extends SinkMapper {
-    private static final Logger log = Logger.getLogger(JsonSinkMapper.class);
+    private static final Logger log = LogManager.getLogger(JsonSinkMapper.class);
     private static final String EVENT_PARENT_TAG = "event";
     private static final String ENCLOSING_ELEMENT_IDENTIFIER = "enclosing.element";
     private static final String DEFAULT_ENCLOSING_ELEMENT = "$";

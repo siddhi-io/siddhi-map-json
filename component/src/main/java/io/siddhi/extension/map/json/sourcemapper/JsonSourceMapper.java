@@ -48,7 +48,8 @@ import io.siddhi.core.util.transport.OptionHolder;
 import io.siddhi.query.api.definition.Attribute;
 import io.siddhi.query.api.definition.StreamDefinition;
 import net.minidev.json.JSONArray;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -187,7 +188,7 @@ public class JsonSourceMapper extends SourceMapper {
     private static final String FAIL_ON_MISSING_ATTRIBUTE_IDENTIFIER = "fail.on.missing.attribute";
     private static final String ENCLOSING_ELEMENT_IDENTIFIER = "enclosing.element";
     private static final String EVENT_GROUPING_ENABLED = "event.grouping.enabled";
-    private static final Logger log = Logger.getLogger(JsonSourceMapper.class);
+    private static final Logger log = LogManager.getLogger(JsonSourceMapper.class);
     private static final Gson gson = new Gson();
 
     private StreamDefinition streamDefinition;
