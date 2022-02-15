@@ -28,7 +28,9 @@ import io.siddhi.core.util.EventPrinter;
 import io.siddhi.core.util.SiddhiTestHelper;
 import io.siddhi.core.util.transport.InMemoryBroker;
 import io.siddhi.core.util.transport.SubscriberUnAvailableException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeMethod;
@@ -38,7 +40,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class JsonSourceMapperTestCase {
-    private static Logger log = Logger.getLogger(JsonSourceMapperTestCase.class.getName());
+    private static final Logger log = (Logger) LogManager.getLogger(JsonSourceMapperTestCase.class);
     private final int waitTime = 2000;
     private final int timeout = 30000;
     private AtomicInteger count = new AtomicInteger();
@@ -978,9 +980,12 @@ public class JsonSourceMapperTestCase {
     @Test
     public void jsonSourceMapperTest15() throws Exception {
         log.info("test JsonSourceMapper with test json missing attribute");
-        log = Logger.getLogger(JsonSourceMapper.class);
-        UnitTestAppender appender = new UnitTestAppender();
-        log.addAppender(appender);
+        UnitTestAppender appender = new UnitTestAppender("UnitTestAppender", null);
+        final Logger logger = (Logger) LogManager.getRootLogger();
+        logger.setLevel(Level.ALL);
+        logger.addAppender(appender);
+        appender.start();
+
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -994,16 +999,20 @@ public class JsonSourceMapperTestCase {
         SiddhiAppRuntime siddhiAppRuntime = siddhiManager.createSiddhiAppRuntime(streams + query);
         siddhiAppRuntime.start();
         InMemoryBroker.publish("stock", "12");
-        AssertJUnit.assertTrue(appender.getMessages().contains("Json message 12 contains missing attributes"));
+        AssertJUnit.assertTrue(((UnitTestAppender) logger.getAppenders().
+                get("UnitTestAppender")).getMessages().contains("Json message 12 contains missing attributes"));
         siddhiAppRuntime.shutdown();
+        logger.removeAppender(appender);
     }
 
     @Test
     public void jsonSourceMapperTest16() throws Exception {
         log.info("test JsonSourceMapper with test validate event identifier");
-        log = Logger.getLogger(JsonSourceMapper.class);
-        UnitTestAppender appender = new UnitTestAppender();
-        log.addAppender(appender);
+        UnitTestAppender appender = new UnitTestAppender("UnitTestAppender", null);
+        final Logger logger = (Logger) LogManager.getRootLogger();
+        logger.setLevel(Level.ALL);
+        logger.addAppender(appender);
+        appender.start();
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -1018,9 +1027,11 @@ public class JsonSourceMapperTestCase {
         siddhiAppRuntime.start();
         InMemoryBroker.publish("stock",
                 "{\"event1\":{\"symbol\":\"WSO2\",\"price\":52.6,\"volume\":100}}");
-        AssertJUnit.assertTrue(appender.getMessages()
-                .contains("Stream \"FooStream\" does not have an attribute named \"event1\""));
+        AssertJUnit.assertTrue(((UnitTestAppender) logger.getAppenders().
+                get("UnitTestAppender")).getMessages().contains("Stream \"FooStream\" " +
+                "does not have an attribute named \"event1\""));
         siddhiAppRuntime.shutdown();
+        logger.removeAppender(appender);
     }
 
     @Test
@@ -1100,9 +1111,11 @@ public class JsonSourceMapperTestCase {
     @Test
     public void jsonSourceMapperTest18() throws Exception {
         log.info("test JsonSourceMapper with test values type's double");
-        log = Logger.getLogger(JsonSourceMapper.class);
-        UnitTestAppender appender = new UnitTestAppender();
-        log.addAppender(appender);
+        UnitTestAppender appender = new UnitTestAppender("UnitTestAppender", null);
+        final Logger logger = (Logger) LogManager.getRootLogger();
+        logger.setLevel(Level.ALL);
+        logger.addAppender(appender);
+        appender.start();
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -1123,16 +1136,20 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\":100\n" +
                 "      }\n" +
                 " }");
-        AssertJUnit.assertTrue(appender.getMessages().contains("contains incompatible attribute types and values"));
+        AssertJUnit.assertTrue(((UnitTestAppender) logger.getAppenders().
+                get("UnitTestAppender")).getMessages().contains("contains incompatible attribute types and values"));
         siddhiAppRuntime.shutdown();
+        logger.removeAppender(appender);
     }
 
     @Test
     public void jsonSourceMapperTest19() throws Exception {
         log.info("test JsonSourceMapper with test values type's Int");
-        log = Logger.getLogger(JsonSourceMapper.class);
-        UnitTestAppender appender = new UnitTestAppender();
-        log.addAppender(appender);
+        UnitTestAppender appender = new UnitTestAppender("UnitTestAppender", null);
+        final Logger logger = (Logger) LogManager.getRootLogger();
+        logger.setLevel(Level.ALL);
+        logger.addAppender(appender);
+        appender.start();
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -1153,16 +1170,20 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\":100.0\n" +
                 "      }\n" +
                 " }");
-        AssertJUnit.assertTrue(appender.getMessages().contains("contains incompatible attribute types and values"));
+        AssertJUnit.assertTrue(((UnitTestAppender) logger.getAppenders().
+                get("UnitTestAppender")).getMessages().contains("contains incompatible attribute types and values"));
         siddhiAppRuntime.shutdown();
+        logger.removeAppender(appender);
     }
 
     @Test
     public void jsonSourceMapper20() throws Exception {
         log.info("test JsonSourceMapper with test Test values type boolean");
-        log = Logger.getLogger(JsonSourceMapper.class);
-        UnitTestAppender appender = new UnitTestAppender();
-        log.addAppender(appender);
+        UnitTestAppender appender = new UnitTestAppender("UnitTestAppender", null);
+        final Logger logger = (Logger) LogManager.getRootLogger();
+        logger.setLevel(Level.ALL);
+        logger.addAppender(appender);
+        appender.start();
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -1183,16 +1204,20 @@ public class JsonSourceMapperTestCase {
                 "         \"volume\":100.0\n" +
                 "      }\n" +
                 " }");
-        AssertJUnit.assertTrue(appender.getMessages().contains("contains incompatible attribute types and values"));
+        AssertJUnit.assertTrue(((UnitTestAppender) logger.getAppenders().
+                get("UnitTestAppender")).getMessages().contains("contains incompatible attribute types and values"));
         siddhiAppRuntime.shutdown();
+        logger.removeAppender(appender);
     }
 
     @Test
     public void jsonSourceMapperTest21() throws Exception {
         log.info("test JsonSourceMapper with test json object type");
-        log = Logger.getLogger(JsonSourceMapper.class);
-        UnitTestAppender appender = new UnitTestAppender();
-        log.addAppender(appender);
+        UnitTestAppender appender = new UnitTestAppender("UnitTestAppender", null);
+        final Logger logger = (Logger) LogManager.getRootLogger();
+        logger.setLevel(Level.ALL);
+        logger.addAppender(appender);
+        appender.start();
         String streams = "" +
                 "@App:name('TestSiddhiApp')" +
                 "@source(type='inMemory', topic='stock', @map(type='json')) " +
@@ -1207,8 +1232,10 @@ public class JsonSourceMapperTestCase {
 
         siddhiAppRuntime.start();
         InMemoryBroker.publish("stock", 12);
-        AssertJUnit.assertTrue(appender.getMessages().contains("Invalid JSON object received. Expected String"));
+        AssertJUnit.assertTrue(((UnitTestAppender) logger.getAppenders().
+                get("UnitTestAppender")).getMessages().contains("Invalid JSON object received. Expected String"));
         siddhiAppRuntime.shutdown();
+        logger.removeAppender(appender);
     }
 
     @Test
