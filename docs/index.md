@@ -19,12 +19,12 @@ For information on <a target="_blank" href="https://siddhi.io/">Siddhi</a> and i
 
 ## Latest API Docs 
 
-Latest API Docs is <a target="_blank" href="https://siddhi-io.github.io/siddhi-map-json/api/5.2.2">5.2.2</a>.
+Latest API Docs is <a target="_blank" href="https://siddhi-io.github.io/siddhi-map-json/api/5.2.3">5.2.3</a>.
 
 ## Features
 
-* <a target="_blank" href="https://siddhi-io.github.io/siddhi-map-json/api/5.2.2/#json-sink-mapper">json</a> *(<a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/#sink-mapper">Sink Mapper</a>)*<br> <div style="padding-left: 1em;"><p><p style="word-wrap: break-word;margin: 0;">This extension is an Event to JSON output mapper. <br>Transports that publish  messages can utilize this extension to convert Siddhi events to JSON messages. <br>You can either send a pre-defined JSON format or a custom JSON message.<br></p></p></div>
-* <a target="_blank" href="https://siddhi-io.github.io/siddhi-map-json/api/5.2.2/#json-source-mapper">json</a> *(<a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/#source-mapper">Source Mapper</a>)*<br> <div style="padding-left: 1em;"><p><p style="word-wrap: break-word;margin: 0;">This extension is a JSON-to-Event input mapper. Transports that accept JSON messages can utilize this extension to convert an incoming JSON message into a Siddhi event. Users can either send a pre-defined JSON format, where event conversion happens without any configurations, or use the JSON path to map from a custom JSON message.<br>In default mapping, the JSON string of the event can be enclosed by the element "event", though optional.</p></p></div>
+* <a target="_blank" href="https://siddhi-io.github.io/siddhi-map-json/api/5.2.3/#json-sink-mapper">json</a> *(<a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/#sink-mapper">Sink Mapper</a>)*<br> <div style="padding-left: 1em;"><p><p style="word-wrap: break-word;margin: 0;">This extension is an Event to JSON output mapper. <br>Transports that publish  messages can utilize this extension to convert Siddhi events to JSON messages. <br>You can either send a pre-defined JSON format or a custom JSON message.<br></p></p></div>
+* <a target="_blank" href="https://siddhi-io.github.io/siddhi-map-json/api/5.2.3/#json-source-mapper">json</a> *(<a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/#source-mapper">Source Mapper</a>)*<br> <div style="padding-left: 1em;"><p><p style="word-wrap: break-word;margin: 0;">This extension is a JSON-to-Event input mapper. Transports that accept JSON messages can utilize this extension to convert an incoming JSON message into a Siddhi event. Users can either send a pre-defined JSON format, where event conversion happens without any configurations, or use the JSON path to map from a custom JSON message.<br>In default mapping, the JSON string of the event can be enclosed by the element "event", though optional.</p></p></div>
 
 ## Dependencies 
 
