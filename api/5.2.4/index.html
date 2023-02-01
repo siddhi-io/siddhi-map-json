@@ -38,7 +38,7 @@
     
     
       
-        <title>5.0.2 - Siddhi Map JSON</title>
+        <title>5.2.4 - Siddhi Map JSON</title>
       
     
     
@@ -114,7 +114,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#api-docs-v502" tabindex="1" class="md-skip">
+      <a href="#api-docs-v524" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -140,7 +140,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                5.0.2
+                5.2.4
               
             </span>
           
@@ -294,11 +294,82 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../5.2.4/" title="5.2.4" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        5.2.4
+      </label>
+    
+    <a href="./" title="5.2.4" class="md-nav__link md-nav__link--active">
       5.2.4
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sinkmapper" title="Sinkmapper" class="md-nav__link">
+    Sinkmapper
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json-sink-mapper" title="json (Sink Mapper)" class="md-nav__link">
+    json (Sink Mapper)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sourcemapper" title="Sourcemapper" class="md-nav__link">
+    Sourcemapper
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json-source-mapper" title="json (Source Mapper)" class="md-nav__link">
+    json (Source Mapper)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -438,82 +509,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        5.0.2
-      </label>
-    
-    <a href="./" title="5.0.2" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../5.0.2/" title="5.0.2" class="md-nav__link">
       5.0.2
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#sinkmapper" title="Sinkmapper" class="md-nav__link">
-    Sinkmapper
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#json-sink-mapper" title="json (Sink Mapper)" class="md-nav__link">
-    json (Sink Mapper)
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sourcemapper" title="Sourcemapper" class="md-nav__link">
-    Sourcemapper
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#json-source-mapper" title="json (Source Mapper)" class="md-nav__link">
-    json (Source Mapper)
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -970,16 +970,21 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/siddhi-io/siddhi-map-json/blob/master/api/5.0.2.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/siddhi-io/siddhi-map-json/blob/master/api/5.2.4.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="api-docs-v502">API Docs - v5.0.2</h1>
+                <h1 id="api-docs-v524">API Docs - v5.2.4</h1>
+<div class="admonition info">
+<p class="admonition-title">Tested Siddhi Core version: <em><a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/">5.1.21</a></em></p>
+<p>It could also support other Siddhi Core minor versions.</p>
+</div>
 <h2 id="sinkmapper">Sinkmapper</h2>
-<h3 id="json-sink-mapper">json <em><a target="_blank" href="https://siddhi.io/en/v5.0/docs/query-guide/#sink-mapper">(Sink Mapper)</a></em></h3>
-<p style="word-wrap: break-word">This extension is an Event to JSON output mapper. <br>Transports that publish  messages can utilize this extension to convert Siddhi events to JSON messages. <br>You can either send a pre-defined JSON format or a custom JSON message.<br></p>
-
-<p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
-<pre><code>@sink(..., @map(type=&quot;json&quot;, validate.json=&quot;&lt;BOOL&gt;&quot;, enclosing.element=&quot;&lt;STRING&gt;&quot;)
+<h3 id="json-sink-mapper">json <em><a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/#sink-mapper">(Sink Mapper)</a></em></h3>
+<p><p></p>
+<p style="word-wrap: break-word;margin: 0;">This extension is an Event to JSON output mapper. <br>Transports that publish  messages can utilize this extension to convert Siddhi events to JSON messages. <br>You can either send a pre-defined JSON format or a custom JSON message.<br></p>
+<p></p>
+<span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
+<pre><code>@sink(..., @map(type=&quot;json&quot;, validate.json=&quot;&lt;BOOL&gt;&quot;, enclosing.element=&quot;&lt;STRING&gt;&quot;, event.grouping.enabled=&quot;&lt;BOOL&gt;&quot;, enable.null.attribute.value=&quot;&lt;BOOL&gt;&quot;)
 </code></pre>
 
 <p><span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
@@ -994,7 +999,7 @@
     </tr>
     <tr>
         <td style="vertical-align: top">validate.json</td>
-        <td style="vertical-align: top; word-wrap: break-word">If this property is set to <code>true</code>, it enables JSON validation for the JSON messages generated. <br>When validation is carried out, messages that do not adhere to proper JSON standards are dropped. This property is set to 'false' by default. <br></td>
+        <td style="vertical-align: top; word-wrap: break-word"><p style="word-wrap: break-word;margin: 0;">If this property is set to <code>true</code>, it enables JSON validation for the JSON messages generated. <br>When validation is carried out, messages that do not adhere to proper JSON standards are dropped. This property is set to 'false' by default. <br></p></td>
         <td style="vertical-align: top">false</td>
         <td style="vertical-align: top">BOOL</td>
         <td style="vertical-align: top">Yes</td>
@@ -1002,9 +1007,25 @@
     </tr>
     <tr>
         <td style="vertical-align: top">enclosing.element</td>
-        <td style="vertical-align: top; word-wrap: break-word">This specifies the enclosing element to be used if multiple events are sent in the same JSON message. <br>Siddhi treats the child elements of the given enclosing element as events and executes JSON expressions on them. <br>If an <code>enclosing.element</code> is not provided, the multiple event scenario is disregarded and JSON path is evaluated based on the root element.</td>
+        <td style="vertical-align: top; word-wrap: break-word"><p style="word-wrap: break-word;margin: 0;">This specifies the enclosing element to be used if multiple events are sent in the same JSON message. <br>Siddhi treats the child elements of the given enclosing element as events and executes JSON expressions on them. <br>If an <code>enclosing.element</code> is not provided, the multiple event scenario is disregarded and JSON path is evaluated based on the root element.</p></td>
         <td style="vertical-align: top">$</td>
         <td style="vertical-align: top">STRING</td>
+        <td style="vertical-align: top">Yes</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">event.grouping.enabled</td>
+        <td style="vertical-align: top; word-wrap: break-word"><p style="word-wrap: break-word;margin: 0;">This parameter is used to preserve event chunks when the value is set to 'true' or the value can be set to 'false' to separate events</p></td>
+        <td style="vertical-align: top">true</td>
+        <td style="vertical-align: top">BOOL</td>
+        <td style="vertical-align: top">Yes</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">enable.null.attribute.value</td>
+        <td style="vertical-align: top; word-wrap: break-word"><p style="word-wrap: break-word;margin: 0;">If this parameter is true, output parameter values will contain null values if not they will be undefined</p></td>
+        <td style="vertical-align: top">false</td>
+        <td style="vertical-align: top">BOOL</td>
         <td style="vertical-align: top">Yes</td>
         <td style="vertical-align: top">No</td>
     </tr>
@@ -1016,21 +1037,30 @@ define stream FooStream (symbol string, price float, volume long);
 
 </code></pre>
 
-<p style="word-wrap: break-word">Above configuration does a default JSON input mapping that generates the output given below.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
+<p></p>
+
+<p style="word-wrap: break-word;margin: 0;">Above configuration does a default JSON input mapping that generates the output given below.<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
+
+<p></p>
 
 <p><span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span></p>
-<pre><code>@sink(type='inMemory', topic='{{symbol}}', @map(type='json', enclosing.element='$.portfolio', validate.json='true', @payload( &quot;&quot;&quot;{&quot;StockData&quot;:{&quot;Symbol&quot;:&quot;{{symbol}}&quot;,&quot;Price&quot;:{{price}}}&quot;&quot;&quot;)))
+<pre><code>@sink(type='inMemory', topic='{{symbol}}', @map(type='json', enclosing.element='$.portfolio', validate.json='true', @payload( &quot;&quot;&quot;{&quot;StockData&quot;:{&quot;Symbol&quot;:&quot;{{symbol}}&quot;,&quot;Price&quot;:{{price}}}}&quot;&quot;&quot;)))
 define stream BarStream (symbol string, price float, volume long);
 </code></pre>
 
-<p style="word-wrap: break-word">The above configuration performs a custom JSON mapping that generates the following JSON message as the output.<br>{"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;"StockData":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}<br>}</p>
+<p></p>
+
+<p style="word-wrap: break-word;margin: 0;">The above configuration performs a custom JSON mapping that generates the following JSON message as the output.<br>{"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;"StockData":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Symbol":WSO2,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}<br>}</p>
+
+<p></p>
 
 <h2 id="sourcemapper">Sourcemapper</h2>
-<h3 id="json-source-mapper">json <em><a target="_blank" href="https://siddhi.io/en/v5.0/docs/query-guide/#source-mapper">(Source Mapper)</a></em></h3>
-<p style="word-wrap: break-word">This extension is a JSON-to-Event input mapper. Transports that accept JSON messages can utilize this extension to convert an incoming JSON message into a Siddhi event. Users can either send a pre-defined JSON format, where event conversion happens without any configurations, or use the JSON path to map from a custom JSON message.<br>In default mapping, the JSON string of the event can be enclosed by the element "event", though optional.</p>
-
-<p><span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
-<pre><code>@source(..., @map(type=&quot;json&quot;, enclosing.element=&quot;&lt;STRING&gt;&quot;, fail.on.missing.attribute=&quot;&lt;BOOL&gt;&quot;)
+<h3 id="json-source-mapper">json <em><a target="_blank" href="http://siddhi.io/en/v5.1/docs/query-guide/#source-mapper">(Source Mapper)</a></em></h3>
+<p><p></p>
+<p style="word-wrap: break-word;margin: 0;">This extension is a JSON-to-Event input mapper. Transports that accept JSON messages can utilize this extension to convert an incoming JSON message into a Siddhi event. Users can either send a pre-defined JSON format, where event conversion happens without any configurations, or use the JSON path to map from a custom JSON message.<br>In default mapping, the JSON string of the event can be enclosed by the element "event", though optional.</p>
+<p></p>
+<span id="syntax" class="md-typeset" style="display: block; font-weight: bold;">Syntax</span></p>
+<pre><code>@source(..., @map(type=&quot;json&quot;, enclosing.element=&quot;&lt;STRING&gt;&quot;, fail.on.missing.attribute=&quot;&lt;BOOL&gt;&quot;, event.grouping.enabled=&quot;&lt;BOOL&gt;&quot;)
 </code></pre>
 
 <p><span id="query-parameters" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">QUERY PARAMETERS</span>
@@ -1045,7 +1075,7 @@ define stream BarStream (symbol string, price float, volume long);
     </tr>
     <tr>
         <td style="vertical-align: top">enclosing.element</td>
-        <td style="vertical-align: top; word-wrap: break-word">This is used to specify the enclosing element when sending multiple events in the same JSON message. <br>Mapper treats the child elements of a given enclosing element as events and executes the JSON path expressions on these child elements. <br>If the enclosing.element is not provided then the multiple-event scenario is disregarded and the JSON path is evaluated based on the root element.</td>
+        <td style="vertical-align: top; word-wrap: break-word"><p style="word-wrap: break-word;margin: 0;">This is used to specify the enclosing element when sending multiple events in the same JSON message. <br>Mapper treats the child elements of a given enclosing element as events and executes the JSON path expressions on these child elements. <br>If the enclosing.element is not provided then the multiple-event scenario is disregarded and the JSON path is evaluated based on the root element.</p></td>
         <td style="vertical-align: top">$</td>
         <td style="vertical-align: top">STRING</td>
         <td style="vertical-align: top">Yes</td>
@@ -1053,7 +1083,15 @@ define stream BarStream (symbol string, price float, volume long);
     </tr>
     <tr>
         <td style="vertical-align: top">fail.on.missing.attribute</td>
-        <td style="vertical-align: top; word-wrap: break-word"><br>This parameter allows users to handle unknown attributes.The value of this can either be true or false. By default it is true. <br>&nbsp;If a JSON execution fails or returns null, mapper drops that message. <br>However, setting this property to false prompts mapper to send an event with a null value to Siddhi, where users can handle it as required, ie., assign a default value.)</td>
+        <td style="vertical-align: top; word-wrap: break-word"><p style="word-wrap: break-word;margin: 0;"><br>This parameter allows users to handle unknown attributes.The value of this can either be true or false. By default it is true. <br>&nbsp;If a JSON execution fails or returns null, mapper drops that message. <br>However, setting this property to false prompts mapper to send an event with a null value to Siddhi, where users can handle it as required, ie., assign a default value.)</p></td>
+        <td style="vertical-align: top">true</td>
+        <td style="vertical-align: top">BOOL</td>
+        <td style="vertical-align: top">Yes</td>
+        <td style="vertical-align: top">No</td>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">event.grouping.enabled</td>
+        <td style="vertical-align: top; word-wrap: break-word"><p style="word-wrap: break-word;margin: 0;">This parameter is used to preserve event chunks when the value is set to 'true' or the value can be set to 'false' to separate events</p></td>
         <td style="vertical-align: top">true</td>
         <td style="vertical-align: top">BOOL</td>
         <td style="vertical-align: top">Yes</td>
@@ -1067,7 +1105,11 @@ define stream FooStream (symbol string, price float, volume long);
 
 </code></pre>
 
-<p style="word-wrap: break-word">This configuration performs a default JSON input mapping.<br>&nbsp;For a single event, the input is required to be in one of the following formats:<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br><br>or <br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>}<br></p>
+<p></p>
+
+<p style="word-wrap: break-word;margin: 0;">This configuration performs a default JSON input mapping.<br>&nbsp;For a single event, the input is required to be in one of the following formats:<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"event":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br><br>or <br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2",<br>&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6,<br>&nbsp;&nbsp;&nbsp;&nbsp;"volume":100<br>}<br></p>
+
+<p></p>
 
 <p><span id="example-2" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 2</span></p>
 <pre><code>@source(type='inMemory', topic='stock', @map(type='json'))
@@ -1075,13 +1117,21 @@ define stream FooStream (symbol string, price float, volume long);
 
 </code></pre>
 
-<p style="word-wrap: break-word">This configuration performs a default JSON input mapping. <br>For multiple events, the input is required to be in one of the following formats:<br>[<br>{"event":{"symbol":"WSO2","price":55.6,"volume":100}},<br>{"event":{"symbol":"WSO2","price":56.6,"volume":99}},<br>{"event":{"symbol":"WSO2","price":57.6,"volume":80}}<br>]<br><br>or <br><br>[<br>{"symbol":"WSO2","price":55.6,"volume":100},<br>{"symbol":"WSO2","price":56.6,"volume":99},<br>{"symbol":"WSO2","price":57.6,"volume":80}<br>]</p>
+<p></p>
+
+<p style="word-wrap: break-word;margin: 0;">This configuration performs a default JSON input mapping. <br>For multiple events, the input is required to be in one of the following formats:<br>[<br>{"event":{"symbol":"WSO2","price":55.6,"volume":100}},<br>{"event":{"symbol":"WSO2","price":56.6,"volume":99}},<br>{"event":{"symbol":"WSO2","price":57.6,"volume":80}}<br>]<br><br>or <br><br>[<br>{"symbol":"WSO2","price":55.6,"volume":100},<br>{"symbol":"WSO2","price":56.6,"volume":99},<br>{"symbol":"WSO2","price":57.6,"volume":80}<br>]</p>
+
+<p></p>
 
 <p><span id="example-3" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 3</span></p>
 <pre><code>@source(type='inMemory', topic='stock', @map(type='json', enclosing.element=&quot;$.portfolio&quot;, @attributes(symbol = &quot;company.symbol&quot;, price = &quot;price&quot;, volume = &quot;volume&quot;)))
 </code></pre>
 
-<p style="word-wrap: break-word">This configuration performs a custom JSON mapping.<br>For a single event, the expected input is similar to the one shown below:<br>.{<br>&nbsp;"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"stock":{        "volume":100,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></p>
+<p></p>
+
+<p style="word-wrap: break-word;margin: 0;">This configuration performs a custom JSON mapping.<br>For a single event, the expected input is similar to the one shown below:<br>{<br>&nbsp;"portfolio":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"stock":{        "volume":100,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company":{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"symbol":"WSO2"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price":55.6<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;}<br>}<br></p>
+
+<p></p>
 
 <p><span id="example-4" class="md-typeset" style="display: block; color: rgba(0, 0, 0, 0.54); font-size: 12.8px; font-weight: bold;">EXAMPLE 4</span></p>
 <pre><code>@source(type='inMemory', topic='stock', @map(type='json', enclosing.element=&quot;$.portfolio&quot;, @attributes(symbol = &quot;stock.company.symbol&quot;, price = &quot;stock.price&quot;, volume = &quot;stock.volume&quot;)))
@@ -1089,7 +1139,11 @@ define stream FooStream (symbol string, price float, volume long);
 
 </code></pre>
 
-<p style="word-wrap: break-word">The configuration performs a custom JSON mapping.<br>For multiple events, expected input looks as follows.<br>.{"portfolio":<br>&nbsp;&nbsp;&nbsp;[     {"stock":{"volume":100,"company":{"symbol":"wso2"},"price":56.6}},     {"stock":{"volume":200,"company":{"symbol":"wso2"},"price":57.6}}   ]<br>}<br></p>
+<p></p>
+
+<p style="word-wrap: break-word;margin: 0;">The configuration performs a custom JSON mapping.<br>For multiple events, expected input looks as follows.<br>.{"portfolio":<br>&nbsp;&nbsp;&nbsp;[     {"stock":{"volume":100,"company":{"symbol":"wso2"},"price":56.6}},     {"stock":{"volume":200,"company":{"symbol":"wso2"},"price":57.6}}   ]<br>}<br></p>
+
+<p></p>
                 
                   
                 
@@ -1110,7 +1164,7 @@ define stream FooStream (symbol string, price float, volume long);
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../5.0.3/" title="5.0.3" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../latest/" title="latest" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -1119,19 +1173,19 @@ define stream FooStream (symbol string, price float, volume long);
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                5.0.3
+                latest
               </span>
             </div>
           </a>
         
         
-          <a href="../5.0.1/" title="5.0.1" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../5.2.3/" title="5.2.3" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                5.0.1
+                5.2.3
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
