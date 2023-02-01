@@ -28,7 +28,7 @@
 
     <groupId>io.siddhi.extension.map.json</groupId>
     <artifactId>siddhi-map-json-parent</artifactId>
-    <version>5.2.4-SNAPSHOT</version>
+    <version>5.2.4</version>
     <name>Siddhi JSON Map Extensions</name>
 
     <modules>
@@ -196,7 +196,7 @@
         <url>https://github.com/siddhi-io/siddhi-map-json.git</url>
         <developerConnection>scm:git:https://github.com/siddhi-io/siddhi-map-json.git</developerConnection>
         <connection>scm:git:https://github.com/siddhi-io/siddhi-map-json.git</connection>
-        <tag>HEAD</tag>
+        <tag>v5.2.4</tag>
     </scm>
 
 </project>
