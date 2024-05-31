@@ -185,6 +185,7 @@
         <jackson.databind.version>2.9.10.8</jackson.databind.version>
         <jsonpath.version>2.9.0</jsonpath.version>
         <gson.version>2.8.0</gson.version>
+        <gson.version.range>[2.8.0, 3.0.0)</gson.version.range>
         <testng.version>6.8</testng.version>
         <tapestry.json.orbit.version>5.4.1.wso2v1</tapestry.json.orbit.version>
         <net.minidev.version>2.5.0</net.minidev.version>
