@@ -204,7 +204,7 @@ public class JsonSinkMapper extends SinkMapper {
             } else if (isValidJson(sb.toString())) {
                 sinkListener.publish(sb.toString());
             } else {
-                log.error("Invalid json string : " + sb.toString() + ". Hence dropping the message.");
+                log.error("Invalid json string : {}. Hence dropping the message.", sb.toString());
             }
         } else {
             for (Event event : events) {
@@ -234,7 +234,7 @@ public class JsonSinkMapper extends SinkMapper {
             } else if (isValidJson(sb.toString())) {
                 sinkListener.publish(sb.toString());
             } else {
-                log.error("Invalid json string : " + sb.toString() + ". Hence dropping the message.");
+                log.error("Invalid json string : {}. Hence dropping the message.", sb.toString());
             }
         }
     }
@@ -277,8 +277,10 @@ public class JsonSinkMapper extends SinkMapper {
                 }
                 sb.append(eventArray.toString());
             } else {
-                log.error("Invalid object type. " + eventObj.toString() +
-                        " cannot be converted to an event or event array. Hence dropping message.");
+                log.error(
+                        "Invalid object type. {} cannot be converted to an event or event array. Hence dropping " +
+                                "message.",
+                        eventObj.toString());
                 return null;
             }
             for (int i = 0; i < numberOfOuterObjects; i++) {
@@ -308,8 +310,8 @@ public class JsonSinkMapper extends SinkMapper {
                 }
                 return (eventArray.toString());
             } else {
-                log.error("Invalid object type. " + eventObj.toString() +
-                        " cannot be converted to an event or event array.");
+                log.error("Invalid object type. {} cannot be converted to an event or event array.",
+                        eventObj.toString());
                 return null;
             }
         }
@@ -356,8 +358,10 @@ public class JsonSinkMapper extends SinkMapper {
                 sb.delete(sb.length() - 2, sb.length());
                 sb.append(JSON_ARRAY_END_SYMBOL);
             } else {
-                log.error("Invalid object type. " + eventObj.toString() +
-                        " cannot be converted to an event or event array. Hence dropping message.");
+                log.error(
+                        "Invalid object type. {} cannot be converted to an event or event array. Hence dropping " +
+                                "message.",
+                        eventObj.toString());
                 return null;
             }
             for (int i = 0; i < numberOfOuterObjects; i++) {
@@ -389,8 +393,10 @@ public class JsonSinkMapper extends SinkMapper {
                 sb.append(JSON_ARRAY_END_SYMBOL);
                 return sb.toString();
             } else {
-                log.error("Invalid object type. " + eventObj.toString() +
-                        " cannot be converted to an event or event array. Hence dropping message.");
+                log.error(
+                        "Invalid object type. {} cannot be converted to an event or event array. Hence dropping " +
+                                "message.",
+                        eventObj.toString());
                 return null;
             }
         }

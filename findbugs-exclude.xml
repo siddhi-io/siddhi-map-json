@@ -17,4 +17,13 @@
   ~ under the License.
   -->
 
-<FindBugsFilter></FindBugsFilter>
+<FindBugsFilter>
+    <Match>
+        <Class name="io.siddhi.extension.map.json.sourcemapper.JsonSourceMapper"/>
+        <Bug pattern="IMPROPER_UNICODE"/>
+    </Match>
+    <Match>
+        <Class name="io.siddhi.extension.map.json.sourcemapper.JsonSourceMapper"/>
+        <Bug pattern="CRLF_INJECTION_LOGS"/>
+    </Match>
+</FindBugsFilter>
