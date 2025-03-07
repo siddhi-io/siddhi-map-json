@@ -146,7 +146,6 @@
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Private-Package>
                             org.apache.tapestry5.json.*,
-                            com.google.gson.*
                         </Private-Package>
                         <Export-Package>
                             io.siddhi.extension.map.json.*
@@ -157,6 +156,7 @@
                             io.siddhi.query.api.*;version="${siddhi.version.range}",
                             com.jayway.jsonpath.*;version="${com.jayway.jsonpath.version.range}",
                             net.minidev.*;version="${net.minidev.json-smart.version.range}",
+                            com.google.gson.*;version="${gson.version.range}",
                             *;resolution:=optional
                         </Import-Package>
                         <Include-Resource>
